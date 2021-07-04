@@ -9,15 +9,9 @@ namespace StoreApp.Infrastructure.StoreManagement
     {
         public Store()
         {
-            
+            DataBaseControl = new DbControl();
         }
 
-        public void OpenOrCreateDB()
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                
-            }
-        }
+        public DbControl DataBaseControl { get; set; }
     }
 }

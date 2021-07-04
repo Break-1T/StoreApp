@@ -1,8 +1,8 @@
-﻿<Application x:Class="StoreApp.App"
+﻿<Application x:Class="UserStoreApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:StoreApp"
-             StartupUri="MVVM/View/AuthorizationPage.xaml">
+             xmlns:local="clr-namespace:UserStoreApp"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>

@@ -6,9 +6,9 @@ using StoreApp.MVVM.Model;
 
 namespace StoreApp.Infrastructure.DbManagement
 {
-    static class DbControl
+    class DbControl
     {
-        public static bool AddDepartament(string Name)
+        public bool AddDepartament(string Name)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public static bool RemoveDepartament(string Name)
+        public bool RemoveDepartament(string Name)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
         
-        public static bool AddProduct(string Name,Image Image)
+        public bool AddProduct(string Name,Image Image)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public static bool RemoveProduct(string Name)
+        public bool RemoveProduct(string Name)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
         
-        public static bool AddEmployee(string Name, string Surname, Department department)
+        public bool AddEmployee(string Name, string Surname, Department department)
         {
             try
             {
@@ -111,13 +111,57 @@ namespace StoreApp.Infrastructure.DbManagement
             }
             
         }
-        public static bool RemoveEmployee(string Name, string Surname)
+        public bool RemoveEmployee(string Name, string Surname)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Employees.Remove(db.Employees.FirstOrDefault(x => (x.Name == Name && x.Surname == Surname)));
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool AddUser(string Login,string Password, string Name, string Surname, string PhoneNumber)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Users.Add(
+                        new User()
+                        {
+                            Name = Name,
+                            Surname = Surname,
+                            Login = Login,
+                            Password = Password,
+                            PhoneNumber = PhoneNumber
+                        });
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
+        }
+        public bool RemoveUser(string Login)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Users.Remove(db.Users.FirstOrDefault(x => x.Login == Login));
                     db.SaveChanges();
                     return true;
                 }
