@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp", "StoreApp\StoreApp.csproj", "{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D28586E0-C1F5-409F-8C57-CFAF9BAC3E6E}
+	EndGlobalSection
+EndGlobal
