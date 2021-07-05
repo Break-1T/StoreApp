@@ -4,40 +4,34 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="RegistrationPage">
+      Title="RegistrationPage" Background="#c7c6c1">
     <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
         </Border.Effect>
         <StackPanel>
-            <TextBlock Text="Окно авторизации администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
-            <Grid Margin="25">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Логин" Foreground="#3d3c37" FontSize="15" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom"/>
-                <TextBlock Text="Пароль" Foreground="#3d3c37" FontSize="15" Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Foreground="#3d3c37" Cursor="IBeam"/>
-                <PasswordBox Grid.Row="1" Grid.Column="1"/>
-            </Grid>
-            <Button Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
+            <TextBlock Text="Регистрация нового администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
+            <TextBox materialDesign:HintAssist.Hint="Email" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
+            <TextBox materialDesign:HintAssist.Hint="Логин" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <PasswordBox materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <PasswordBox materialDesign:HintAssist.Hint="Повторите пароль" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Имя" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Фамилия" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <Button Margin="0 20 0 0        " Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#E7DFC5">
-                            <TextBlock Text="Войти" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Зарегистрироватся" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Content="Зарегистрироватся" Margin="0 20 0 0" HorizontalAlignment="Center"
-                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3d3c37" FontSize="10" VerticalAlignment="Bottom"/>
+            <Button Content="Войти" Margin="0 20 0 0" HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3d3c37" FontSize="10" VerticalAlignment="Bottom"
+                    Command="{Binding Path=ToAuthorizationPageCommand}"/>
         </StackPanel>
     </Border>
 </Page>

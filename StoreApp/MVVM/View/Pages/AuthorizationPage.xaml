@@ -5,35 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:vm="clr-namespace:StoreApp.MVVM.ViewModel"
       mc:Ignorable="d"
-      d:DesignHeight="350" d:DesignWidth="500"
+      d:DesignHeight="450" d:DesignWidth="800 "
       ShowsNavigationUI="False"
-      Title="AuthorizationPage" Background="Gray">
-    <Page.DataContext>
-        <vm:StartViewModel/>
-    </Page.DataContext>
+      Title="AuthorizationPage" Background="#c7c6c1">
     <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
         </Border.Effect>
         <StackPanel>
-            <TextBlock Text="Окно авторизации администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
-            <Grid Margin="25">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Логин" Foreground="#3d3c37" FontSize="15" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom"/>
-                <TextBlock Text="Пароль" Foreground="#3d3c37" FontSize="15" Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Foreground="#3d3c37" Cursor="IBeam"/>
-                <PasswordBox Grid.Row="1" Grid.Column="1"/>
-            </Grid>
-            <Button Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
+            <TextBlock Text="Авторизация  администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
+            <TextBox Margin="0 25 0 0" materialDesign:HintAssist.Hint="Логин" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <PasswordBox materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <Button Margin="0 25 0 0" Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#E7DFC5">
@@ -43,7 +27,8 @@
                 </Button.Template>
             </Button>
             <Button Content="Зарегистрироватся" Margin="0 20 0 0" HorizontalAlignment="Center"
-                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3d3c37" FontSize="10" VerticalAlignment="Bottom"/>
+                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3d3c37" FontSize="10" VerticalAlignment="Bottom"
+                    Command="{Binding Path=ToRegistrationPageCommand}" Cursor="Hand"/>
         </StackPanel>
     </Border>
 </Page>

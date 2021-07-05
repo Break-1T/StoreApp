@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
@@ -87,7 +88,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
         
-        public bool AddEmployee(string Name, string Surname, Department department)
+        public bool AddEmployee(string Name, string Surname, string Email, Department department)
         {
             try
             {
@@ -98,7 +99,8 @@ namespace StoreApp.Infrastructure.DbManagement
                         {
                             Name = Name,
                             Surname = Surname,
-                            Department = department
+                            Department = department,
+                            Email = Email
                         });
                     db.SaveChanges();
                     return true;
@@ -129,7 +131,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
 
-        public bool AddUser(string Login,string Password, string Name, string Surname, string PhoneNumber)
+        public bool AddUser(string Login,string Password, string Name, string Surname, string PhoneNumber,string Email)
         {
             try
             {
@@ -142,7 +144,8 @@ namespace StoreApp.Infrastructure.DbManagement
                             Surname = Surname,
                             Login = Login,
                             Password = Password,
-                            PhoneNumber = PhoneNumber
+                            PhoneNumber = PhoneNumber,
+                            Email=Email
                         });
                     db.SaveChanges();
                     return true;
@@ -173,7 +176,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
 
-        public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber)
+        public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber, string Email)
         {
             try
             {
@@ -185,7 +188,8 @@ namespace StoreApp.Infrastructure.DbManagement
                             Name = Name,
                             Surname = Surname,
                             Login = Login,
-                            Password = Password
+                            Password = Password,
+                            Email = Email
                         });
                     db.SaveChanges();
                     return true;

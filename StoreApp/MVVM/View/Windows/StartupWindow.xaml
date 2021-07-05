@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:StoreApp.MVVM.View.Windows"
         xmlns:vm="clr-namespace:StoreApp.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="StartupWindow" Height="350" Width="500" WindowStartupLocation="CenterScreen">
+        Title="StartupWindow" Height="500" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.DataContext>
         <vm:StartViewModel/>
     </Window.DataContext>
-    <Frame Visibility="Visible" Source="../Pages/AuthorizationPage.xaml">
+    <Frame Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage, UpdateSourceTrigger=PropertyChanged}">
 
     </Frame>
 </Window>

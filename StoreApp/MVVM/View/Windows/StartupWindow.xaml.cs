@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using StoreApp.MVVM.View.Pages;
 
 namespace StoreApp.MVVM.View.Windows
 {
@@ -20,6 +21,7 @@ namespace StoreApp.MVVM.View.Windows
         public StartupWindow()
         {
             InitializeComponent();
+            //this.Frame.Content = new RegistrationPage();
         }
     }
 }
