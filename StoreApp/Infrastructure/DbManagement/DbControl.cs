@@ -172,5 +172,48 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Administrators.Add(
+                        new Administrator()
+                        {
+                            Name = Name,
+                            Surname = Surname,
+                            Login = Login,
+                            Password = Password
+                        });
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
+        }
+        public bool RemoveAdministrator(string Login)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Users.Remove(db.Users.FirstOrDefault(x => x.Login == Login));
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
     }
 }

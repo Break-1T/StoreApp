@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StoreApp.MVVM.View
+namespace StoreApp.MVVM.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для AuthorizationPage.xaml
+    /// Логика взаимодействия для RegistrationPage.xaml
     /// </summary>
-    public partial class AuthorizationPage : Page
+    public partial class RegistrationPage : Page
     {
-        public AuthorizationPage()
+        public RegistrationPage()
         {
             InitializeComponent();
         }
