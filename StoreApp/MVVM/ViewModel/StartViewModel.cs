@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using StoreApp.Infrastructure.Commands;
+using StoreApp.Infrastructure.DbManagement;
+using StoreApp.MVVM.Model;
 using StoreApp.MVVM.View.Pages;
 using StoreApp.MVVM.View.Windows;
 using StoreApp.MVVM.ViewModel.Base;
@@ -14,10 +16,13 @@ namespace StoreApp.MVVM.ViewModel
     {
         public StartViewModel()
         {
+            dbControl = new DbControl();
+            Administrator = new Administrator();
+            
             ToRegistrationPageCommand = new RelayCommand(OnAppToRegistrationPageCommandExecute, CanAppToRegistrationPageCommandExecute);
             ToAuthorizationPageCommand = new RelayCommand(OnAppToAuthorizationPageCommandExecute,
                 CanAppToAuthorizationPageCommandExecute);
-            RegistrateUser = new RelayCommand(OnAppRegistrateUserCommandExecute,CanAppRegistrateUserCommandExecute);
+            RegistrateAdmin = new RelayCommand(OnAppRegistrateAdminCommandExecute, CanAppRegistrateAdminCommandExecute);
 
             AuthorizationPage = new AuthorizationPage(){DataContext = this};
             RegistrationPage = new RegistrationPage(){DataContext = this};
@@ -26,6 +31,8 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Fields
 
+        private DbControl dbControl;
+        
         private AuthorizationPage authorizationPage;
         private RegistrationPage registrationPage;
         private Page currentPage;
@@ -33,7 +40,9 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region Propertys
-        public StartupWindow StartupWindow { get; set; }
+
+        public Administrator Administrator { get; set; }
+        
         public Page CurrentPage
         {
             get
@@ -77,7 +86,7 @@ namespace StoreApp.MVVM.ViewModel
 
         public RelayCommand ToRegistrationPageCommand { get; }
         public RelayCommand ToAuthorizationPageCommand { get; }
-        public RelayCommand RegistrateUser { get; }
+        public RelayCommand RegistrateAdmin { get; }
 
         #endregion
 
@@ -93,9 +102,11 @@ namespace StoreApp.MVVM.ViewModel
             CurrentPage = AuthorizationPage;
         }
 
-        private bool CanAppRegistrateUserCommandExecute(object arg) => true;
-        private void OnAppRegistrateUserCommandExecute(object obj)
+        private bool CanAppRegistrateAdminCommandExecute(object arg) => true;
+        private void OnAppRegistrateAdminCommandExecute(object obj)
         {
+            dbControl.AddAdministrator(Administrator.Login,Administrator.Password,Administrator.Name,
+                Administrator.Surname,Administrator.PhoneNumber,Administrator.Email);
         }
     }
 }

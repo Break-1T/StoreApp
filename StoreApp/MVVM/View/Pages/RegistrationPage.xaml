@@ -6,21 +6,23 @@
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="500" d:DesignWidth="800"
       Title="RegistrationPage" Background="#c7c6c1">
-    <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
+    <Border CornerRadius="25" Margin="20" Background="#F1EDD7"  MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
         </Border.Effect>
         <StackPanel>
             <TextBlock Text="Регистрация нового администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
-            <TextBox materialDesign:HintAssist.Hint="Email" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
-            <TextBox materialDesign:HintAssist.Hint="Логин" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Email" Text="{Binding Path=Administrator.Email}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
+            <TextBox materialDesign:HintAssist.Hint="Логин" Text="{Binding Path=Administrator.Login}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             <PasswordBox materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
             <PasswordBox materialDesign:HintAssist.Hint="Повторите пароль" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-            <TextBox materialDesign:HintAssist.Hint="Имя" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox materialDesign:HintAssist.Hint="Фамилия" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <Button Margin="0 20 0 0        " Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
+            <TextBox materialDesign:HintAssist.Hint="Имя" Text="{Binding Path=Administrator.Name}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Фамилия" Text="{Binding Path=Administrator.Surname}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Номер телефона" Text="{Binding Path=Administrator.PhoneNumber}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <Button Margin="0 20 0 0" Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand"
+                    Command="{Binding Path=RegistrateAdmin}">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#E7DFC5">
@@ -29,7 +31,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Content="Войти" Margin="0 20 0 0" HorizontalAlignment="Center"
+            <Button Content="Войти" HorizontalAlignment="Center"
                     Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3d3c37" FontSize="10" VerticalAlignment="Bottom"
                     Command="{Binding Path=ToAuthorizationPageCommand}"/>
         </StackPanel>

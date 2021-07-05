@@ -21,7 +21,6 @@ namespace StoreApp.MVVM.View.Windows
         public StartupWindow()
         {
             InitializeComponent();
-            //this.Frame.Content = new RegistrationPage();
         }
     }
 }
