@@ -1,4 +1,6 @@
-﻿namespace StoreApp.MVVM.Model
+﻿using System.Security;
+
+namespace StoreApp.MVVM.Model
 {
     class Administrator : Employee
     {

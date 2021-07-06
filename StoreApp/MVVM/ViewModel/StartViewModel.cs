@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,10 @@ namespace StoreApp.MVVM.ViewModel
     {
         public StartViewModel()
         {
+            AuthorizationPage = new AuthorizationPage() { DataContext = this };
+            RegistrationPage = new RegistrationPage() { DataContext = this };
+            CurrentPage = AuthorizationPage;
+
             dbControl = new DbControl();
             Administrator = new Administrator();
             
@@ -24,9 +29,6 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppToAuthorizationPageCommandExecute);
             RegistrateAdmin = new RelayCommand(OnAppRegistrateAdminCommandExecute, CanAppRegistrateAdminCommandExecute);
 
-            AuthorizationPage = new AuthorizationPage(){DataContext = this};
-            RegistrationPage = new RegistrationPage(){DataContext = this};
-            CurrentPage = AuthorizationPage;
         }
 
         #region Fields
@@ -40,6 +42,9 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region Propertys
+        public Func<string> Password1Handler { get; set; }
+        public Func<string> Password2Handler { get; set; }
+
 
         public Administrator Administrator { get; set; }
         
@@ -105,8 +110,33 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppRegistrateAdminCommandExecute(object arg) => true;
         private void OnAppRegistrateAdminCommandExecute(object obj)
         {
-            dbControl.AddAdministrator(Administrator.Login,Administrator.Password,Administrator.Name,
-                Administrator.Surname,Administrator.PhoneNumber,Administrator.Email);
+            try
+            {
+                if (Password1Handler() == Password2Handler())
+                {
+                    Administrator.Password = Password1Handler();
+                    using (ApplicationContext db = new ApplicationContext())
+                    {
+                        if (db.Administrators.FirstOrDefault(x => x.Login == Administrator.Login) != null)
+                            throw new Exception("Данный логин уже используется");
+                        if (db.Administrators.FirstOrDefault(x => x.PhoneNumber == Administrator.PhoneNumber) != null)
+                            throw new Exception("Данный номер телефона уже используется");
+                        if (db.Administrators.FirstOrDefault(x => x.Email == Administrator.Email) != null)
+                            throw new Exception("Данный email уже используется");
+
+                        dbControl.AddAdministrator(Administrator.Login, Administrator.Password, Administrator.Name,
+                            Administrator.Surname, Administrator.PhoneNumber, Administrator.Email);
+                    }
+                    MessageBox.Show("Успех!");
+                }
+                else
+                    MessageBox.Show("Пароли не совпадают");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

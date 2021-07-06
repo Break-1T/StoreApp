@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreApp.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,13 @@ namespace StoreApp.MVVM.View.Pages
         public RegistrationPage()
         {
             InitializeComponent();
+            this.Loaded += RegistrationPage_Loaded;
+        }
+
+        private void RegistrationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as StartViewModel).Password1Handler = () => pass_1.Password;
+            (this.DataContext as StartViewModel).Password2Handler = () => pass_2.Password;
         }
     }
 }

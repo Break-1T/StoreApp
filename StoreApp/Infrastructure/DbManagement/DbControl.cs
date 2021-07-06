@@ -9,6 +9,8 @@ namespace StoreApp.Infrastructure.DbManagement
 {
     class DbControl
     {
+        public DbControl(){}
+
         public bool AddDepartament(string Name)
         {
             try
@@ -189,7 +191,8 @@ namespace StoreApp.Infrastructure.DbManagement
                             Surname = Surname,
                             Login = Login,
                             Password = Password,
-                            Email = Email
+                            Email = Email,
+                            PhoneNumber = PhoneNumber
                         });
                     db.SaveChanges();
                     return true;

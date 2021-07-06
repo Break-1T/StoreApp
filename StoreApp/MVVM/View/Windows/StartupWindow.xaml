@@ -10,7 +10,5 @@
     <Window.DataContext>
         <vm:StartViewModel/>
     </Window.DataContext>
-    <Frame Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage, UpdateSourceTrigger=PropertyChanged}">
-
-    </Frame>
+    <Frame Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage, UpdateSourceTrigger=PropertyChanged}"/>
 </Window>
