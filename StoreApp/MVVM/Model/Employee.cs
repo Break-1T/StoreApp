@@ -57,6 +57,7 @@ namespace StoreApp.MVVM.Model
             }
         }
 
+        [CanBeNull]
         public Department Department
         {
             get => _department;

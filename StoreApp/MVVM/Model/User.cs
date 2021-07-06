@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StoreApp.MVVM.Model
 {
@@ -12,5 +13,8 @@ namespace StoreApp.MVVM.Model
         public string Surname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+
+        public Order Order { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

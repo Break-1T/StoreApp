@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Security;
 
 namespace StoreApp.MVVM.Model
 {
@@ -27,5 +28,6 @@ namespace StoreApp.MVVM.Model
                 OnPropertyChanged();
             }
         }
+
     }
 }

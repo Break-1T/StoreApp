@@ -19,7 +19,7 @@ namespace StoreApp.Infrastructure.DbManagement
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["StoreDB"].ToString());
+            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["StoreDB"].ConnectionString);
         }
     }
 }

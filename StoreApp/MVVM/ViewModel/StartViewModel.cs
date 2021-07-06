@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.View.Pages;
 using StoreApp.MVVM.View.Windows;
@@ -21,7 +22,7 @@ namespace StoreApp.MVVM.ViewModel
             RegistrationPage = new RegistrationPage() { DataContext = this };
             CurrentPage = AuthorizationPage;
 
-            dbControl = new DbControl();
+            store = new Store();
             Administrator = new Administrator();
             
             ToRegistrationPageCommand = new RelayCommand(OnAppToRegistrationPageCommandExecute, CanAppToRegistrationPageCommandExecute);
@@ -33,7 +34,7 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Fields
 
-        private DbControl dbControl;
+        private Store store;
         
         private AuthorizationPage authorizationPage;
         private RegistrationPage registrationPage;
@@ -42,6 +43,7 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region Propertys
+
         public Func<string> Password1Handler { get; set; }
         public Func<string> Password2Handler { get; set; }
 
@@ -124,8 +126,8 @@ namespace StoreApp.MVVM.ViewModel
                         if (db.Administrators.FirstOrDefault(x => x.Email == Administrator.Email) != null)
                             throw new Exception("Данный email уже используется");
 
-                        dbControl.AddAdministrator(Administrator.Login, Administrator.Password, Administrator.Name,
-                            Administrator.Surname, Administrator.PhoneNumber, Administrator.Email);
+                        store.DataBaseControl.AddAdministrator(Administrator.Login, Administrator.Password, Administrator.Name,
+                            Administrator.Surname, Administrator.PhoneNumber, Administrator.Email,store.AdminDepartament);
                     }
                     MessageBox.Show("Успех!");
                 }

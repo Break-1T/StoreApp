@@ -60,7 +60,7 @@ namespace StoreApp.Infrastructure.DbManagement
                         new Product()
                         {
                             Name = Name,
-                            Image = Image
+                            //Image = Image
                         });
                     db.SaveChanges();
                     return true;
@@ -178,7 +178,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
 
-        public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber, string Email)
+        public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber, string Email, Department department)
         {
             try
             {
@@ -192,7 +192,8 @@ namespace StoreApp.Infrastructure.DbManagement
                             Login = Login,
                             Password = Password,
                             Email = Email,
-                            PhoneNumber = PhoneNumber
+                            PhoneNumber = PhoneNumber,
+                            Department = department
                         });
                     db.SaveChanges();
                     return true;
