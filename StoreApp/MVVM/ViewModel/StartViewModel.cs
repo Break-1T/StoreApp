@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
 using StoreApp.Infrastructure.StoreManagement;
@@ -23,13 +24,12 @@ namespace StoreApp.MVVM.ViewModel
             CurrentPage = AuthorizationPage;
 
             store = new Store();
-            Administrator = new Administrator();
+            Employee = new Employee();
             
             ToRegistrationPageCommand = new RelayCommand(OnAppToRegistrationPageCommandExecute, CanAppToRegistrationPageCommandExecute);
             ToAuthorizationPageCommand = new RelayCommand(OnAppToAuthorizationPageCommandExecute,
                 CanAppToAuthorizationPageCommandExecute);
             RegistrateAdmin = new RelayCommand(OnAppRegistrateAdminCommandExecute, CanAppRegistrateAdminCommandExecute);
-
         }
 
         #region Fields
@@ -44,11 +44,11 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Propertys
 
+        public Employee Employee { get; set; }
+
         public Func<string> Password1Handler { get; set; }
         public Func<string> Password2Handler { get; set; }
 
-
-        public Administrator Administrator { get; set; }
         
         public Page CurrentPage
         {
@@ -116,18 +116,17 @@ namespace StoreApp.MVVM.ViewModel
             {
                 if (Password1Handler() == Password2Handler())
                 {
-                    Administrator.Password = Password1Handler();
+                    Employee.Password = Password1Handler();
                     using (ApplicationContext db = new ApplicationContext())
                     {
-                        if (db.Administrators.FirstOrDefault(x => x.Login == Administrator.Login) != null)
+                        if (db.Employees.FirstOrDefault(x => x.Login == Employee.Login) != null)
                             throw new Exception("Данный логин уже используется");
-                        if (db.Administrators.FirstOrDefault(x => x.PhoneNumber == Administrator.PhoneNumber) != null)
+                        if (db.Employees.FirstOrDefault(x => x.PhoneNumber == Employee.PhoneNumber) != null)
                             throw new Exception("Данный номер телефона уже используется");
-                        if (db.Administrators.FirstOrDefault(x => x.Email == Administrator.Email) != null)
+                        if (db.Employees.FirstOrDefault(x => x.Email == Employee.Email) != null)
                             throw new Exception("Данный email уже используется");
 
-                        store.DataBaseControl.AddAdministrator(Administrator.Login, Administrator.Password, Administrator.Name,
-                            Administrator.Surname, Administrator.PhoneNumber, Administrator.Email,store.AdminDepartament);
+                        store.DataBaseControl.AddEmployee(Employee.Login,Employee.Password, AccessLevel.Administrator.ToString(),Employee.Name,Employee.Surname,Employee.Email,db.Departments.FirstOrDefault(x=>x.Name== "Admin"));
                     }
                     MessageBox.Show("Успех!");
                 }

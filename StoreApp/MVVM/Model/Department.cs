@@ -10,8 +10,7 @@ namespace StoreApp.MVVM.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Employee Employee { get; set; }
         public List<Employee> Employees { get; set; }
-        
+
     }
 }

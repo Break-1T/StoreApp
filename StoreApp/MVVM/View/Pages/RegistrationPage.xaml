@@ -14,15 +14,15 @@
         </Border.Effect>
         <StackPanel>
             <TextBlock Text="Регистрация нового администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
-            <TextBox materialDesign:HintAssist.Hint="Email" Text="{Binding Path=Administrator.Email,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
-            <TextBox materialDesign:HintAssist.Hint="Логин" Text="{Binding Path=Administrator.Login,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Email" Text="{Binding Path=Employee.Email,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
+            <TextBox materialDesign:HintAssist.Hint="Логин" Text="{Binding Path=Employee.Login,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             <PasswordBox x:Name="pass_1" materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
             <PasswordBox x:Name="pass_2" materialDesign:HintAssist.Hint="Повторите пароль" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-            <TextBox materialDesign:HintAssist.Hint="Имя" Text="{Binding Path=Administrator.Name,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox materialDesign:HintAssist.Hint="Фамилия" Text="{Binding Path=Administrator.Surname,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox materialDesign:HintAssist.Hint="Номер телефона" Text="{Binding Path=Administrator.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Имя" Text="{Binding Path=Employee.Name,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Фамилия" Text="{Binding Path=Employee.Surname,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox materialDesign:HintAssist.Hint="Номер телефона" Text="{Binding Path=Employee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Foreground="#3d3c37" Cursor="IBeam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             <Button Margin="0 10 0 0" Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand"
-                    Command="{Binding Path=RegistrateAdmin}" CommandParameter="{Binding ElementName=pass_1}">
+                    Command="{Binding Path=RegistrateAdmin}">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#E7DFC5">

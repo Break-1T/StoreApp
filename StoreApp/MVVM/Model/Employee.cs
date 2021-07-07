@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using StoreApp.Annotations;
+using StoreApp.Infrastructure.StoreManagement;
 
 namespace StoreApp.MVVM.Model
 {
@@ -12,6 +13,8 @@ namespace StoreApp.MVVM.Model
         private string _email;
         private Department _department;
         private string _phoneNumber;
+        private string _login;
+        private string _password;
 
         [Key]
         public int Id { get; set; }
@@ -56,8 +59,28 @@ namespace StoreApp.MVVM.Model
                 OnPropertyChanged();
             }
         }
-
-        [CanBeNull]
+        public string Login
+        {
+            get => _login;
+            set
+            {
+                if (value == _login) return;
+                _login = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (value == _password) return;
+                _password = value;
+                OnPropertyChanged();
+            }
+        }
+        public string AccessLevel { get; set; }
+        
         public Department Department
         {
             get => _department;

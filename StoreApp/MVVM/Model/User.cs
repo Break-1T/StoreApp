@@ -14,7 +14,6 @@ namespace StoreApp.MVVM.Model
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
-        public Order Order { get; set; }
         public List<Order> Orders { get; set; }
     }
 }
