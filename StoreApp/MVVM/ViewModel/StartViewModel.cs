@@ -126,7 +126,7 @@ namespace StoreApp.MVVM.ViewModel
                         if (db.Employees.FirstOrDefault(x => x.Email == Employee.Email) != null)
                             throw new Exception("Данный email уже используется");
 
-                        store.DataBaseControl.AddEmployee(Employee.Login,Employee.Password, AccessLevel.Administrator.ToString(),Employee.Name,Employee.Surname,Employee.Email,db.Departments.FirstOrDefault(x=>x.Name== "Admin"));
+                        store.DataBaseControl.AddEmployee(Employee.Login,Employee.Password, AccessLevel.Administrator.ToString(),Employee.Name,Employee.Surname,Employee.Email,db.Departments.FirstOrDefault(x=>x.Id== 1));
                     }
                     MessageBox.Show("Успех!");
                 }

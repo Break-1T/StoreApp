@@ -91,7 +91,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
         
-        public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email, Department department)
+        public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email, Department department, string PhoneNumber)
         {
             try
             {
@@ -107,6 +107,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             AccessLevel=accessLevel,
                             Login=Login,
                             Password=Password,
+                            PhoneNumber=PhoneNumber
                         });
                     db.SaveChanges();
                     return true;
@@ -181,51 +182,5 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
-        //public bool AddAdministrator(string Login, string Password, string Name, string Surname, string PhoneNumber, string Email, Department department)
-        //{
-        //    try
-        //    {
-        //        using (ApplicationContext db = new ApplicationContext())
-        //        {
-        //            db.Administrators.Add(
-        //                new Administrator()
-        //                {
-        //                    Name = Name,
-        //                    Surname = Surname,
-        //                    Login = Login,
-        //                    Password = Password,
-        //                    Email = Email,
-        //                    PhoneNumber = PhoneNumber,
-        //                    Department = department
-        //                });
-        //            db.SaveChanges();
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e.Message);
-        //        return false;
-        //    }
-
-        //}
-        //public bool RemoveAdministrator(string Login)
-        //{
-        //    try
-        //    {
-        //        using (ApplicationContext db = new ApplicationContext())
-        //        {
-        //            db.Administrators.Remove(db.Administrators.FirstOrDefault(x => x.Login == Login));
-        //            db.SaveChanges();
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e.Message);
-        //        return false;
-        //    }
-        //}
     }
 }
