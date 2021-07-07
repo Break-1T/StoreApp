@@ -14,6 +14,7 @@ namespace StoreApp.Infrastructure.DbManagement
         
         public ApplicationContext()
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
