@@ -126,7 +126,36 @@ namespace StoreApp.MVVM.ViewModel
                         if (db.Employees.FirstOrDefault(x => x.Email == Employee.Email) != null)
                             throw new Exception("Данный email уже используется");
 
-                        store.DataBaseControl.AddEmployee(Employee.Login,Employee.Password, AccessLevel.Administrator.ToString(),Employee.Name,Employee.Surname,Employee.Email,db.Departments.FirstOrDefault(x=>x.Id== 1));
+                        if (!db.Departments.Any())
+                        {
+                            db.Employees.Add(new Employee()
+                            {
+                                AccessLevel = AccessLevel.Administrator.ToString(),
+                                Department= new Department() { Name = DepartamentNames.Administrator.ToString() },
+                                Email=Employee.Email,
+                                Login = Employee.Login,
+                                Name = Employee.Name,
+                                Password=Employee.Password,
+                                PhoneNumber = Employee.PhoneNumber,
+                                Surname = Employee.Surname
+                            });
+                        }
+                        else
+                        {
+                            db.Employees.Add(new Employee()
+                            {
+                                AccessLevel = AccessLevel.Administrator.ToString(),
+                                Department = db.Departments.FirstOrDefault(x => x.Name == DepartamentNames.Administrator.ToString()),
+                                Email = Employee.Email,
+                                Login = Employee.Login,
+                                Name = Employee.Name,
+                                Password = Employee.Password,
+                                PhoneNumber = Employee.PhoneNumber,
+                                Surname = Employee.Surname
+                            });
+                        }
+
+                        db.SaveChanges();
                     }
                     MessageBox.Show("Успех!");
                 }

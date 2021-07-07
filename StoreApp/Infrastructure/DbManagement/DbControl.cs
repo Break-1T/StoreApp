@@ -91,7 +91,8 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
         
-        public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email, Department department, string PhoneNumber)
+        public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email,
+            Department department, string PhoneNumber)
         {
             try
             {
