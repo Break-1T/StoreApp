@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800 "
       ShowsNavigationUI="False"
-      Title="AuthorizationPage" Background="#c7c6c1">
+      Title="AuthorizationPage" Background="#c7c6c1" Cursor="Hand">
     <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>

@@ -9,13 +9,13 @@
         Title="MainWindow" Height="450" Width="800" Cursor="Hand" WindowStartupLocation="CenterScreen">
     <DockPanel Background="AliceBlue">
         <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200">
-            <Button Content="Home"/>
-            <Button Content="Departaments"/>
-            <Button Content="Orders"/>
-            <Button Content="Employees"/>
+            <Button Content="Home" Command="{Binding Path=ToHomePageCommand}"/>
+            <Button Content="Departaments" Command="{Binding Path=ToDepartamentsPageCommand}"/>
+            <Button Content="Orders" Command="{Binding Path=ToOrdersPageCommand}"/>
+            <Button Content="Employees" Command="{Binding Path=ToEmployeesPageCommand}"/>
 
         </StackPanel>
-        <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden">
+        <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}">
             
         </Frame>
     </DockPanel>

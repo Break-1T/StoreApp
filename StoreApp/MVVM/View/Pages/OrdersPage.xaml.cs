@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StoreApp.MVVM.View.Pages
@@ -15,7 +16,7 @@ namespace StoreApp.MVVM.View.Pages
     /// <summary>
     /// Логика взаимодействия для OrdersPage.xaml
     /// </summary>
-    public partial class OrdersPage : Window
+    public partial class OrdersPage : Page
     {
         public OrdersPage()
         {

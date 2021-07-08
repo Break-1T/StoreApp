@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StoreApp.MVVM.View.Pages
@@ -15,7 +16,7 @@ namespace StoreApp.MVVM.View.Pages
     /// <summary>
     /// Логика взаимодействия для EmployeesPage.xaml
     /// </summary>
-    public partial class EmployeesPage : Window
+    public partial class EmployeesPage : Page
     {
         public EmployeesPage()
         {
