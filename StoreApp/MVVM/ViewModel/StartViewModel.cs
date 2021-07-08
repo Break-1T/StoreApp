@@ -45,6 +45,8 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Propertys
 
+        public MainWindow Main { get; set; }
+
         public Employee Employee { get; set; }
 
         public Func<string> Password1Handler { get; set; }
@@ -178,28 +180,13 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppAuthorizationAdminCommandExecute(object arg) => true;
         private void OnAppAuthorizationAdminCommandExecute(object obj)
         {
-            try
+            Employee.Password = AuthorizationPasswordHandler();
+            if (store.Login(Employee))
             {
-                using (ApplicationContext db = new ApplicationContext())
-                {
-                    if (db.Employees.FirstOrDefault(x=>x.Login==Employee.Login)==null)
-                    {
-                        throw new Exception("Логин не найден");
-                    }
-                    if (db.Employees.FirstOrDefault(x => x.Password == AuthorizationPasswordHandler()) == null)
-                    {
-                        throw new Exception("Пароль не совпадает");
-                    }
-                    if (db.Employees.FirstOrDefault(x => (x.Login == Employee.Login) && (x.Password == AuthorizationPasswordHandler()))!=null)
-                    {
-                        MessageBox.Show("Авторизация успешна!");
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                MainWindowViewModel mainWindow = new MainWindowViewModel() { Employee = Employee };
+                Main = new MainWindow() { DataContext= mainWindow };
+                Main.Show();
+                App.Current.MainWindow.Close();
             }
         }
     }
