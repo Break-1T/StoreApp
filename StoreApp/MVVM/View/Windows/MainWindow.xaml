@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Cursor="Hand" WindowStartupLocation="CenterScreen">
     <DockPanel Background="AliceBlue">
+        <StackPanel DockPanel.Dock="Top" MinHeight="10" MaxHeight="25" Background="#d1dcf0"/>
         <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200">
             <Button Content="Home" Command="{Binding Path=ToHomePageCommand}"/>
             <Button Content="Departaments" Command="{Binding Path=ToDepartamentsPageCommand}"/>
