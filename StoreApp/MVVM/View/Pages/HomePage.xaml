@@ -4,12 +4,25 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800" Background="Yellow"
+      d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
-
-    <Grid>
-        <TextBlock Text="1"/>
-
-    </Grid>
+    <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
+        <Border.Effect>
+            <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
+        </Border.Effect>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Left" MinWidth="300">
+                
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" MinWidth="150" MaxWidth="200">
+                <Image MinHeight="150" Source="Resources/Empty_employee_icon.png"/>
+                <Button Content="Загрузить фото"/>
+            </StackPanel>
+            <Grid DockPanel.Dock="Bottom" MinHeight="15" MaxHeight="30">
+                
+            </Grid>
+        </DockPanel>
+    </Border>
 </Page>

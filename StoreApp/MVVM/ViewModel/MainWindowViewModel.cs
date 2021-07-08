@@ -13,7 +13,9 @@ namespace StoreApp.MVVM.ViewModel
     {
         public MainWindowViewModel()
         {
-            HomePage = new HomePage();
+            HomeViewModel = new HomePageViewModel() { MainWV = this };
+
+            HomePage = new HomePage() { DataContext=HomeViewModel};
             DepartamentsPage = new DepartamentsPage();
             EmployeesPage = new EmployeesPage();
             OrdersPage = new OrdersPage();
@@ -27,6 +29,12 @@ namespace StoreApp.MVVM.ViewModel
 
         }
 
+        #region ViewModels
+
+        public HomePageViewModel HomeViewModel { get; set; }
+
+        #endregion
+
         #region Commands
 
         public RelayCommand ToDepartamentsPageCommand { get; }
@@ -39,13 +47,25 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Properties
 
-        public Employee Employee { get; set; }
+        public Employee Employee
+        {
+            get
+            {
+                return _employee;
+            }
+            set
+            {
+                _employee = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
         #region Fields
 
         private Page _currentPage;
+        private Employee _employee;
 
         #endregion
 
