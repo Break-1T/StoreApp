@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreApp.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,7 +22,12 @@ namespace StoreApp.MVVM.View.Pages
         public AuthorizationPage()
         {
             InitializeComponent();
-            this.Loaded+= OnLoaded;
+            this.Loaded += AuthorizationPage_Loaded;
+        }
+
+        private void AuthorizationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as StartViewModel).AuthorizationPasswordHandler = () =>Password.Password;
         }
     }
 }

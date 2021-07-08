@@ -50,7 +50,10 @@ namespace StoreApp.MVVM.ViewModel
         public Func<string> Password1Handler { get; set; }
         public Func<string> Password2Handler { get; set; }
 
-        
+        public Func<string> AuthorizationPasswordHandler { get; set; }
+
+
+
         public Page CurrentPage
         {
             get
@@ -175,7 +178,29 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppAuthorizationAdminCommandExecute(object arg) => true;
         private void OnAppAuthorizationAdminCommandExecute(object obj)
         {
-            
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    if (db.Employees.FirstOrDefault(x=>x.Login==Employee.Login)==null)
+                    {
+                        throw new Exception("Логин не найден");
+                    }
+                    if (db.Employees.FirstOrDefault(x => x.Password == AuthorizationPasswordHandler()) == null)
+                    {
+                        throw new Exception("Пароль не совпадает");
+                    }
+                    if (db.Employees.FirstOrDefault(x => (x.Login == Employee.Login) && (x.Password == AuthorizationPasswordHandler()))!=null)
+                    {
+                        MessageBox.Show("Авторизация успешна!");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
