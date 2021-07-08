@@ -16,7 +16,7 @@
         <StackPanel>
             <TextBlock Text="Авторизация  администратора" Foreground="#3d3c37" HorizontalAlignment="Center" FontSize="20"/>
             <TextBox Margin="0 25 0 0" materialDesign:HintAssist.Hint="Логин" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <PasswordBox materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <PasswordBox materialDesign:HintAssist.Hint="Пароль" Foreground="#3d3c37" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Cursor="IBeam"/>
             <Button Margin="0 25 0 0" Background="#E7DFC5" Foreground="#3d3c37" MinWidth="100" MaxWidth="180" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">

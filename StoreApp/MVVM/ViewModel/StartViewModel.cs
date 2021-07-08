@@ -30,6 +30,7 @@ namespace StoreApp.MVVM.ViewModel
             ToAuthorizationPageCommand = new RelayCommand(OnAppToAuthorizationPageCommandExecute,
                 CanAppToAuthorizationPageCommandExecute);
             RegistrateAdmin = new RelayCommand(OnAppRegistrateAdminCommandExecute, CanAppRegistrateAdminCommandExecute);
+            AuthorizationAdminCommand = new RelayCommand(OnAppAuthorizationAdminCommandExecute, CanAppAuthorizationAdminCommandExecute);
         }
 
         #region Fields
@@ -94,6 +95,7 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand ToRegistrationPageCommand { get; }
         public RelayCommand ToAuthorizationPageCommand { get; }
         public RelayCommand RegistrateAdmin { get; }
+        public RelayCommand AuthorizationAdminCommand { get; }
 
         #endregion
 
@@ -167,6 +169,13 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+
+        private bool CanAppAuthorizationAdminCommandExecute(object arg) => true;
+        private void OnAppAuthorizationAdminCommandExecute(object obj)
+        {
+            
         }
     }
 }
