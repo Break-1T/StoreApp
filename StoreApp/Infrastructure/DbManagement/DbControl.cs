@@ -183,5 +183,22 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        public Employee FindEmployee(string Login, string Password)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    var result = db.Employees.FirstOrDefault(x=>x.Login==Login && x.Password==Password);
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 }

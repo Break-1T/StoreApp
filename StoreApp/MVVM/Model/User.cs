@@ -13,6 +13,7 @@ namespace StoreApp.MVVM.Model
         public string Surname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public byte[] Image { get; set; }
 
         public List<Order> Orders { get; set; }
     }

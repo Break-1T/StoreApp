@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoreApp.MVVM.View.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Cursor="Hand" WindowStartupLocation="CenterScreen">
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
     <DockPanel Background="AliceBlue">
         <StackPanel DockPanel.Dock="Top" MinHeight="10" MaxHeight="25" Background="#d1dcf0"/>
         <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200">
@@ -16,8 +22,6 @@
             <Button Content="Employees" Command="{Binding Path=ToEmployeesPageCommand}"/>
 
         </StackPanel>
-        <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}">
-            
-        </Frame>
+        <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>
 </Window>

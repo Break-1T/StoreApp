@@ -13,21 +13,26 @@ namespace StoreApp.MVVM.ViewModel
     {
         public MainWindowViewModel()
         {
+            //WindowLoadedCommand = new RelayCommand(OnAppWindowLoadedCommandExecute,
+            //    CanAppWindowLoadedCommandExecute);
+            
+            ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
+            ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
+            ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
+            ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
+
             HomeViewModel = new HomePageViewModel() { MainWV = this };
 
-            HomePage = new HomePage() { DataContext=HomeViewModel};
+            HomePage = new HomePage() { DataContext = HomeViewModel };
             DepartamentsPage = new DepartamentsPage();
             EmployeesPage = new EmployeesPage();
             OrdersPage = new OrdersPage();
 
             CurrentPage = HomePage;
 
-            ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
-            ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
-            ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
-            ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
-
         }
+
+
 
         #region ViewModels
 
@@ -36,6 +41,8 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region Commands
+
+        //public RelayCommand WindowLoadedCommand { get; }
 
         public RelayCommand ToDepartamentsPageCommand { get; }
         public RelayCommand ToEmployeesPageCommand { get; }
@@ -114,5 +121,16 @@ namespace StoreApp.MVVM.ViewModel
         {
             CurrentPage = EmployeesPage;
         }
+
+        //private bool CanAppWindowLoadedCommandExecute(object arg) => true;
+        //private void OnAppWindowLoadedCommandExecute(object obj)
+        //{
+        //    HomePage = new HomePage() { DataContext = HomeViewModel };
+        //    DepartamentsPage = new DepartamentsPage();
+        //    EmployeesPage = new EmployeesPage();
+        //    OrdersPage = new OrdersPage();
+
+        //    CurrentPage = HomePage;
+        //}
     }
 }

@@ -1,13 +1,19 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Runtime.CompilerServices;
 using StoreApp.Annotations;
 using StoreApp.Infrastructure.StoreManagement;
+using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
 {
     class Employee:INotifyPropertyChanged
     {
+        public Employee()
+        {
+            Image = Images.Empty_employee_icon;
+        }
         private string _name;
         private string _surname;
         private string _email;
@@ -15,6 +21,7 @@ namespace StoreApp.MVVM.Model
         private string _phoneNumber;
         private string _login;
         private string _password;
+        private byte[] _image;
 
         [Key]
         public int Id { get; set; }
@@ -80,7 +87,19 @@ namespace StoreApp.MVVM.Model
             }
         }
         public string AccessLevel { get; set; }
-        
+
+        [Required]
+        public byte[] Image
+        {
+            get => _image;
+            set
+            {
+                if (Equals(value, _image)) return;
+                _image = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Department Department
         {
             get => _department;

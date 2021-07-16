@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
@@ -164,7 +165,9 @@ namespace StoreApp.MVVM.ViewModel
 
                         db.SaveChanges();
                     }
-                    MessageBox.Show("Успех!");
+
+                    CurrentPage = AuthorizationPage;
+                    new Thread(ShowMessage).Start("Успех!");
                 }
                 else
                     MessageBox.Show("Пароли не совпадают");
@@ -183,11 +186,18 @@ namespace StoreApp.MVVM.ViewModel
             Employee.Password = AuthorizationPasswordHandler();
             if (store.Login(Employee))
             {
-                MainWindowViewModel mainWindow = new MainWindowViewModel() { Employee = Employee };
+                Employee = store.DataBaseControl.FindEmployee(Employee.Login,Employee.Password);
+                MainWindowViewModel mainWindow = new MainWindowViewModel(){Employee=Employee};
                 Main = new MainWindow() { DataContext= mainWindow };
                 Main.Show();
                 App.Current.MainWindow.Close();
             }
+        }
+
+
+        private void ShowMessage(object x)
+        {
+            MessageBox.Show((string) x);
         }
     }
 }

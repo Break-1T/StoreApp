@@ -17,7 +17,7 @@
                 
             </StackPanel>
             <StackPanel DockPanel.Dock="Right" MinWidth="150" MaxWidth="200">
-                <Image MinHeight="150" Source="Resources/Empty_employee_icon.png"/>
+                <Image MinHeight="150" Source="{Binding Path=MainWV.Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
                 <Button Content="Загрузить фото"/>
             </StackPanel>
             <Grid DockPanel.Dock="Bottom" MinHeight="15" MaxHeight="30">
