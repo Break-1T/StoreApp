@@ -85,7 +85,8 @@ namespace StoreApp.MVVM.ViewModel
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.ShowDialog();
-            Category.Image = File.ReadAllBytes(dialog.FileName);
+            if (dialog.FileName!=null)
+                Category.Image = File.ReadAllBytes(dialog.FileName);
         }
 
         private bool CanAppSaveCategoryCommandExecute(object arg) => true;

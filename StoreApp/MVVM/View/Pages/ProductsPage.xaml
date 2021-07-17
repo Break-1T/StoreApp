@@ -19,9 +19,15 @@
                 <ColumnDefinition Width="0.35*"/>
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-            <StackPanel Grid.Column="0">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Path=s}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id"/>
+                    <DataGridTextColumn Header="Name"/>
+                    <DataGridTextColumn Header="Category"/>
+                    <DataGridTextColumn Header="Image"/>
 
-            </StackPanel>
+                </DataGrid.Columns>
+            </DataGrid>
             <DockPanel Grid.Column="2" MaxWidth="250" MinWidth="100">
                 <StackPanel DockPanel.Dock="Top">
                     <WrapPanel>
