@@ -23,23 +23,34 @@ namespace StoreApp.MVVM.ViewModel
             ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
             ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
+            ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
 
             HomeViewModel = new HomePageViewModel() { MainWM = this };
+            DepartamentsPageViewModel = new DepartamentsPageViewModel() {MainVM = this};
+            OrdersPageViewModel = new OrdersPageViewModel() {MainVM = this};
+            EmployeesPageViewModel = new EmployeesPageViewModel() {MainVM = this};
+            ProductsPageViewModel = new ProductsPageViewModel() {MainVM = this};
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
-            DepartamentsPage = new DepartamentsPage();
-            EmployeesPage = new EmployeesPage();
-            OrdersPage = new OrdersPage();
+            DepartamentsPage = new DepartamentsPage(){DataContext = DepartamentsPageViewModel};
+            EmployeesPage = new EmployeesPage() {DataContext = EmployeesPageViewModel};
+            OrdersPage = new OrdersPage(){DataContext = OrdersPageViewModel};
+            ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
 
             CurrentPage = HomePage;
 
         }
 
 
-
         #region ViewModels
 
         public HomePageViewModel HomeViewModel { get; set; }
+        public DepartamentsPageViewModel DepartamentsPageViewModel { get; set; }
+        public OrdersPageViewModel OrdersPageViewModel { get; set; }
+        public EmployeesPageViewModel EmployeesPageViewModel { get; set; }
+        public ProductsPageViewModel ProductsPageViewModel { get; set; }
+
+
 
         #endregion
 
@@ -51,6 +62,7 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand ToEmployeesPageCommand { get; }
         public RelayCommand ToHomePageCommand { get; }
         public RelayCommand ToOrdersPageCommand { get; }
+        public RelayCommand ToProductsPageCommand { get;}
 
         #endregion
 
@@ -100,6 +112,7 @@ namespace StoreApp.MVVM.ViewModel
         public EmployeesPage EmployeesPage { get; set; }
         public HomePage HomePage { get; set; }
         public OrdersPage OrdersPage { get; set; }
+        public ProductsPage ProductsPage { get; set; }
 
         #endregion
 
@@ -124,6 +137,12 @@ namespace StoreApp.MVVM.ViewModel
         private void OnAppToEmployeesPageCommandExecute(object obj)
         {
             CurrentPage = EmployeesPage;
+        }
+
+        private bool CanAppToProductsPageCommandExecute(object arg) => true;
+        private void OnAppToProductsPageCommandExecute(object obj)
+        {
+            CurrentPage = ProductsPage;
         }
 
         //private bool CanAppWindowLoadedCommandExecute(object arg) => true;

@@ -55,6 +55,6 @@
                 <Image MinHeight="150" MaxHeight="150" Source="{Binding Path=MainWM.Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
                 <Button Content="Загрузить фото" Command="{Binding Path=UploadImageCommand}" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
             </StackPanel>         
-        </DockPanel>
+        </DockPanel> 
     </Border>
 </Page>
