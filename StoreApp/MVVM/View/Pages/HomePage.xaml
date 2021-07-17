@@ -8,21 +8,47 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
-    <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" VerticalAlignment="Center" MaxWidth="550" Padding="30">
+    <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" MaxWidth="600" VerticalAlignment="Center" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
         </Border.Effect>
         <DockPanel>
-            <StackPanel DockPanel.Dock="Left" MinWidth="300">
-                
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Right" MinWidth="150" MaxWidth="200">
-                <Image MinHeight="150" Source="{Binding Path=MainWV.Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
-                <Button Content="Загрузить фото"/>
-            </StackPanel>
-            <Grid DockPanel.Dock="Bottom" MinHeight="15" MaxHeight="30">
-                
+            <Grid DockPanel.Dock="Bottom" Margin="0 30 0 0">
+                <Button Content="Изменить" Command="{Binding Path=EditCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Сохранить" Command="{Binding Path=SaveChangesCommand}" HorizontalAlignment="Right" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Отменить" Command="{Binding Path=DeclineChangesCommand}" HorizontalAlignment="Center" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
+            <Grid DockPanel.Dock="Left"  MinWidth="350" Margin="5" MinHeight="100" MaxHeight="250">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Фамилия" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Почта" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Номер телефона" VerticalAlignment="Center" FontSize="15"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Name}" IsReadOnly="True" IsReadOnlyCaretVisible="False" Cursor="IBeam"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Surname}" IsReadOnly="True" IsReadOnlyCaretVisible="False" Cursor="IBeam"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Login}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Password}" IsReadOnly="True" IsReadOnlyCaretVisible="False" Cursor="IBeam"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Email}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.PhoneNumber}" IsReadOnly="True" IsReadOnlyCaretVisible="False" Cursor="IBeam"/>
+            </Grid>
+            <StackPanel DockPanel.Dock="Right" MinWidth="100" MaxWidth="200" MinHeight="100" MaxHeight="250">
+                <Image MinHeight="150" Source="{Binding Path=MainWM.Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                <Button Content="Загрузить фото" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
+            </StackPanel>         
         </DockPanel>
     </Border>
 </Page>

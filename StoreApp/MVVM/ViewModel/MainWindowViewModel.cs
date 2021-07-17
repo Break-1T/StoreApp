@@ -21,7 +21,7 @@ namespace StoreApp.MVVM.ViewModel
             ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
 
-            HomeViewModel = new HomePageViewModel() { MainWV = this };
+            HomeViewModel = new HomePageViewModel() { MainWM = this };
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
             DepartamentsPage = new DepartamentsPage();
