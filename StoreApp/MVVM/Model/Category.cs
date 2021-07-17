@@ -2,24 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Windows.Controls;
-using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
 {
-    class Product
+    class Category
     {
-        public Product()
-        {
-            Image = Images.Empty_goods_icon;
-        }
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? CategoryId { get; set; }
-        public Category Category { get; set; }
-
-        [Required]
         public byte[] Image { get; set; }
+        public List<Product> Products { get; set; }
     }
 }
