@@ -11,6 +11,7 @@ namespace StoreApp.Infrastructure.DbManagement
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
         
         public ApplicationContext()
         {

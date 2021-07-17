@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
@@ -182,6 +183,53 @@ namespace StoreApp.Infrastructure.DbManagement
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        public void AddCategory(string Name)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Categories.Add(new Category()
+                    {
+                        Name=Name
+                    });
+                    db.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+        public void AddCategory(string Name,byte[] Image)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Categories.Add(new Category()
+                    {
+                        Name = Name,
+                        Image=Image
+                    });
+                    db.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        public async void AddCategoryAsync(string Name)
+        {
+            await Task.Run(() => AddCategory(Name));
+        }
+        public async void AddCategoryAsync(string Name, byte[] Image)
+        {
+            await Task.Run(() => AddCategory(Name,Image));
         }
 
         public Employee FindEmployee(string Login, string Password)
