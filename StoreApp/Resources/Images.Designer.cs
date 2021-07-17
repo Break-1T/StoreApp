@@ -63,6 +63,16 @@ namespace StoreApp.Resources {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] Empty_category_icon {
+            get {
+                object obj = ResourceManager.GetObject("Empty_category_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] Empty_employee_icon {
             get {
                 object obj = ResourceManager.GetObject("Empty_employee_icon", resourceCulture);
