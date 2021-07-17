@@ -21,7 +21,6 @@
             <Button Content="Orders" Command="{Binding Path=ToOrdersPageCommand}"/>
             <Button Content="Employees" Command="{Binding Path=ToEmployeesPageCommand}" Cursor="Hand"/>
             <Button Content="Products" Command="{Binding Path=ToProductsPageCommand}" Cursor="Hand"/>
-
         </StackPanel>
         <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>

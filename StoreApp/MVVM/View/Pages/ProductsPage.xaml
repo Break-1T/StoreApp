@@ -4,11 +4,39 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="677.89"
       Title="ProductsPage">
+    <Border CornerRadius="25" Margin="5" Background="#F1EDD7" >
+        <Border.Effect>
+            <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.35*"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+            <StackPanel Grid.Column="0">
 
-    <Grid>
-        
-    </Grid>
+            </StackPanel>
+            <DockPanel Grid.Column="2" MaxWidth="160">
+                <WrapPanel DockPanel.Dock="Top">
+                    <TextBlock Text="Категории" FontSize="20" VerticalAlignment="Center"/>
+                    <Button Margin="5 0 0 0" Content="+" FontSize="25" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center"
+                            Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </WrapPanel>
+                <Button Content="Показать всё" DockPanel.Dock="Bottom"/>
+                <ListBox DockPanel.Dock="Left"></ListBox>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Page>
