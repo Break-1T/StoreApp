@@ -23,7 +23,7 @@ namespace StoreApp.Infrastructure.DbManagement
                         {
                             Name = Name
                         });
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -40,7 +40,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name == Name));
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -63,7 +63,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             Name = Name,
                             //Image = Image
                         });
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -80,7 +80,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Products.Remove(db.Products.FirstOrDefault(x => x.Name == Name));
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -110,7 +110,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             Password=Password,
                             PhoneNumber=PhoneNumber
                         });
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -128,7 +128,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Employees.Remove(db.Employees.FirstOrDefault(x => (x.Name == Name && x.Surname == Surname)));
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -155,7 +155,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             PhoneNumber = PhoneNumber,
                             Email=Email
                         });
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }
@@ -173,7 +173,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Users.Remove(db.Users.FirstOrDefault(x => x.Login == Login));
-                    db.SaveChanges();
+                    db.SaveChangesAsync();
                     return true;
                 }
             }

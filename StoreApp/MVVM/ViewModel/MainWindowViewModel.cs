@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 using StoreApp.Infrastructure.Commands;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.View.Pages;
 using StoreApp.MVVM.ViewModel.Base;
@@ -15,6 +16,8 @@ namespace StoreApp.MVVM.ViewModel
         {
             //WindowLoadedCommand = new RelayCommand(OnAppWindowLoadedCommandExecute,
             //    CanAppWindowLoadedCommandExecute);
+
+            StoreManagement = new Store();
             
             ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
             ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
@@ -66,6 +69,7 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public Store StoreManagement { get; set; }
 
         #endregion
 
