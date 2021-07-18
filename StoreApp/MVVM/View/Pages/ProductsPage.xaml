@@ -21,12 +21,36 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
             <DockPanel Grid.Column="0">
-                <Menu DockPanel.Dock="Top">
-                    <MenuItem Header="Добавить" Height="25" Command="{Binding Path=AddProductCommand}"/>
-                    <MenuItem Header="Поиск" Height="25"/>
-                    <MenuItem Header="Сортировка" Height="25"/>
-                </Menu>
-                <ScrollViewer DockPanel.Dock="Left">
+                <StackPanel DockPanel.Dock="Top">
+                    <Menu DockPanel.Dock="Top">
+                        <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
+                        <MenuItem Header="Поиск" Height="25"/>
+                        <MenuItem Header="Сортировка" Height="25"/> 
+                    </Menu>
+                    <Grid DockPanel.Dock="Left" Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox Grid.Column="1" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=SelectedCategory,UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Grid.Column="2" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=UploadNewProductPhotoCommand}"/>
+                        <Button Grid.Column="3" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=AddProductCommand}"/>
+
+                    </Grid>
+                </StackPanel>
+                <ScrollViewer DockPanel.Dock="Bottom" Background="White"> 
                     <DataGrid ItemsSource="{Binding Path=SelectedProducts,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="True"
                               CanUserDeleteRows="True" >
                         <DataGrid.Columns>
@@ -73,7 +97,7 @@
                                     Command="{Binding Path=UploadCategoryPhotoCommand}"/>
                             <Button DockPanel.Dock="Left" MaxHeight="20" Padding="0 0 0 0" Content="Сохранить" FontSize="10" 
                                     Style="{StaticResource MaterialDesignFlatButton}" Height="20"
-                                    Command="{Binding Path=SaveCategoryCommand}"/>
+                                    Command="{Binding Path=SaveCategoryCommand}" Cursor="Hand"/>
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>

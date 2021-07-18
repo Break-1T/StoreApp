@@ -72,7 +72,7 @@ namespace StoreApp.Infrastructure.DbManagement
                         {
                             Name = Name,
                             Image = Image,
-                            Category=category
+                            Category= db.Categories.FirstOrDefault(x => x.Id == category.Id)
                         });
                     db.SaveChanges();
                     return true;
