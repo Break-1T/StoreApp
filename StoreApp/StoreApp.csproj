@@ -10,6 +10,8 @@
     <None Remove="Resources\Empty_employee_icon.png" />
     <None Remove="Resources\Empty_goods_icon.png" />
     <None Remove="Resources\Pictures\Empty_category_icon.png" />
+    <None Remove="Resources\Pictures\Empty_departament_icon.png" />
+    <None Remove="Resources\Pictures\Empty_user_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,8 +22,10 @@
 
   <ItemGroup>
     <Resource Include="Resources\Pictures\Empty_category_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_departament_icon.png" />
     <Resource Include="Resources\Pictures\Empty_employee_icon.png" />
     <Resource Include="Resources\Pictures\Empty_goods_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_user_icon.png" />
   </ItemGroup>
 
   <ItemGroup>

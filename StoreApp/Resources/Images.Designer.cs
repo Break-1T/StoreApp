@@ -73,6 +73,16 @@ namespace StoreApp.Resources {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] Empty_departament_icon {
+            get {
+                object obj = ResourceManager.GetObject("Empty_departament_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] Empty_employee_icon {
             get {
                 object obj = ResourceManager.GetObject("Empty_employee_icon", resourceCulture);
@@ -86,6 +96,16 @@ namespace StoreApp.Resources {
         internal static byte[] Empty_goods_icon {
             get {
                 object obj = ResourceManager.GetObject("Empty_goods_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] Empty_user_icon {
+            get {
+                object obj = ResourceManager.GetObject("Empty_user_icon", resourceCulture);
                 return ((byte[])(obj));
             }
         }

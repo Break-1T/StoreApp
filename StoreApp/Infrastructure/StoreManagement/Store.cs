@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.DbManagement;
@@ -41,6 +43,11 @@ namespace StoreApp.Infrastructure.StoreManagement
                 Debug.WriteLine(ex.Message);
                 return false;
             }
+        }
+
+        public async Task<bool> LoginAsync(Employee employee)
+        {
+            return await Task.Run(()=>Login(employee));
         }
 
         public bool UpdateEmployee(Employee employee)

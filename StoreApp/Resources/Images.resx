@@ -121,10 +121,16 @@
   <data name="Empty_category_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pictures\Empty_category_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Empty_departament_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Pictures\Empty_departament_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Empty_employee_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pictures\Empty_employee_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Empty_goods_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pictures\Empty_goods_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Empty_user_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Pictures\Empty_user_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

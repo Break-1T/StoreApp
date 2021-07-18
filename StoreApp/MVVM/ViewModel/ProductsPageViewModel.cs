@@ -2,6 +2,7 @@
 using StoreApp.MVVM.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +22,14 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppUploadCategoryPhotoCommandExecute);
             SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
                 CanAppSaveCategoryCommandExecute);
+            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
+                CanAppDeleteCategoryCommandExecute);
 
             ExpanderHeight = 0;
             
             Category = new Category();
+            SelectedCategory = new Category();
+            
             Categories = new ObservableCollection<Category>();
             
             FillCategories();
@@ -35,6 +40,7 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand AddCategoryCommand { get; set; }
         public RelayCommand UploadCategoryPhotoCommand { get; set; }
         public RelayCommand SaveCategoryCommand { get; set; }
+        public RelayCommand DeleteCategoryCommand { get; set; }
 
         #endregion
 
@@ -42,6 +48,7 @@ namespace StoreApp.MVVM.ViewModel
 
         private Category _category;
         private double _expanderHeight;
+        private Category _selectedCategory;
 
         #endregion
 
@@ -59,6 +66,19 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
         public ObservableCollection<Category> Categories { get; set; }
+        public Category SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (Equals(value, _selectedCategory)) return;
+                _selectedCategory = value;
+                OnPropertyChanged();
+                FillSelectedProducts();
+            }
+        }
+        
+        public ObservableCollection<Product> SelectedProducts { get; set; }
 
         public double ExpanderHeight
         {
@@ -90,12 +110,26 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         private bool CanAppSaveCategoryCommandExecute(object arg) => true;
-        private void OnAppSaveCategoryCommandExecute(object obj)
+        private async void OnAppSaveCategoryCommandExecute(object obj)
         {
             if (Category.Image.Any())
-                MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
+            {
+                await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
+                FillCategories();
+            }
             else
-                MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
+            {
+                await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
+                FillCategories();
+            }
+        }
+
+
+        private bool CanAppDeleteCategoryCommandExecute(object arg) => true;
+        private async void OnAppDeleteCategoryCommandExecute(object obj)
+        {
+            await MainVM.StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
+            FillCategories();
         }
 
         private void FillCategories()
@@ -104,6 +138,7 @@ namespace StoreApp.MVVM.ViewModel
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
+                    Categories.Clear();
                     foreach (var i in db.Categories)
                     {
                         Categories.Add(i);
@@ -112,8 +147,30 @@ namespace StoreApp.MVVM.ViewModel
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        private void FillSelectedProducts()
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    var temp = db.Categories.FirstOrDefault(x => x.Id == SelectedCategory.Id);
+                    if (temp != null)
+                    {
+                        SelectedProducts = temp.Products;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
         }
     }

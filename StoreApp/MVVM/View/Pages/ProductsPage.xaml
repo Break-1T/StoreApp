@@ -19,20 +19,33 @@
                 <ColumnDefinition Width="0.35*"/>
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Path=s}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id"/>
-                    <DataGridTextColumn Header="Name"/>
-                    <DataGridTextColumn Header="Category"/>
-                    <DataGridTextColumn Header="Image"/>
 
-                </DataGrid.Columns>
-            </DataGrid>
-            <DockPanel Grid.Column="2" MaxWidth="250" MinWidth="100">
+            <DockPanel Grid.Column="0">
+                <Menu DockPanel.Dock="Top">
+                    <MenuItem Header="File" Height="25"/>
+                </Menu>
+                <ScrollViewer DockPanel.Dock="Left">
+                    <DataGrid ItemsSource="{Binding Path=SelectedProducts}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id"/>
+                            <DataGridTextColumn Header="Name"/>
+                            <DataGridTextColumn Header="Category"/>
+                            <DataGridTemplateColumn Header="Image"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </DockPanel>
+
+            <DockPanel Grid.Column="2" MinWidth="100">
                 <StackPanel DockPanel.Dock="Top">
-                    <WrapPanel>
-                        <TextBlock Text="Категории" FontSize="20" VerticalAlignment="Center"/>
-                        <Button Margin="5 0 0 0" FontSize="25" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Категории" FontSize="16" Width="auto" VerticalAlignment="Center"/>                
+                        <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=AddCategoryCommand}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
@@ -40,7 +53,7 @@
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
-                    </WrapPanel>
+                    </Grid>
                     <StackPanel Height="{Binding Path=ExpanderHeight}">
                         <TextBox materialDesign:HintAssist.Hint="Имя категории" Text="{Binding Path=Category.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <DockPanel Height="20">
@@ -56,28 +69,24 @@
                 </StackPanel>
                 <Button Content="Показать всё" DockPanel.Dock="Bottom"/>
                 <ScrollViewer>
-                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories}">
+                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories}" SelectedItem="{Binding Path=SelectedCategory}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu Padding="0">
+                                <MenuItem Header="Удалить" Command="{Binding Path=DeleteCategoryCommand}"/> 
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <WrapPanel>
-                                        <Button Content="{Binding Path=Name}"/>
-                                            <Button Margin="5 0 0 0"
-                                                    VerticalContentAlignment="Center"
-                                                    HorizontalContentAlignment="Center" Padding="0"
-                                                    Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand">
-                                                <Button.ContentTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="x" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="30"/>       
-                                                    </DataTemplate>
-                                                </Button.ContentTemplate>
-                                        </Button>
-                                    </WrapPanel>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Path=Name}" HorizontalAlignment="Left"/>
+                                    </Grid>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
+
             </DockPanel>
         </Grid>
     </Border>

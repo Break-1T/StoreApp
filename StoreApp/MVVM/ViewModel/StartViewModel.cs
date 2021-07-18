@@ -118,59 +118,58 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         private bool CanAppRegistrateAdminCommandExecute(object arg) => true;
-        private void OnAppRegistrateAdminCommandExecute(object obj)
+
+        private async void OnAppRegistrateAdminCommandExecute(object obj)
         {
             try
             {
-                if (Password1Handler() == Password2Handler())
+                using (ApplicationContext db = new ApplicationContext())
                 {
-                    Employee.Password = Password1Handler();
-                    using (ApplicationContext db = new ApplicationContext())
+                    if (Password1Handler() == Password2Handler())
+                        Employee.Password = Password1Handler();
+                    else
+                        throw new Exception("Пароли не совпадают");
+
+                    if (db.Employees.FirstOrDefault(x => x.Login == Employee.Login) != null)
+                        throw new Exception("Данный логин уже используется");
+                    if (db.Employees.FirstOrDefault(x => x.PhoneNumber == Employee.PhoneNumber) != null)
+                        throw new Exception("Данный номер телефона уже используется");
+                    if (db.Employees.FirstOrDefault(x => x.Email == Employee.Email) != null)
+                        throw new Exception("Данный email уже используется");
+
+                    if (!db.Departments.Any())
                     {
-                        if (db.Employees.FirstOrDefault(x => x.Login == Employee.Login) != null)
-                            throw new Exception("Данный логин уже используется");
-                        if (db.Employees.FirstOrDefault(x => x.PhoneNumber == Employee.PhoneNumber) != null)
-                            throw new Exception("Данный номер телефона уже используется");
-                        if (db.Employees.FirstOrDefault(x => x.Email == Employee.Email) != null)
-                            throw new Exception("Данный email уже используется");
-
-                        if (!db.Departments.Any())
+                        db.Employees.Add(new Employee()
                         {
-                            db.Employees.Add(new Employee()
-                            {
-                                AccessLevel = AccessLevel.Administrator.ToString(),
-                                Department= new Department() { Name = DepartamentNames.Administrator.ToString() },
-                                Email=Employee.Email,
-                                Login = Employee.Login,
-                                Name = Employee.Name,
-                                Password=Employee.Password,
-                                PhoneNumber = Employee.PhoneNumber,
-                                Surname = Employee.Surname
-                            });
-                        }
-                        else
+                            AccessLevel = AccessLevel.Administrator.ToString(),
+                            Department = new Department() {Name = DepartamentNames.Administrator.ToString()},
+                            Email = Employee.Email,
+                            Login = Employee.Login,
+                            Name = Employee.Name,
+                            Password = Employee.Password,
+                            PhoneNumber = Employee.PhoneNumber,
+                            Surname = Employee.Surname
+                        });
+                    }
+                    else
+                    {
+                        db.Employees.Add(new Employee()
                         {
-                            db.Employees.Add(new Employee()
-                            {
-                                AccessLevel = AccessLevel.Administrator.ToString(),
-                                Department = db.Departments.FirstOrDefault(x => x.Name == DepartamentNames.Administrator.ToString()),
-                                Email = Employee.Email,
-                                Login = Employee.Login,
-                                Name = Employee.Name,
-                                Password = Employee.Password,
-                                PhoneNumber = Employee.PhoneNumber,
-                                Surname = Employee.Surname
-                            });
-                        }
-
-                        db.SaveChanges();
+                            AccessLevel = AccessLevel.Administrator.ToString(),
+                            Department = db.Departments.FirstOrDefault(x =>
+                                x.Name == DepartamentNames.Administrator.ToString()),
+                            Email = Employee.Email,
+                            Login = Employee.Login,
+                            Name = Employee.Name,
+                            Password = Employee.Password,
+                            PhoneNumber = Employee.PhoneNumber,
+                            Surname = Employee.Surname
+                        });
                     }
 
-                    CurrentPage = AuthorizationPage;
-                    new Thread(ShowMessage).Start("Успех!");
+                    await db.SaveChangesAsync();
                 }
-                else
-                    MessageBox.Show("Пароли не совпадают");
+                CurrentPage = AuthorizationPage;
             }
             catch (Exception ex)
             {
@@ -179,25 +178,18 @@ namespace StoreApp.MVVM.ViewModel
 
         }
 
-
         private bool CanAppAuthorizationAdminCommandExecute(object arg) => true;
-        private void OnAppAuthorizationAdminCommandExecute(object obj)
+        private async void OnAppAuthorizationAdminCommandExecute(object obj)
         {
             Employee.Password = AuthorizationPasswordHandler();
-            if (store.Login(Employee))
+            if (await store.LoginAsync(Employee))
             {
-                Employee = store.DataBaseControl.FindEmployee(Employee.Login,Employee.Password);
-                MainWindowViewModel mainWindow = new MainWindowViewModel(){Employee=Employee};
-                Main = new MainWindow() { DataContext= mainWindow };
+                Employee = await store.DataBaseControl.FindEmployeeAsync(Employee.Login, Employee.Password);
+                MainWindowViewModel mainWindow = new MainWindowViewModel() { Employee = Employee };
+                Main = new MainWindow() { DataContext = mainWindow };
                 Main.Show();
                 App.Current.MainWindow.Close();
             }
-        }
-
-
-        private void ShowMessage(object x)
-        {
-            MessageBox.Show((string) x);
         }
     }
 }
