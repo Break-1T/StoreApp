@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.DbManagement;
@@ -24,6 +26,8 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppSaveCategoryCommandExecute);
             DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
                 CanAppDeleteCategoryCommandExecute);
+            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
+                CanAppAddProductCommandExecute);
 
             ExpanderHeight = 0;
             
@@ -41,6 +45,7 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand UploadCategoryPhotoCommand { get; set; }
         public RelayCommand SaveCategoryCommand { get; set; }
         public RelayCommand DeleteCategoryCommand { get; set; }
+        public RelayCommand AddProductCommand { get; set; }
 
         #endregion
 
@@ -49,6 +54,7 @@ namespace StoreApp.MVVM.ViewModel
         private Category _category;
         private double _expanderHeight;
         private Category _selectedCategory;
+        private ObservableCollection<Product> _selectedProducts;
 
         #endregion
 
@@ -77,8 +83,16 @@ namespace StoreApp.MVVM.ViewModel
                 FillSelectedProducts();
             }
         }
-        
-        public ObservableCollection<Product> SelectedProducts { get; set; }
+        public ObservableCollection<Product> SelectedProducts
+        {
+            get => _selectedProducts;
+            set
+            {
+                if (Equals(value, _selectedProducts)) return;
+                _selectedProducts = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double ExpanderHeight
         {
@@ -124,12 +138,18 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-
         private bool CanAppDeleteCategoryCommandExecute(object arg) => true;
         private async void OnAppDeleteCategoryCommandExecute(object obj)
         {
             await MainVM.StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
             FillCategories();
+        }
+
+        private bool CanAppAddProductCommandExecute(object arg) => true;
+        private async void OnAppAddProductCommandExecute(object obj)
+        {
+            await MainVM.StoreManagement.DataBaseControl.AddProductAsync("Кофе",SelectedCategory);
+            FillSelectedProducts();
         }
 
         private void FillCategories()
@@ -139,7 +159,7 @@ namespace StoreApp.MVVM.ViewModel
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     Categories.Clear();
-                    foreach (var i in db.Categories)
+                    foreach (var i in db.Categories.Include(x=>x.Products))
                     {
                         Categories.Add(i);
                     }
@@ -150,22 +170,14 @@ namespace StoreApp.MVVM.ViewModel
                 Debug.WriteLine(e.Message);
             }
         }
-
         private void FillSelectedProducts()
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var temp = db.Categories.FirstOrDefault(x => x.Id == SelectedCategory.Id);
-                    if (temp != null)
-                    {
-                        SelectedProducts = temp.Products;
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    var categories = db.Categories.Include(x => x.Products).ToList();
+                    SelectedProducts = SelectedCategory != null ? categories.FirstOrDefault(x => x.Id == SelectedCategory.Id)?.Products : null;
                 }
             }
             catch (Exception e)

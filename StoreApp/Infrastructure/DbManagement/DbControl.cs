@@ -61,7 +61,7 @@ namespace StoreApp.Infrastructure.DbManagement
             return await Task.Run(() => RemoveDepartament(Name));
         }
         
-        public bool AddProduct(string Name, byte[] Image)
+        public bool AddProduct(string Name, byte[] Image, Category category)
         {
             try
             {
@@ -71,7 +71,8 @@ namespace StoreApp.Infrastructure.DbManagement
                         new Product()
                         {
                             Name = Name,
-                            Image = Image
+                            Image = Image,
+                            Category=category
                         });
                     db.SaveChanges();
                     return true;
@@ -83,11 +84,38 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> AddProductAsync(string Name, byte[] Image)
+        public async Task<bool> AddProductAsync(string Name, byte[] Image, Category category)
         {
-            return await Task.Run(() => AddProduct(Name, Image));
+            return await Task.Run(() => AddProduct(Name, Image,category));
         }
-        
+
+        public bool AddProduct(string Name, Category category)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Products.Add(
+                        new Product()
+                        {
+                            Name = Name,
+                            Category = db.Categories.FirstOrDefault(x=>x.Id==category.Id)
+                        });
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> AddProductAsync(string Name, Category category)
+        {
+            return await Task.Run(() => AddProduct(Name, category));
+        }
+
         public bool RemoveProduct(string Name)
         {
             try

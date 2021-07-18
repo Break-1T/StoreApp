@@ -22,16 +22,26 @@
 
             <DockPanel Grid.Column="0">
                 <Menu DockPanel.Dock="Top">
-                    <MenuItem Header="File" Height="25"/>
+                    <MenuItem Header="Добавить" Height="25" Command="{Binding Path=AddProductCommand}"/>
+                    <MenuItem Header="Поиск" Height="25"/>
+                    <MenuItem Header="Сортировка" Height="25"/>
                 </Menu>
                 <ScrollViewer DockPanel.Dock="Left">
-                    <DataGrid ItemsSource="{Binding Path=SelectedProducts}">
+                    <DataGrid ItemsSource="{Binding Path=SelectedProducts,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="True"
+                              CanUserDeleteRows="True" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id"/>
-                            <DataGridTextColumn Header="Name"/>
-                            <DataGridTextColumn Header="Category"/>
-                            <DataGridTemplateColumn Header="Image"/>
-
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Path=Category.Name}"/>
+                            <DataGridTemplateColumn Header="Image">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Image DockPanel.Dock="Top" Source="{Binding Path=Image}" Height="30"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>
@@ -71,7 +81,7 @@
                 <ScrollViewer>
                     <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories}" SelectedItem="{Binding Path=SelectedCategory}">
                         <ListBox.ContextMenu>
-                            <ContextMenu Padding="0">
+                            <ContextMenu Padding="0"> 
                                 <MenuItem Header="Удалить" Command="{Binding Path=DeleteCategoryCommand}"/> 
                             </ContextMenu>
                         </ListBox.ContextMenu>
