@@ -246,6 +246,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             await MainVM.StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
             FillAllProducts();
+            FillCategories();
             FillSelectedProducts();
         }
 
