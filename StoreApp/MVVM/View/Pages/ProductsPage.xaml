@@ -36,7 +36,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <ComboBox Grid.Column="1" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding Path=SelectedCategory,UpdateSourceTrigger=PropertyChanged}">
+                                  SelectedItem="{Binding Path=SelectedCategory}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name}"/>
@@ -50,14 +50,20 @@
 
                     </Grid>
                 </StackPanel>
-                <ScrollViewer DockPanel.Dock="Bottom" Background="White"> 
-                    <DataGrid ItemsSource="{Binding Path=SelectedProducts,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="True"
-                              CanUserDeleteRows="True" >
+                <ScrollViewer DockPanel.Dock="Bottom" Background="White">
+                    <DataGrid ItemsSource="{Binding Path=SelectedProducts,UpdateSourceTrigger=PropertyChanged}" 
+                              AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
+                              SelectedItem="{Binding Path=SelectedProduct,UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Удалить" Command="{Binding Path=DeleteProductCommand}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
-                            <DataGridTextColumn Header="Category" Binding="{Binding Path=Category.Name}"/>
-                            <DataGridTemplateColumn Header="Image">
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Path=Category.Name}" IsReadOnly="True"/>
+                            <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -101,9 +107,9 @@
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>
-                <Button Content="Показать всё" DockPanel.Dock="Bottom"/>
+                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllProductsCommand}"/>
                 <ScrollViewer>
-                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories}" SelectedItem="{Binding Path=SelectedCategory}">
+                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedCategory}">
                         <ListBox.ContextMenu>
                             <ContextMenu Padding="0"> 
                                 <MenuItem Header="Удалить" Command="{Binding Path=DeleteCategoryCommand}"/> 

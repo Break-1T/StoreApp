@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 
@@ -116,14 +117,14 @@ namespace StoreApp.Infrastructure.DbManagement
             return await Task.Run(() => AddProduct(Name, category));
         }
 
-        public bool RemoveProduct(string Name)
+        public bool RemoveProduct(string Name,int Id)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Products.Remove(db.Products.FirstOrDefault(x => x.Name == Name));
-                    db.SaveChangesAsync();
+                    db.Products.Remove(db.Products.FirstOrDefault(x => x.Name == Name && x.Id==Id));
+                    db.SaveChanges();
                     return true;
                 }
             }
@@ -133,9 +134,9 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> RemoveProductAsync(string Name)
+        public async Task<bool> RemoveProductAsync(string Name,int Id)
         {
-            return await Task.Run(() => RemoveProduct(Name));
+            return await Task.Run(() => RemoveProduct(Name,Id));
         }
         
         public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email,
@@ -310,7 +311,8 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var category = db.Categories.FirstOrDefault(x => x.Name == CategoryName && x.Id == CategoryId);
+                    var category = db.Categories.Where(x => x.Name == CategoryName && x.Id == CategoryId).FirstOrDefault();
+                    db.Entry(category).Collection(c => c.Products);
                     db.Categories.Remove(category);
                     db.SaveChanges();
                 }

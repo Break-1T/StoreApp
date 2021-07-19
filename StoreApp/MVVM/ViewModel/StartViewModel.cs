@@ -118,7 +118,6 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         private bool CanAppRegistrateAdminCommandExecute(object arg) => true;
-
         private async void OnAppRegistrateAdminCommandExecute(object obj)
         {
             try

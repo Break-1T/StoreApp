@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using StoreApp.Annotations;
 using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
@@ -19,6 +20,7 @@ namespace StoreApp.MVVM.Model
         public string Surname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        [CanBeNull]
         public byte[] Image { get; set; }
 
         public ObservableCollection<Order> Orders { get; set; }

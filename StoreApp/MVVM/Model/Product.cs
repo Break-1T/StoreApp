@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Windows.Controls;
+using StoreApp.Annotations;
 using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
@@ -17,9 +18,10 @@ namespace StoreApp.MVVM.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [Required]
+        [CanBeNull]
         public byte[] Image { get; set; }
 
+        [Required,NotNull]
         public Category Category { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using StoreApp.Annotations;
 using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
@@ -14,7 +15,9 @@ namespace StoreApp.MVVM.Model
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        [CanBeNull]
         public byte[] Image { get; set; }
+        
         public ObservableCollection<Product> Products { get; set; }
     }
 }
