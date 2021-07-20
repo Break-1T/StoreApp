@@ -17,6 +17,7 @@ namespace StoreApp.MVVM.Model
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public decimal Price { get; set; }
 
         [CanBeNull]
         public byte[] Image { get; set; }

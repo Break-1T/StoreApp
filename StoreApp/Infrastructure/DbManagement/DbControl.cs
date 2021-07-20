@@ -62,7 +62,7 @@ namespace StoreApp.Infrastructure.DbManagement
             return await Task.Run(() => RemoveDepartament(Name));
         }
         
-        public bool AddProduct(string Name, byte[] Image, Category category)
+        public bool AddProduct(string Name, decimal Price, byte[] Image, Category category)
         {
             try
             {
@@ -73,7 +73,8 @@ namespace StoreApp.Infrastructure.DbManagement
                         {
                             Name = Name,
                             Image = Image,
-                            Category= db.Categories.FirstOrDefault(x => x.Id == category.Id)
+                            Category= db.Categories.FirstOrDefault(x => x.Id == category.Id),
+                            Price = Price
                         });
                     db.SaveChanges();
                     return true;
@@ -85,12 +86,12 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> AddProductAsync(string Name, byte[] Image, Category category)
+        public async Task<bool> AddProductAsync(string Name,decimal Price, byte[] Image, Category category)
         {
-            return await Task.Run(() => AddProduct(Name, Image,category));
+            return await Task.Run(() => AddProduct(Name,Price, Image,category));
         }
 
-        public bool AddProduct(string Name, Category category)
+        public bool AddProduct(string Name, decimal Price, Category category)
         {
             try
             {
@@ -100,7 +101,8 @@ namespace StoreApp.Infrastructure.DbManagement
                         new Product()
                         {
                             Name = Name,
-                            Category = db.Categories.FirstOrDefault(x=>x.Id==category.Id)
+                            Category = db.Categories.FirstOrDefault(x=>x.Id==category.Id),
+                            Price=Price
                         });
                     db.SaveChanges();
                     return true;
@@ -112,9 +114,9 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> AddProductAsync(string Name, Category category)
+        public async Task<bool> AddProductAsync(string Name, decimal Price, Category category)
         {
-            return await Task.Run(() => AddProduct(Name, category));
+            return await Task.Run(() => AddProduct(Name,Price, category));
         }
 
         public bool RemoveProduct(string Name,int Id)

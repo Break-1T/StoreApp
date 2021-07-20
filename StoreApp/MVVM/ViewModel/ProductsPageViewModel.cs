@@ -1,16 +1,21 @@
 ﻿using StoreApp.Infrastructure.Commands;
 using StoreApp.MVVM.ViewModel.Base;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
+using StoreApp.Annotations;
 using StoreApp.Infrastructure.DbManagement;
 using StoreApp.MVVM.Model;
+using Convert = System.Convert;
 
 namespace StoreApp.MVVM.ViewModel
 {
@@ -39,6 +44,10 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppShowAllProductsCommandExecute);
             DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
                 CanAppDeleteProductCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
+                CanAppOpenSearchGridCommandExecute);
+            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
+                CanAppSearchProductCommandExecute);
 
             #endregion
 
@@ -46,6 +55,11 @@ namespace StoreApp.MVVM.ViewModel
 
             ExpanderHeight = 0;
             OpenAddProductGridHeight = 0;
+            OpenSearchProductGridHeight = 0;
+
+            SearchId = "";
+            SearchName = "";
+            SearchPrice = "";
 
             NewProduct = new Product();
             Category = new Category();
@@ -61,7 +75,6 @@ namespace StoreApp.MVVM.ViewModel
             #endregion
 
         }
-
 
         #region Events
 
@@ -79,6 +92,8 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand OpenAddProductGridCommand { get; set; }
         public RelayCommand ShowAllProductsCommand { get; set; }
         public RelayCommand DeleteProductCommand { get; set; }
+        public RelayCommand OpenSearchGridCommand { get; set; }
+        public RelayCommand SearchProductCommand { get; set; }
 
         #endregion
 
@@ -93,6 +108,10 @@ namespace StoreApp.MVVM.ViewModel
         private ObservableCollection<Product> _allProducts;
         private ObservableCollection<Category> _categories;
         private Product _selectedProduct;
+        private double _openSearchProductGridHeight;
+        private string _searchId;
+        private string _searchPrice;
+        private string _searchName;
 
         #endregion
 
@@ -109,7 +128,6 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<Category> Categories
         {
             get => _categories;
@@ -120,7 +138,6 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public Category SelectedCategory
         {
             get => _selectedCategory;
@@ -163,6 +180,7 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public double ExpanderHeight
         {
             get => _expanderHeight;
@@ -183,6 +201,48 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public double OpenSearchProductGridHeight
+        {
+            get => _openSearchProductGridHeight;
+            set
+            {
+                if (value.Equals(_openSearchProductGridHeight)) return;
+                _openSearchProductGridHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SearchId
+        {
+            get => _searchId;
+            set
+            {
+                if (value == _searchId) return;
+                _searchId = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SearchName
+        {
+            get => _searchName;
+            set
+            {
+                if (value == _searchName) return;
+                _searchName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SearchPrice
+        {
+            get => _searchPrice;
+            set
+            {
+                if (value == _searchPrice) return;
+                _searchPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public Product SelectedProduct
         {
@@ -199,6 +259,89 @@ namespace StoreApp.MVVM.ViewModel
 
         #region CommandMethods
 
+        private bool CanAppSearchProductCommandExecute(object arg) => true;
+        private void OnAppSearchProductCommandExecute(object obj)
+        {
+            decimal Price;
+            decimal Id;
+            int count = 0;
+
+            var list = new List<IEnumerable<Product>>();
+
+            if (!string.IsNullOrEmpty(SearchPrice))
+            {
+                if (decimal.TryParse(SearchPrice.Replace(".", ","), out Price))
+                {
+                    count++;
+                    var tmp = AllProducts.Where(x => x.Price == Price);
+                    list.Add(tmp);
+                }
+                else
+                {
+                    count++;
+                    list.Add(new List<Product>());
+                }
+            }
+
+            if (!string.IsNullOrEmpty(SearchId))
+            {
+                if (decimal.TryParse(SearchId, out Id))
+                {
+                    count++;
+                    var tmp = AllProducts.Where(x => x.Id == Id);
+                    list.Add(tmp);
+                }
+                else
+                {
+                    count++;
+                    list.Add(new List<Product>());
+                }
+            }
+
+            if (!string.IsNullOrEmpty(SearchName))
+            {
+                count++;
+                var tmp = AllProducts.Where(x => x.Name == SearchName);
+                list.Add(tmp);
+            }
+
+            IEnumerable<Product> Result = new List<Product>();
+            
+            switch (count)
+            {
+                case 3:
+                    Result = from i in list[0]
+                        from j in list[1]
+                        from k in list[2]
+                        where i == j && j == k
+                        select i;
+                    break;
+                case 2:
+                    Result = from i in list[0]
+                        from j in list[1]
+                        where i == j
+                        select i;
+                    break;
+                case 1:
+                    Result = from i in list[0]
+                        select i;
+                    break;
+                case 0:
+                    Result = new ObservableCollection<Product>();
+                    break;
+            }
+
+            SelectedProducts = new ObservableCollection<Product>(Result);
+
+        }
+
+        private bool CanAppOpenSearchGridCommandExecute(object arg) => true;
+        private void OnAppOpenSearchGridCommandExecute(object obj)
+        {
+            OpenAddProductGridHeight = 0;
+            OpenSearchProductGridHeight = OpenSearchProductGridHeight == 40 ? 0d : 40d;
+        }
+
         private bool CanAppDeleteProductCommandExecute(object arg) => true;
         private async void OnAppDeleteProductCommandExecute(object obj)
         {
@@ -210,7 +353,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppAddCategoryCommandExecute(object arg) => true;
         private void OnAppAddCategoryCommandExecute(object obj)
         {
-            ExpanderHeight = ExpanderHeight == 45d ? 0d : 45d;
+            ExpanderHeight = ExpanderHeight == 55d ? 0d : 55d;
         }
 
         private bool CanAppUploadCategoryPhotoCommandExecute(object arg) => true;
@@ -255,11 +398,11 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (NewProduct.Image.Any())
             {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, NewProduct.Image, SelectedCategory);
+                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, NewProduct.Image, SelectedCategory);
             }
             else
             {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, SelectedCategory);
+                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, SelectedCategory);
             }
             FillAllProducts();
             FillSelectedProducts();
@@ -268,7 +411,8 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppOpenAddProductGridCommandExecute(object arg) => true;
         private void OnAppOpenAddProductGridCommandExecute(object obj)
         {
-            OpenAddProductGridHeight = OpenAddProductGridHeight == 30d ? 0d : 30d;
+            OpenSearchProductGridHeight = 0;
+            OpenAddProductGridHeight = OpenAddProductGridHeight == 40 ? 0d : 40;
         }
 
         private bool CanAppUploadNewProductPhotoCommandExecute(object arg) => true;

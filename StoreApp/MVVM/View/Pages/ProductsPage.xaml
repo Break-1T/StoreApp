@@ -24,18 +24,19 @@
                 <StackPanel DockPanel.Dock="Top">
                     <Menu DockPanel.Dock="Top">
                         <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
-                        <MenuItem Header="Поиск" Height="25"/>
-                        <MenuItem Header="Сортировка" Height="25"/> 
+                        <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
                     </Menu>
-                    <Grid DockPanel.Dock="Left" Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
+                    <Grid Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
-                        <ComboBox Grid.Column="1" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Price,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding Path=SelectedCategory}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -43,11 +44,23 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Grid.Column="2" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                        <Button Grid.Column="3" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                                 Command="{Binding Path=UploadNewProductPhotoCommand}"/>
-                        <Button Grid.Column="3" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                        <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                                 Command="{Binding Path=AddProductCommand}"/>
-
+                    </Grid>
+                    <Grid Height="{Binding Path=OpenSearchProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchId,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchName,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Цена" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchPrice,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <Button Grid.Column="3" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=SearchProductCommand}"/>
                     </Grid>
                 </StackPanel>
                 <ScrollViewer DockPanel.Dock="Bottom" Background="White">
@@ -62,6 +75,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Path=Price,StringFormat=C}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Category" Binding="{Binding Path=Category.Name}" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -95,7 +109,7 @@
                         </Button>
                     </Grid>
                     <StackPanel Height="{Binding Path=ExpanderHeight}">
-                        <TextBox materialDesign:HintAssist.Hint="Имя категории" Text="{Binding Path=Category.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Имя категории" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Text="{Binding Path=Category.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <DockPanel Height="20">
                             <Button DockPanel.Dock="Left" MaxHeight="20" Padding="5 0 5 0" 
                                     Content="Загрузить фото" FontSize="10" 
