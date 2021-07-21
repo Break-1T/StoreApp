@@ -352,5 +352,33 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(()=>FindEmployee(Login,Password));
         }
+
+        public bool ChangeProduct(Product product)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    var prod = db.Products.FirstOrDefault(x => x.Id == product.Id);
+                    prod.Image = product.Image;
+                    prod.Category = product.Category;
+                    prod.Name = product.Name;
+                    prod.Price = product.Price;
+                    db.Entry(prod).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+        public async Task<bool> ChangeProductAsync(Product product)
+        {
+           return await Task.Run(() => ChangeProduct(product));
+        }
     }
 }

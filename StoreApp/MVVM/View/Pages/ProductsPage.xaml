@@ -63,13 +63,38 @@
                                 Command="{Binding Path=SearchProductCommand}"/>
                     </Grid>
                 </StackPanel>
-                <ScrollViewer DockPanel.Dock="Bottom" Background="White">
+                <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeProductGridHeight,UpdateSourceTrigger=PropertyChanged}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price,UpdateSourceTrigger=PropertyChanged}"/>
+                    <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding Path=SelectedProduct.Category,UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="3" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ChangeProductPhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="IBeam"/>
+                    <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                            Command="{Binding Path=ChangeProductCommand}"/>
+                    <Button Grid.Column="5" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
+                </Grid>
+                <ScrollViewer DockPanel.Dock="Left" Background="White">
                     <DataGrid ItemsSource="{Binding Path=SelectedProducts,UpdateSourceTrigger=PropertyChanged}" 
                               AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
                               SelectedItem="{Binding Path=SelectedProduct,UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Удалить" Command="{Binding Path=DeleteProductCommand}"/>
+                                <MenuItem Header="Изменить" Command="{Binding Path=OpenChangeGridCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -89,6 +114,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>
+
             </DockPanel>
 
             <DockPanel Grid.Column="2" MinWidth="100">

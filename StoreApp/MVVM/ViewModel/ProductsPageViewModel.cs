@@ -48,6 +48,14 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppOpenSearchGridCommandExecute);
             SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
                 CanAppSearchProductCommandExecute);
+            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
+                CanAppOpenChangeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
+                CanAppCloseChangeGridCommandExecute);
+            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
+                CanAppChangeProductCommandExecute);
+            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
+                CanAppChangeProductPhotoCommandExecute);
 
             #endregion
 
@@ -56,6 +64,7 @@ namespace StoreApp.MVVM.ViewModel
             ExpanderHeight = 0;
             OpenAddProductGridHeight = 0;
             OpenSearchProductGridHeight = 0;
+            OpenChangeProductGridHeight = 0;
 
             SearchId = "";
             SearchName = "";
@@ -94,6 +103,10 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand DeleteProductCommand { get; set; }
         public RelayCommand OpenSearchGridCommand { get; set; }
         public RelayCommand SearchProductCommand { get; set; }
+        public RelayCommand ChangeProductPhotoCommand { get; set; }
+        public RelayCommand ChangeProductCommand { get; set; }
+        public RelayCommand OpenChangeGridCommand { get; set; }
+        public RelayCommand CloseChangeGridCommand { get; set; }
 
         #endregion
 
@@ -112,6 +125,7 @@ namespace StoreApp.MVVM.ViewModel
         private string _searchId;
         private string _searchPrice;
         private string _searchName;
+        private double _openChangeProductGridHeight;
 
         #endregion
 
@@ -211,6 +225,16 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public double OpenChangeProductGridHeight
+        {
+            get => _openChangeProductGridHeight;
+            set
+            {
+                if (value.Equals(_openChangeProductGridHeight)) return;
+                _openChangeProductGridHeight = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string SearchId
         {
@@ -258,6 +282,40 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region CommandMethods
+
+        private bool CanAppChangeProductPhotoCommandExecute(object arg) => true;
+        private void OnAppChangeProductPhotoCommandExecute(object obj)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.ShowDialog();
+            if (!string.IsNullOrEmpty(dialog.FileName))
+                SelectedProduct.Image = File.ReadAllBytes(dialog.FileName);
+        }
+
+        private bool CanAppChangeProductCommandExecute(object arg) => true;
+        private async void OnAppChangeProductCommandExecute(object obj)
+        {
+            if (await MainVM.StoreManagement.DataBaseControl.ChangeProductAsync(SelectedProduct))
+            {
+                FillAllProducts();
+                FillSelectedProducts();
+                if (OpenChangeProductGridHeight == 0d)
+                    OpenChangeProductGridHeight = 40d;
+            }
+        }
+
+        private bool CanAppCloseChangeGridCommandExecute(object arg) => true;
+        private void OnAppCloseChangeGridCommandExecute(object obj)
+        {
+            OpenChangeProductGridHeight = OpenChangeProductGridHeight == 40 ? 0d : 40d;
+        }
+
+        private bool CanAppOpenChangeGridCommandExecute(object arg) => true;
+        private void OnAppOpenChangeGridCommandExecute(object obj)
+        {
+            if (OpenChangeProductGridHeight == 0d)
+                OpenChangeProductGridHeight = 40d;
+        }
 
         private bool CanAppSearchProductCommandExecute(object arg) => true;
         private void OnAppSearchProductCommandExecute(object obj)
