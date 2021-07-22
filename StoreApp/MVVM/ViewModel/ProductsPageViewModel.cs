@@ -498,7 +498,7 @@ namespace StoreApp.MVVM.ViewModel
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    Categories = new ObservableCollection<Category>( db.Categories.ToList());
+                    Categories = new ObservableCollection<Category>( db.Categories.Include(x=>x.Products).ToList());
                 }
             }
             catch (Exception e)
@@ -526,6 +526,7 @@ namespace StoreApp.MVVM.ViewModel
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     AllProducts = new ObservableCollection<Product>(db.Products.Include(x => x.Category).ToList());
+                    var a = Categories.Select(x => x.Products);
                 }
             }
             catch (Exception e)

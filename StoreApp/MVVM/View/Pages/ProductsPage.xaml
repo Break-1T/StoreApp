@@ -75,14 +75,14 @@
                     <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price,UpdateSourceTrigger=PropertyChanged}"/>
                     <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding Path=SelectedProduct.Category,UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding Path=SelectedProduct.Category}" IsSelected="True">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Name}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Column="3" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ChangeProductPhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="IBeam"/>
+                    <Button Grid.Column="3" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ChangeProductPhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="Hand"/>
                     <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                             Command="{Binding Path=ChangeProductCommand}"/>
                     <Button Grid.Column="5" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
@@ -166,7 +166,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
-
             </DockPanel>
         </Grid>
     </Border>
