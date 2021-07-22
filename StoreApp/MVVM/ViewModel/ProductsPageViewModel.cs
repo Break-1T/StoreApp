@@ -8,8 +8,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Annotations;
@@ -76,10 +78,10 @@ namespace StoreApp.MVVM.ViewModel
 
             SelectedProducts = new ObservableCollection<Product>();
             Categories = new ObservableCollection<Category>();
-
+            
+            FillCategories();
             FillAllProducts();
             SelectedProducts = AllProducts;
-            FillCategories();
 
             #endregion
 
@@ -297,6 +299,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (await MainVM.StoreManagement.DataBaseControl.ChangeProductAsync(SelectedProduct))
             {
+                FillCategories(SelectedCategory);
                 FillAllProducts();
                 FillSelectedProducts();
                 if (OpenChangeProductGridHeight == 0d)
@@ -359,7 +362,7 @@ namespace StoreApp.MVVM.ViewModel
             if (!string.IsNullOrEmpty(SearchName))
             {
                 count++;
-                var tmp = AllProducts.Where(x => x.Name == SearchName);
+                var tmp = AllProducts.Where(x => x.Name.ToLower() == SearchName.ToLower());
                 list.Add(tmp);
             }
 
@@ -404,6 +407,7 @@ namespace StoreApp.MVVM.ViewModel
         private async void OnAppDeleteProductCommandExecute(object obj)
         {
             await MainVM.StoreManagement.DataBaseControl.RemoveProductAsync(SelectedProduct.Name,SelectedProduct.Id);
+            FillCategories(SelectedCategory);
             FillAllProducts();
             FillSelectedProducts();
         }
@@ -429,15 +433,17 @@ namespace StoreApp.MVVM.ViewModel
             if (Category.Image != null && Category.Image.Any())
             {
                 await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
-                FillAllProducts();
                 FillCategories();
+                FillAllProducts();
+                SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
                 FillSelectedProducts();
             }
             else
             {
                 await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
-                FillAllProducts();
                 FillCategories();
+                FillAllProducts();
+                SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
                 FillSelectedProducts();
             }
         }
@@ -446,9 +452,10 @@ namespace StoreApp.MVVM.ViewModel
         private async void OnAppDeleteCategoryCommandExecute(object obj)
         {
             await MainVM.StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
-            FillAllProducts();
             FillCategories();
+            FillAllProducts();
             FillSelectedProducts();
+            SelectedProducts = AllProducts;
         }
 
         private bool CanAppAddProductCommandExecute(object arg) => true;
@@ -462,6 +469,7 @@ namespace StoreApp.MVVM.ViewModel
             {
                 await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, SelectedCategory);
             }
+            FillCategories(SelectedCategory);
             FillAllProducts();
             FillSelectedProducts();
         }
@@ -506,6 +514,24 @@ namespace StoreApp.MVVM.ViewModel
                 Debug.WriteLine(e.Message);
             }
         }
+        private void FillCategories(Category selectedCategory)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    Categories = new ObservableCollection<Category>(db.Categories.Include(x => x.Products).ToList());
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                SelectedCategory = Categories.FirstOrDefault(x=>x.Id==selectedCategory.Id);
+            }
+        }
         private void FillSelectedProducts()
         {
             try
@@ -519,21 +545,29 @@ namespace StoreApp.MVVM.ViewModel
                 Debug.WriteLine(e.Message);
             }
         }
-        private void FillAllProducts()
+        private void FillSelectedProducts(Category category)
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
-                {
-                    AllProducts = new ObservableCollection<Product>(db.Products.Include(x => x.Category).ToList());
-                    var a = Categories.Select(x => x.Products);
-                }
+                SelectedProducts = category != null
+                    ? new ObservableCollection<Product>(AllProducts.Where(x => x.Category.Id == category.Id).ToList())
+                    : new ObservableCollection<Product>();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
-
+        }
+        private void FillAllProducts()
+        {
+            try
+            {
+                AllProducts = new ObservableCollection<Product>( Categories.Select(x => x.Products).SelectMany(list=>list).ToList());
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
 
         #endregion

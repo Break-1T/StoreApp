@@ -13,6 +13,7 @@ namespace StoreApp.MVVM.Model
     class Product:INotifyPropertyChanged
     {
         [NotNull] private Category _category;
+        private decimal _price;
 
         public Product()
         {
@@ -21,7 +22,17 @@ namespace StoreApp.MVVM.Model
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
+
+        public decimal Price
+        {
+            get => _price;
+            set
+            {
+                if (value == _price) return;
+                _price = value;
+                OnPropertyChanged();
+            }
+        }
 
         [CanBeNull]
         public byte[] Image { get; set; }

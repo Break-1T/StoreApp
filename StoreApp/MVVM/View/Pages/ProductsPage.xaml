@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StoreApp.MVVM.View.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:v="clr-namespace:StoreApp.Infrastructure.Behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="677.89"
       Title="ProductsPage">
@@ -22,10 +24,17 @@
 
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
-                    <Menu DockPanel.Dock="Top">
-                        <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
-                        <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
-                    </Menu>
+                    <Grid Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition MaxWidth="75"/>
+                        </Grid.ColumnDefinitions>
+                        <Menu Grid.Column="0">
+                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
+                            <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
+                        </Menu>
+                        <Image Grid.Column="1" Source="{Binding Path=SelectedCategory.Image,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="60"/>
+                    </Grid>
                     <Grid Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -34,8 +43,12 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Price,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Price}" Cursor="IBeam">
+                            <i:Interaction.Behaviors>
+                                <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                         <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding Path=SelectedCategory}">
                             <ComboBox.ItemTemplate>
@@ -73,7 +86,11 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price,UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Behaviors>
+                            <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
                     <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding Path=SelectedProduct.Category}" IsSelected="True">
                         <ComboBox.ItemTemplate>
