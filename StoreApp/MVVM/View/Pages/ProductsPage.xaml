@@ -85,8 +85,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Name,UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price,UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Name}"/>
+                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedProduct.Price}">
                         <i:Interaction.Behaviors>
                             <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
                         </i:Interaction.Behaviors>
@@ -131,7 +131,6 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>
-
             </DockPanel>
 
             <DockPanel Grid.Column="2" MinWidth="100">
