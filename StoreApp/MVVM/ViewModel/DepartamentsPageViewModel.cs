@@ -101,6 +101,7 @@ namespace StoreApp.MVVM.ViewModel
         
         public RelayCommand SaveNewEmployeeCommand { get; set; }
         public RelayCommand UploadNewEmployeePhotoCommand { get; set; }
+        
         public RelayCommand OpenAddProductGridCommand { get; set; }
         
         public RelayCommand ShowAllEmployeesCommand { get; set; }
@@ -466,22 +467,26 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeleteDepartamentCommandExecute(object arg) => true;
         private async void OnAppDeleteDepartamentCommandExecute(object obj)
         {
-            await MainVM.StoreManagement.DataBaseControl.RemoveDepartamentAsync(SelectedDepartament.Id, SelectedDepartament.Name);
-            FillDepartaments();
-            FillAllEmployees();
-            FillSelectedEmployees();
-            SelectedEmployees = AllEmployees;
+            if (await MainVM.StoreManagement.DataBaseControl.RemoveDepartamentAsync(SelectedDepartament.Id, SelectedDepartament.Name))
+            {
+                FillDepartaments();
+                FillAllEmployees();
+                FillSelectedEmployees();
+                SelectedEmployees = AllEmployees;
+            }
         }
 
         private bool CanAppSaveNewEmployeeCommandExecute(object arg) => true;
         private async void OnAppSaveNewEmployeeCommandExecute(object obj)
-        { 
-            await MainVM.StoreManagement.DataBaseControl.AddEmployeeAsync(NewEmployee.Login, NewEmployee.Password,
-                    NewEmployee.AccessLevel, NewEmployee.Name, NewEmployee.Surname, NewEmployee.Email,
-                    NewEmployee.Department, NewEmployee.PhoneNumber); 
-            FillDepartaments(SelectedDepartament);
-            FillAllEmployees();
-            FillSelectedEmployees();
+        {
+            if (await MainVM.StoreManagement.DataBaseControl.AddEmployeeAsync(NewEmployee.Login, NewEmployee.Password,
+                NewEmployee.AccessLevel, NewEmployee.Name, NewEmployee.Surname, NewEmployee.Email,
+                NewEmployee.Department, NewEmployee.PhoneNumber))
+            {
+                FillDepartaments(SelectedDepartament);
+                FillAllEmployees();
+                FillSelectedEmployees();
+            }
         }
 
         private bool CanAppOpenAddProductGridCommandExecute(object arg) => true;
@@ -516,7 +521,7 @@ namespace StoreApp.MVVM.ViewModel
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    Departments = new ObservableCollection<Department>(db.Departments.Include(x => x.Employees).ToList());
+                    Departments = new ObservableCollection<Department>(db.Departments.Include(x => x.Employees).ThenInclude(t => t.AccessLevel).ToList());
                 }
             }
             catch (Exception e)
