@@ -39,14 +39,41 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => AddDepartament(Name));
         }
-        
+
+        public bool AddDepartament(string Name,byte[] Image)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Departments.Add(
+                        new Department()
+                        {
+                            Name = Name,
+                            Image=Image
+                        });
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> AddDepartamentAsync(string Name, byte[] Image)
+        {
+            return await Task.Run(() => AddDepartament(Name,Image));
+        }
+
         public bool RemoveDepartament(string Name)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name == Name));
+                    db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name.ToLower() == Name.ToLower()));
                     db.SaveChanges();
                     return true;
                 }
@@ -61,7 +88,29 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => RemoveDepartament(Name));
         }
-        
+
+        public bool RemoveDepartament(int id,string Name)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name.ToLower() == Name.ToLower() && x.Id==id));
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> RemoveDepartamentAsync(int id, string Name)
+        {
+            return await Task.Run(() => RemoveDepartament(Name,id));
+        }
+
         public bool AddProduct(string Name, decimal Price, byte[] Image, Category category)
         {
             try

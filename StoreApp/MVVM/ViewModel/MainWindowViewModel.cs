@@ -26,15 +26,15 @@ namespace StoreApp.MVVM.ViewModel
             ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
 
             HomeViewModel = new HomePageViewModel() { MainWM = this };
-            DepartamentsPageViewModel = new DepartamentsPageViewModel() {MainVM = this};
-            OrdersPageViewModel = new OrdersPageViewModel() {MainVM = this};
-            EmployeesPageViewModel = new EmployeesPageViewModel() {MainVM = this};
+            DepartamentsPageViewModel = new DepartamentsPageViewModel() { MainVM = this };
+            OrdersPageViewModel = new OrdersPageViewModel() { MainVM = this };
+            EmployeesPageViewModel = new EmployeesPageViewModel() { MainVM = this };
             ProductsPageViewModel = new ProductsPageViewModel() {MainVM = this};
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
-            DepartamentsPage = new DepartamentsPage(){DataContext = DepartamentsPageViewModel};
-            EmployeesPage = new EmployeesPage() {DataContext = EmployeesPageViewModel};
-            OrdersPage = new OrdersPage(){DataContext = OrdersPageViewModel};
+            DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
+            EmployeesPage = new EmployeesPage() { DataContext = EmployeesPageViewModel };
+            OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
             ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
 
             CurrentPage = HomePage;
