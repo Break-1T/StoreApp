@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using Microsoft.EntityFrameworkCore;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 
 namespace StoreApp.Infrastructure.DbManagement
@@ -12,6 +13,7 @@ namespace StoreApp.Infrastructure.DbManagement
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<AccessLevel> AccessLevels { get; set; }
         
         public ApplicationContext()
         {

@@ -140,8 +140,8 @@ namespace StoreApp.MVVM.ViewModel
                     {
                         db.Employees.Add(new Employee()
                         {
-                            AccessLevel = AccessLevel.Administrator.ToString(),
-                            Department = new Department() {Name = DepartamentNames.Administrator.ToString()},
+                            AccessLevel = new AccessLevel(){Name = "Администратор" },
+                            Department = new Department() {Name = "Администрирование"},
                             Email = Employee.Email,
                             Login = Employee.Login,
                             Name = Employee.Name,
@@ -154,9 +154,9 @@ namespace StoreApp.MVVM.ViewModel
                     {
                         db.Employees.Add(new Employee()
                         {
-                            AccessLevel = AccessLevel.Administrator.ToString(),
+                            AccessLevel = db.AccessLevels.FirstOrDefault(x=>x.Name== "Администратор"),
                             Department = db.Departments.FirstOrDefault(x =>
-                                x.Name == DepartamentNames.Administrator.ToString()),
+                                x.Name == "Администрирование"),
                             Email = Employee.Email,
                             Login = Employee.Login,
                             Name = Employee.Name,

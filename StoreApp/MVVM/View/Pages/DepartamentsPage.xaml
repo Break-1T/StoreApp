@@ -41,19 +41,34 @@
                     </Grid>
                     <Grid Background="White"><!--Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}"-->
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="0.6*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Name}" Cursor="IBeam"/>
-                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewProduct.Price}" Cursor="IBeam">
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Name}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Surname}" Cursor="IBeam">
                             <i:Interaction.Behaviors>
                                 <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
                             </i:Interaction.Behaviors>
                         </TextBox>
-                        <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.PhoneNumber}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Login}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Password}" Cursor="IBeam"/>
+                        <ComboBox Grid.Column="5" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=NewEmployee.AccessLevel}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Отдел" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding Path=SelectedDepartament}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -61,23 +76,38 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Grid.Column="3" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
-                                Command="{Binding Path=UploadNewProductPhotoCommand}"/>
-                        <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
-                                Command="{Binding Path=AddProductCommand}"/>
+                        <Button Grid.Column="7" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=UploadNewEmployeePhotoCommand}"/>
+                        <Button Grid.Column="8" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=SaveNewEmployeeCommand}"/>
                     </Grid>
-                    <Grid Height="{Binding Path=OpenSearchProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
+                    <Grid Background="White"><!--Height="{Binding Path=OpenSearchProductGridHeight,UpdateSourceTrigger=PropertyChanged}"-->
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.3*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="0.5*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchId,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchName,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Цена" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchPrice,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                        <Button Grid.Column="3" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
-                                Command="{Binding Path=SearchProductCommand}"/>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Id,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Surname,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Login,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Password,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=NewEmployee.AccessLevel}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Grid.Column="7" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                                Command="{Binding Path=SearchEmployeeCommand}"/>
                     </Grid>
                 </StackPanel>
                 <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeProductGridHeight,UpdateSourceTrigger=PropertyChanged}">
@@ -121,12 +151,12 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=Price,StringFormat=C}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Category.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel,StringFormat=C}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Departament.Name}" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

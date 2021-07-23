@@ -86,7 +86,8 @@ namespace StoreApp.MVVM.Model
                 OnPropertyChanged();
             }
         }
-        public string AccessLevel { get; set; }
+        
+        public AccessLevel AccessLevel { get; set; }
 
         [Required,CanBeNull]
         public byte[] Image

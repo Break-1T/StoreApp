@@ -214,7 +214,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             Password=Password,
                             PhoneNumber=PhoneNumber
                         });
-                    db.SaveChangesAsync();
+                    db.SaveChanges();
                     return true;
                 }
             }

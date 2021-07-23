@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using StoreApp.MVVM.Model;
 
 namespace StoreApp.Infrastructure.StoreManagement
 {
-    enum AccessLevel
+    class AccessLevel
     {
-        User,
-        Employee,
-        Administrator
+        public AccessLevel()
+        {
+            Employees = new ObservableCollection<Employee>();
+        }
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        
+        public ObservableCollection<Employee> Employees { get; set; }
     }
+    //enum AccessLevel
+    //{
+    //    User,
+    //    Employee,
+    //    Administrator
+    //}
 }

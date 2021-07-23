@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.ViewModel.Base;
 
@@ -30,10 +31,13 @@ namespace StoreApp.MVVM.ViewModel
 
             DeleteDepartamentCommand = new RelayCommand(OnAppDeleteDepartamentCommandExecute,
                 CanAppDeleteDepartamentCommandExecute);
-            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
-                CanAppAddProductCommandExecute);
-            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
-                CanAppUploadNewProductPhotoCommandExecute);
+
+            SaveNewEmployeeCommand = new RelayCommand(OnAppSaveNewEmployeeCommandExecute,
+                CanAppSaveNewEmployeeCommandExecute);
+
+            UploadNewEmployeePhotoCommand = new RelayCommand(OnAppUploadNewEmployeePhotoCommandExecute,
+                CanAppUploadNewEmployeePhotoCommandExecute);
+            
             OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
                 CanAppOpenAddProductGridCommandExecute);
 
@@ -44,8 +48,10 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppDeleteProductCommandExecute);
             OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
                 CanAppOpenSearchGridCommandExecute);
-            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
-                CanAppSearchProductCommandExecute);
+
+            SearchEmployeeCommand = new RelayCommand(OnAppSearchEmployeeCommandExecute,
+                CanAppSearchEmployeeCommandExecute);
+            
             OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
                 CanAppOpenChangeGridCommandExecute);
             CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
@@ -77,6 +83,7 @@ namespace StoreApp.MVVM.ViewModel
 
             FillDepartaments();
             FillAllEmployees();
+            FillAccessLevels();
             SelectedEmployees = AllEmployees;
 
             #endregion
@@ -95,15 +102,17 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand SaveNewDepartamentCommand { get; set; }
         public RelayCommand DeleteDepartamentCommand { get; set; }
         
-        public RelayCommand AddProductCommand { get; set; }
-        public RelayCommand UploadNewProductPhotoCommand { get; set; }
+        public RelayCommand SaveNewEmployeeCommand { get; set; }
+        public RelayCommand UploadNewEmployeePhotoCommand { get; set; }
         public RelayCommand OpenAddProductGridCommand { get; set; }
         
         public RelayCommand ShowAllEmployeesCommand { get; set; }
         
         public RelayCommand DeleteProductCommand { get; set; }
         public RelayCommand OpenSearchGridCommand { get; set; }
-        public RelayCommand SearchProductCommand { get; set; }
+        
+        public RelayCommand SearchEmployeeCommand { get; set; }
+        
         public RelayCommand ChangeProductPhotoCommand { get; set; }
         public RelayCommand ChangeProductCommand { get; set; }
         public RelayCommand OpenChangeGridCommand { get; set; }
@@ -127,6 +136,7 @@ namespace StoreApp.MVVM.ViewModel
         private Department _newDepartament;
         private ObservableCollection<Employee> _allEmployees;
         private Employee _newEmployee;
+        private ObservableCollection<AccessLevel> _accessLevels;
 
         #endregion
 
@@ -279,6 +289,16 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<AccessLevel> AccessLevels
+        {
+            get => _accessLevels;
+            set
+            {
+                if (Equals(value, _accessLevels)) return;
+                _accessLevels = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -319,14 +339,12 @@ namespace StoreApp.MVVM.ViewModel
                 OpenChangeProductGridHeight = 40d;
         }
 
-        private bool CanAppSearchProductCommandExecute(object arg) => true;
-        private void OnAppSearchProductCommandExecute(object obj)
+        private bool CanAppSearchEmployeeCommandExecute(object arg) => true;
+        private void OnAppSearchEmployeeCommandExecute(object obj)
         {
-            decimal Price;
-            decimal Id;
             int count = 0;
 
-            var list = new List<IEnumerable<Product>>();
+            var list = new List<IEnumerable<Employee>>();
 
             if (!string.IsNullOrEmpty(SearchPrice))
             {
@@ -455,20 +473,15 @@ namespace StoreApp.MVVM.ViewModel
             SelectedEmployees = AllEmployees;
         }
 
-        private bool CanAppAddProductCommandExecute(object arg) => true;
-        private async void OnAppAddProductCommandExecute(object obj)
-        {
-            if (NewProduct.Image.Any())
-            {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, NewProduct.Price, NewProduct.Image, SelectedDepartament);
-            }
-            else
-            {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, NewProduct.Price, SelectedDepartament);
-            }
-            FillCategories(SelectedDepartament);
-            FillAllProducts();
-            FillSelectedProducts();
+        private bool CanAppSaveNewEmployeeCommandExecute(object arg) => true;
+        private async void OnAppSaveNewEmployeeCommandExecute(object obj)
+        { 
+            await MainVM.StoreManagement.DataBaseControl.AddEmployeeAsync(NewEmployee.Login, NewEmployee.Password,
+                    NewEmployee.AccessLevel, NewEmployee.Name, NewEmployee.Surname, NewEmployee.Email,
+                    NewEmployee.Department, NewEmployee.PhoneNumber); 
+            FillDepartaments(SelectedDepartament);
+            FillAllEmployees();
+            FillSelectedEmployees();
         }
 
         private bool CanAppOpenAddProductGridCommandExecute(object arg) => true;
@@ -478,13 +491,13 @@ namespace StoreApp.MVVM.ViewModel
             OpenAddProductGridHeight = OpenAddProductGridHeight == 40 ? 0d : 40;
         }
 
-        private bool CanAppUploadNewProductPhotoCommandExecute(object arg) => true;
-        private void OnAppUploadNewProductPhotoCommandExecute(object obj)
+        private bool CanAppUploadNewEmployeePhotoCommandExecute(object arg) => true;
+        private void OnAppUploadNewEmployeePhotoCommandExecute(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.ShowDialog();
             if (dialog.FileName != null)
-                NewProduct.Image = File.ReadAllBytes(dialog.FileName);
+                NewEmployee.Image = File.ReadAllBytes(dialog.FileName);
         }
 
         private bool CanAppShowAllEmployeesCommandExecute(object arg) => true;
@@ -566,7 +579,24 @@ namespace StoreApp.MVVM.ViewModel
                 Debug.WriteLine(e.Message);
             }
         }
+        private void FillAccessLevels()
+        {
+            AccessLevels = new ObservableCollection<AccessLevel>(AllEmployees.Select(x => x.AccessLevel).Distinct().ToList());
+        }
 
         #endregion
+    }
+
+    struct SearchEmployee
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public AccessLevel AccessLevel { get; set; }
     }
 }
