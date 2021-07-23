@@ -36,8 +36,10 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppUploadNewProductPhotoCommandExecute);
             OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
                 CanAppOpenAddProductGridCommandExecute);
-            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
-                CanAppShowAllProductsCommandExecute);
+
+            ShowAllEmployeesCommand = new RelayCommand(OnAppShowAllEmployeesCommandExecute,
+                CanAppShowAllEmployeesCommandExecute);
+            
             DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
                 CanAppDeleteProductCommandExecute);
             OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
@@ -96,7 +98,9 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand AddProductCommand { get; set; }
         public RelayCommand UploadNewProductPhotoCommand { get; set; }
         public RelayCommand OpenAddProductGridCommand { get; set; }
-        public RelayCommand ShowAllProductsCommand { get; set; }
+        
+        public RelayCommand ShowAllEmployeesCommand { get; set; }
+        
         public RelayCommand DeleteProductCommand { get; set; }
         public RelayCommand OpenSearchGridCommand { get; set; }
         public RelayCommand SearchProductCommand { get; set; }
@@ -483,10 +487,10 @@ namespace StoreApp.MVVM.ViewModel
                 NewProduct.Image = File.ReadAllBytes(dialog.FileName);
         }
 
-        private bool CanAppShowAllProductsCommandExecute(object arg) => true;
-        private void OnAppShowAllProductsCommandExecute(object obj)
+        private bool CanAppShowAllEmployeesCommandExecute(object arg) => true;
+        private void OnAppShowAllEmployeesCommandExecute(object obj)
         {
-            SelectedEmployees = AllProducts;
+            SelectedEmployees = AllEmployees;
         }
 
         #endregion

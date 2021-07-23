@@ -73,10 +73,13 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name.ToLower() == Name.ToLower()));
+                    var departament = db.Departments.Where(x => x.Name.ToLower() == Name.ToLower()).FirstOrDefault();
+                    db.Entry(departament).Collection(c => c.Employees);
+                    db.Departments.Remove(departament);
                     db.SaveChanges();
                     return true;
                 }
+                
             }
             catch (Exception e)
             {
@@ -95,7 +98,9 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Departments.Remove(db.Departments.FirstOrDefault(x => x.Name.ToLower() == Name.ToLower() && x.Id==id));
+                    var departament = db.Departments.Where(x => x.Name.ToLower() == Name.ToLower() && x.Id==id).FirstOrDefault();
+                    db.Entry(departament).Collection(c => c.Employees);
+                    db.Departments.Remove(departament);
                     db.SaveChanges();
                     return true;
                 }

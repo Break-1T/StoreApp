@@ -171,7 +171,7 @@
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>
-                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllProductsCommand}"/>
+                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllEmployeesCommand}"/>
                 <ScrollViewer>
                     <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedDepartament}">
                         <ListBox.ContextMenu>
