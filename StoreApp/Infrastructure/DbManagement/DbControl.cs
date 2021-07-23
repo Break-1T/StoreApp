@@ -359,12 +359,11 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var prod = db.Products.FirstOrDefault(x => x.Id == product.Id);
+                    var prod = db.Products.Include(x=>x.Category).FirstOrDefault(x => x.Id == product.Id);
                     prod.Image = product.Image;
-                    prod.Category = product.Category;
+                    prod.Category = db.Categories.Include(x=>x.Products).FirstOrDefault(i=>i.Id==product.Category.Id);
                     prod.Name = product.Name;
                     prod.Price = product.Price;
-                    db.Entry(prod).State = EntityState.Modified;
                     db.SaveChanges();
                 }
 

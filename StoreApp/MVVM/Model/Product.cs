@@ -24,7 +24,7 @@ namespace StoreApp.MVVM.Model
 
         public decimal Price { get; set; }
 
-            [CanBeNull]
+        [CanBeNull]
         public byte[] Image { get; set; }
 
         [Required, NotNull]
