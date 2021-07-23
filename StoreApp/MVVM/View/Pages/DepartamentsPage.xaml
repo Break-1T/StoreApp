@@ -92,14 +92,14 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="0.5*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Id,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Name,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Surname,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                        <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                        <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Login,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                        <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Password,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Id,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Surname,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Login,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
+                        <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Password,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
                         <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding Path=NewEmployee.AccessLevel}">
+                                  SelectedItem="{Binding Path=SearchEmployee.AccessLevel}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name}"/>
@@ -119,14 +119,14 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment.Name}"/>
-                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment.Price}">
+                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment}"/>
+                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment}">
                         <i:Interaction.Behaviors>
                             <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
                         </i:Interaction.Behaviors>
                     </TextBox>
                     <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding Path=SelectedDepartment.Category}" IsSelected="True">
+                              SelectedItem="{Binding Path=NewEmployee.Department}" IsSelected="True">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Name}"/>
@@ -155,8 +155,8 @@
                             <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel,StringFormat=C}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Departament.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Department.Name}" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

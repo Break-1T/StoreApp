@@ -70,10 +70,7 @@ namespace StoreApp.MVVM.ViewModel
             OpenSearchProductGridHeight = 0;
             OpenChangeProductGridHeight = 0;
 
-            SearchId = "";
-            SearchName = "";
-            SearchPrice = "";
-
+            SearchEmployee = new SearchEmployee();
             NewEmployee = new Employee();
             NewDepartament = new Department();
             SelectedDepartament = new Department();
@@ -127,9 +124,6 @@ namespace StoreApp.MVVM.ViewModel
         private ObservableCollection<Employee> _selectedEmployees;
         private double _openAddProductGridHeight;
         private double _openSearchProductGridHeight;
-        private string _searchId;
-        private string _searchPrice;
-        private string _searchName;
         private double _openChangeProductGridHeight;
         
         private ObservableCollection<Department> _departments;
@@ -206,6 +200,7 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public SearchEmployee SearchEmployee { get; set; }
 
         public double ExpanderHeight
         {
@@ -248,44 +243,13 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        public string SearchId
-        {
-            get => _searchId;
-            set
-            {
-                if (value == _searchId) return;
-                _searchId = value;
-                OnPropertyChanged();
-            }
-        }
-        public string SearchName
-        {
-            get => _searchName;
-            set
-            {
-                if (value == _searchName) return;
-                _searchName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string SearchPrice
-        {
-            get => _searchPrice;
-            set
-            {
-                if (value == _searchPrice) return;
-                _searchPrice = value;
-                OnPropertyChanged();
-            }
-        }
-
         public Department SelectedDepartment
         {
-            get => _selectedProduct1;
+            get => _selectedDepartament;
             set
             {
-                if (Equals(value, _selectedProduct1)) return;
-                _selectedProduct1 = value;
+                if (Equals(value, _selectedDepartament)) return;
+                _selectedDepartament = value;
                 OnPropertyChanged();
             }
         }
@@ -316,14 +280,14 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppChangeProductCommandExecute(object arg) => true;
         private async void OnAppChangeProductCommandExecute(object obj)
         {
-            if (await MainVM.StoreManagement.DataBaseControl.ChangeProductAsync(SelectedDepartment))
-            {
-                FillCategories(SelectedDepartament);
-                FillAllProducts();
-                FillSelectedProducts();
-                if (OpenChangeProductGridHeight == 0d)
-                    OpenChangeProductGridHeight = 40d;
-            }
+            //if (await MainVM.StoreManagement.DataBaseControl.ChangeProductAsync(SelectedDepartment))
+            //{
+            //    //FillCategories(SelectedDepartament);
+            //    //FillAllProducts();
+            //    //FillSelectedProducts();
+            //    if (OpenChangeProductGridHeight == 0d)
+            //        OpenChangeProductGridHeight = 40d;
+            //}
         }
 
         private bool CanAppCloseChangeGridCommandExecute(object arg) => true;
@@ -345,48 +309,85 @@ namespace StoreApp.MVVM.ViewModel
             int count = 0;
 
             var list = new List<IEnumerable<Employee>>();
-
-            if (!string.IsNullOrEmpty(SearchPrice))
+            int id;
+            if (!string.IsNullOrEmpty(SearchEmployee.Id))
             {
-                if (decimal.TryParse(SearchPrice.Replace(".", ","), out Price))
+                if (int.TryParse(SearchEmployee.Id.Replace(".", ","), out id))
                 {
                     count++;
-                    var tmp = AllProducts.Where(x => x.Price == Price);
+                    var tmp = AllEmployees.Where(x => x.Id == id);
                     list.Add(tmp);
                 }
                 else
                 {
                     count++;
-                    list.Add(new List<Product>());
+                    list.Add(new List<Employee>());
                 }
             }
-
-            if (!string.IsNullOrEmpty(SearchId))
-            {
-                if (decimal.TryParse(SearchId, out Id))
-                {
-                    count++;
-                    var tmp = AllProducts.Where(x => x.Id == Id);
-                    list.Add(tmp);
-                }
-                else
-                {
-                    count++;
-                    list.Add(new List<Product>());
-                }
-            }
-
-            if (!string.IsNullOrEmpty(SearchName))
+            if (!string.IsNullOrEmpty(SearchEmployee.Email))
             {
                 count++;
-                var tmp = AllProducts.Where(x => x.Name.ToLower() == SearchName.ToLower());
+                var tmp = AllEmployees.Where(x => x.Email.ToLower() == SearchEmployee.Email.ToLower());
+                list.Add(tmp);
+             
+            }
+            if (!string.IsNullOrEmpty(SearchEmployee.Password))
+            {
+                count++;
+                var tmp = AllEmployees.Where(x => x.Password.ToLower() == SearchEmployee.Password.ToLower());
+                list.Add(tmp);
+            }
+            if (!string.IsNullOrEmpty(SearchEmployee.PhoneNumber))
+            {
+                count++;
+                var tmp = AllEmployees.Where(x => x.PhoneNumber.ToLower() == SearchEmployee.PhoneNumber.ToLower());
+                list.Add(tmp);
+            }
+            if (!string.IsNullOrEmpty(SearchEmployee.Surname))
+            {
+                count++;
+                var tmp = AllEmployees.Where(x => x.Surname.ToLower() == SearchEmployee.Surname.ToLower());
                 list.Add(tmp);
             }
 
-            IEnumerable<Product> Result = new List<Product>();
+            if (!string.IsNullOrEmpty(SearchEmployee.AccessLevel.Name)) 
+            {
+                count++;
+                var tmp = AllEmployees.Where(x => x.AccessLevel.Id == SearchEmployee.AccessLevel.Id);
+                list.Add(tmp);
+            }
 
+            IEnumerable<Employee> Result = new List<Employee>();
+            //6
             switch (count)
             {
+                case 6:
+                    Result = from i in list[0]
+                        from j in list[1]
+                        from k in list[2]
+                        from f in list[3]
+                        from x in list[4]
+                        from c in list[5]
+                        where i == j && j == k && k==f && f==x && x==c
+                        select i;
+                    break;
+                case 5:
+                    Result = from i in list[0]
+                        from j in list[1]
+                        from k in list[2]
+                        from f in list[3]
+                        from x in list[4]
+                        where i == j && j == k && k == f && f == x
+                        select i;
+                    break;
+                case 4:
+                    Result = from i in list[0]
+                        from j in list[1]
+                        from k in list[2]
+                        from f in list[3]
+                        where i == j && j == k && k == f
+                        select i;
+                    break;
                 case 3:
                     Result = from i in list[0]
                              from j in list[1]
@@ -405,12 +406,11 @@ namespace StoreApp.MVVM.ViewModel
                              select i;
                     break;
                 case 0:
-                    Result = new ObservableCollection<Product>();
+                    Result = new ObservableCollection<Employee>();
                     break;
             }
 
-            SelectedEmployees = new ObservableCollection<Product>(Result);
-
+            SelectedEmployees = new ObservableCollection<Employee>(Result);
         }
 
         private bool CanAppOpenSearchGridCommandExecute(object arg) => true;
@@ -424,9 +424,9 @@ namespace StoreApp.MVVM.ViewModel
         private async void OnAppDeleteProductCommandExecute(object obj)
         {
             await MainVM.StoreManagement.DataBaseControl.RemoveProductAsync(SelectedDepartment.Name, SelectedDepartment.Id);
-            FillCategories(SelectedDepartament);
-            FillAllProducts();
-            FillSelectedProducts();
+            //FillCategories(SelectedDepartament);
+            //FillAllProducts();
+            //FillSelectedProducts();
         }
 
         private bool CanAppOdenAddNewDepartamentCommandExecute(object arg) => true;
@@ -585,18 +585,5 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         #endregion
-    }
-
-    struct SearchEmployee
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public AccessLevel AccessLevel { get; set; }
     }
 }

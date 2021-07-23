@@ -113,7 +113,7 @@ namespace StoreApp.Infrastructure.DbManagement
         }
         public async Task<bool> RemoveDepartamentAsync(int id, string Name)
         {
-            return await Task.Run(() => RemoveDepartament(Name,id));
+            return await Task.Run(() => RemoveDepartament(id,Name));
         }
 
         public bool AddProduct(string Name, decimal Price, byte[] Image, Category category)
@@ -195,7 +195,7 @@ namespace StoreApp.Infrastructure.DbManagement
             return await Task.Run(() => RemoveProduct(Name,Id));
         }
         
-        public bool AddEmployee(string Login, string Password, string accessLevel, string Name, string Surname, string Email,
+        public bool AddEmployee(string Login, string Password, AccessLevel accessLevel, string Name, string Surname, string Email,
             Department department, string PhoneNumber)
         {
             try
@@ -209,7 +209,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             Surname = Surname,
                             Department = department,
                             Email = Email,
-                            AccessLevel=accessLevel,
+                            AccessLevel=db.AccessLevels.FirstOrDefault(x=>x.Id==accessLevel.Id),
                             Login=Login,
                             Password=Password,
                             PhoneNumber=PhoneNumber
@@ -225,7 +225,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
             
         }
-        public async Task<bool> AddEmployeeAsync(string Login, string Password, string accessLevel, string Name,
+        public async Task<bool> AddEmployeeAsync(string Login, string Password, AccessLevel accessLevel, string Name,
             string Surname, string Email, Department department, string PhoneNumber)
         {
             return await Task.Run(()=>AddEmployee(Login, Password, accessLevel, Name, Surname, Email, department,
