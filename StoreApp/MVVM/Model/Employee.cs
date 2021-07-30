@@ -87,6 +87,7 @@ namespace StoreApp.MVVM.Model
             }
         }
         
+        [CanBeNull]
         public AccessLevel AccessLevel { get; set; }
 
         [Required,CanBeNull]
@@ -101,6 +102,7 @@ namespace StoreApp.MVVM.Model
             }
         }
 
+        [CanBeNull]
         public Department Department
         {
             get => _department;

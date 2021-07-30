@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
@@ -38,7 +39,6 @@ namespace StoreApp.MVVM.ViewModel
             ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
 
             CurrentPage = HomePage;
-
         }
 
 
@@ -119,30 +119,32 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppToHomePageCommandExecute(object arg) => true;
         private void OnAppToHomePageCommandExecute(object obj)
         {
-            CurrentPage = HomePage;
+            MovePage(HomePage);
         }
 
         private bool CanAppToDepartamentsPageCommandExecute(object arg) => true;
         private void OnAppToDepartamentsPageCommandExecute(object obj)
         {
-            CurrentPage = DepartamentsPage;
+            MovePage(DepartamentsPage);
+            ProductsPage.IsEnabled = false;
         }
         private bool CanAppToOrdersPageCommandExecute(object arg) => true;
         private void OnAppToOrdersPageCommandExecute(object obj)
         {
-            CurrentPage = OrdersPage;
+            MovePage(OrdersPage);
         }
 
         private bool CanAppToEmployeesPageCommandExecute(object arg) => true;
         private void OnAppToEmployeesPageCommandExecute(object obj)
         {
-            CurrentPage = EmployeesPage;
+            MovePage(EmployeesPage);
         }
 
         private bool CanAppToProductsPageCommandExecute(object arg) => true;
         private void OnAppToProductsPageCommandExecute(object obj)
         {
-            CurrentPage = ProductsPage;
+            MovePage(ProductsPage);
+            ProductsPage.IsEnabled = true;
         }
 
         //private bool CanAppWindowLoadedCommandExecute(object arg) => true;
@@ -155,5 +157,10 @@ namespace StoreApp.MVVM.ViewModel
 
         //    CurrentPage = HomePage;
         //}
+
+        private void MovePage(Page ToPage)
+        {
+            CurrentPage = ToPage;
+        }
     }
 }

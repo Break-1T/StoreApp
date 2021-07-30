@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.StoreManagement;
@@ -12,8 +13,6 @@ namespace StoreApp.Infrastructure.DbManagement
 {
     class DbControl
     {
-        public DbControl(){}
-
         public bool AddDepartament(string Name)
         {
             try
@@ -35,12 +34,13 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> AddDepartamentAsync(string Name)
         {
             return await Task.Run(() => AddDepartament(Name));
         }
 
-        public bool AddDepartament(string Name,byte[] Image)
+        public bool AddDepartament(string Name, byte[] Image)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace StoreApp.Infrastructure.DbManagement
                         new Department()
                         {
                             Name = Name,
-                            Image=Image
+                            Image = Image
                         });
                     db.SaveChanges();
                     return true;
@@ -62,9 +62,10 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> AddDepartamentAsync(string Name, byte[] Image)
         {
-            return await Task.Run(() => AddDepartament(Name,Image));
+            return await Task.Run(() => AddDepartament(Name, Image));
         }
 
         public bool RemoveDepartament(string Name)
@@ -79,7 +80,7 @@ namespace StoreApp.Infrastructure.DbManagement
                     db.SaveChanges();
                     return true;
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -87,18 +88,20 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> RemoveDepartamentAsync(string Name)
         {
             return await Task.Run(() => RemoveDepartament(Name));
         }
 
-        public bool RemoveDepartament(int id,string Name)
+        public bool RemoveDepartament(int id, string Name)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var departament = db.Departments.Where(x => x.Name.ToLower() == Name.ToLower() && x.Id==id).FirstOrDefault();
+                    var departament = db.Departments.Where(x => x.Name.ToLower() == Name.ToLower() && x.Id == id)
+                        .FirstOrDefault();
                     db.Entry(departament).Collection(c => c.Employees);
                     db.Departments.Remove(departament);
                     db.SaveChanges();
@@ -111,9 +114,10 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> RemoveDepartamentAsync(int id, string Name)
         {
-            return await Task.Run(() => RemoveDepartament(id,Name));
+            return await Task.Run(() => RemoveDepartament(id, Name));
         }
 
         public bool AddProduct(string Name, decimal Price, byte[] Image, Category category)
@@ -127,7 +131,7 @@ namespace StoreApp.Infrastructure.DbManagement
                         {
                             Name = Name,
                             Image = Image,
-                            Category= db.Categories.FirstOrDefault(x => x.Id == category.Id),
+                            Category = db.Categories.FirstOrDefault(x => x.Id == category.Id),
                             Price = Price
                         });
                     db.SaveChanges();
@@ -140,9 +144,10 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> AddProductAsync(string Name,decimal Price, byte[] Image, Category category)
+
+        public async Task<bool> AddProductAsync(string Name, decimal Price, byte[] Image, Category category)
         {
-            return await Task.Run(() => AddProduct(Name,Price, Image,category));
+            return await Task.Run(() => AddProduct(Name, Price, Image, category));
         }
 
         public bool AddProduct(string Name, decimal Price, Category category)
@@ -155,8 +160,8 @@ namespace StoreApp.Infrastructure.DbManagement
                         new Product()
                         {
                             Name = Name,
-                            Category = db.Categories.FirstOrDefault(x=>x.Id==category.Id),
-                            Price=Price
+                            Category = db.Categories.FirstOrDefault(x => x.Id == category.Id),
+                            Price = Price
                         });
                     db.SaveChanges();
                     return true;
@@ -167,19 +172,20 @@ namespace StoreApp.Infrastructure.DbManagement
                 Debug.WriteLine(e.Message);
                 return false;
             }
-        }
-        public async Task<bool> AddProductAsync(string Name, decimal Price, Category category)
-        {
-            return await Task.Run(() => AddProduct(Name,Price, category));
         }
 
-        public bool RemoveProduct(string Name,int Id)
+        public async Task<bool> AddProductAsync(string Name, decimal Price, Category category)
+        {
+            return await Task.Run(() => AddProduct(Name, Price, category));
+        }
+
+        public bool RemoveProduct(string Name, int Id)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Products.Remove(db.Products.FirstOrDefault(x => x.Name == Name && x.Id==Id));
+                    db.Products.Remove(db.Products.FirstOrDefault(x => x.Name == Name && x.Id == Id));
                     db.SaveChanges();
                     return true;
                 }
@@ -190,30 +196,31 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> RemoveProductAsync(string Name,int Id)
+
+        public async Task<bool> RemoveProductAsync(string Name, int Id)
         {
-            return await Task.Run(() => RemoveProduct(Name,Id));
+            return await Task.Run(() => RemoveProduct(Name, Id));
         }
-        
-        public bool AddEmployee(string Login, string Password, AccessLevel accessLevel, string Name, string Surname, string Email,
-            Department department, string PhoneNumber)
+
+        public bool AddEmployee(string Login, string Password, AccessLevel accessLevel, string Name, string Surname,
+            string Email, Department department, string PhoneNumber)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Employees.Add(
-                        new Employee()
-                        {
-                            Name = Name,
-                            Surname = Surname,
-                            Department = department,
-                            Email = Email,
-                            AccessLevel=db.AccessLevels.FirstOrDefault(x=>x.Id==accessLevel.Id),
-                            Login=Login,
-                            Password=Password,
-                            PhoneNumber=PhoneNumber
-                        });
+                    var emp = new Employee();
+                    emp.Name = Name;
+                    emp.Surname = Surname;
+                    emp.Email = Email;
+                    emp.AccessLevel = accessLevel!=null? db.AccessLevels.FirstOrDefault(x => x.Id == accessLevel.Id):null;
+                    emp.Login = Login;
+                    emp.Password = Password;
+                    emp.PhoneNumber = PhoneNumber;
+                    emp.Department = department != null
+                        ? db.Departments.FirstOrDefault(x => x.Id == department.Id)
+                        : null;
+                    db.Employees.Add(emp);
                     db.SaveChanges();
                     return true;
                 }
@@ -223,38 +230,39 @@ namespace StoreApp.Infrastructure.DbManagement
                 Debug.WriteLine(e.Message);
                 return false;
             }
-            
         }
+
         public async Task<bool> AddEmployeeAsync(string Login, string Password, AccessLevel accessLevel, string Name,
             string Surname, string Email, Department department, string PhoneNumber)
         {
-            return await Task.Run(()=>AddEmployee(Login, Password, accessLevel, Name, Surname, Email, department,
+            return await Task.Run(() => AddEmployee(Login, Password, accessLevel, Name, Surname, Email, department,
                 PhoneNumber));
         }
-        
-        public bool RemoveEmployee(string Name, string Surname)
+
+        public bool RemoveEmployee(int id)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Employees.Remove(db.Employees.FirstOrDefault(x => (x.Name == Name && x.Surname == Surname)));
-                    db.SaveChangesAsync();
+                    db.Employees.Remove(db.Employees.FirstOrDefault(x => x.Id==id));
+                    db.SaveChanges();
                     return true;
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
                 return false;
             }
         }
-        public async Task<bool> RemoveEmployeeAsync(string Name, string Surname)
+        public async Task<bool> RemoveEmployeeAsync(int id)
         {
-            return await Task.Run(() => RemoveEmployee(Name, Surname));
+            return await Task.Run(() => RemoveEmployee(id));
         }
 
-        public bool AddUser(string Login,string Password, string Name, string Surname, string PhoneNumber,string Email)
+        public bool AddUser(string Login, string Password, string Name, string Surname, string PhoneNumber,
+            string Email)
         {
             try
             {
@@ -268,7 +276,7 @@ namespace StoreApp.Infrastructure.DbManagement
                             Login = Login,
                             Password = Password,
                             PhoneNumber = PhoneNumber,
-                            Email=Email
+                            Email = Email
                         });
                     db.SaveChangesAsync();
                     return true;
@@ -286,7 +294,7 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => AddUser(Login, Password, Name, Surname, PhoneNumber, Email));
         }
-        
+
         public bool RemoveUser(string Login)
         {
             try
@@ -304,6 +312,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> RemoveUserAsync(string Login)
         {
             return await Task.Run(() => RemoveUser(Login));
@@ -317,7 +326,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 {
                     db.Categories.Add(new Category()
                     {
-                        Name=Name
+                        Name = Name
                     });
                     db.SaveChanges();
                 }
@@ -330,7 +339,8 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public bool AddCategory(string Name,byte[] Image)
+
+        public bool AddCategory(string Name, byte[] Image)
         {
             try
             {
@@ -339,10 +349,11 @@ namespace StoreApp.Infrastructure.DbManagement
                     db.Categories.Add(new Category()
                     {
                         Name = Name,
-                        Image=Image
+                        Image = Image
                     });
                     db.SaveChanges();
                 }
+
                 return true;
             }
             catch (Exception e)
@@ -356,9 +367,10 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => AddCategory(Name));
         }
+
         public async Task<bool> AddCategoryAsync(string Name, byte[] Image)
         {
-            return await Task.Run(() => AddCategory(Name,Image));
+            return await Task.Run(() => AddCategory(Name, Image));
         }
 
         public bool RemoveCategory(int CategoryId, string CategoryName)
@@ -367,7 +379,8 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var category = db.Categories.Where(x => x.Name == CategoryName && x.Id == CategoryId).FirstOrDefault();
+                    var category = db.Categories.Where(x => x.Name == CategoryName && x.Id == CategoryId)
+                        .FirstOrDefault();
                     db.Entry(category).Collection(c => c.Products);
                     db.Categories.Remove(category);
                     db.SaveChanges();
@@ -381,6 +394,7 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
         public async Task<bool> RemoveCategoryAsync(int CategoryId, string CategoryName)
         {
             return await Task.Run(() => RemoveCategory(CategoryId, CategoryName));
@@ -392,7 +406,7 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var result = db.Employees.FirstOrDefault(x=>x.Login==Login && x.Password==Password);
+                    var result = db.Employees.FirstOrDefault(x => x.Login == Login && x.Password == Password);
                     return result;
                 }
             }
@@ -402,9 +416,10 @@ namespace StoreApp.Infrastructure.DbManagement
                 return null;
             }
         }
+
         public async Task<Employee> FindEmployeeAsync(string Login, string Password)
         {
-            return await Task.Run(()=>FindEmployee(Login,Password));
+            return await Task.Run(() => FindEmployee(Login, Password));
         }
 
         public bool ChangeProduct(Product product)
@@ -413,9 +428,10 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    var prod = db.Products.Include(x=>x.Category).FirstOrDefault(x => x.Id == product.Id);
+                    var prod = db.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == product.Id);
                     prod.Image = product.Image;
-                    prod.Category = db.Categories.Include(x=>x.Products).FirstOrDefault(i=>i.Id==product.Category.Id);
+                    prod.Category = db.Categories.Include(x => x.Products)
+                        .FirstOrDefault(i => i.Id == product.Category.Id);
                     prod.Name = product.Name;
                     prod.Price = product.Price;
                     db.SaveChanges();
@@ -423,7 +439,7 @@ namespace StoreApp.Infrastructure.DbManagement
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -431,7 +447,39 @@ namespace StoreApp.Infrastructure.DbManagement
         }
         public async Task<bool> ChangeProductAsync(Product product)
         {
-           return await Task.Run(() => ChangeProduct(product));
+            return await Task.Run(() => ChangeProduct(product));
+        }
+
+        public bool ChangeEmployee(Employee employee)
+        {
+            try
+            {
+                using (var db = new ApplicationContext())
+                {
+                    var tmp = db.Employees.Include(x => x.Department).FirstOrDefault(t => t.Id == employee.Id);
+                    tmp.AccessLevel = employee.AccessLevel;
+                    tmp.Department = employee.Department;
+                    tmp.Email = employee.Email;
+                    tmp.Image = employee.Image;
+                    tmp.Login = employee.Login;
+                    tmp.Name = employee.Name;
+                    tmp.PhoneNumber = employee.PhoneNumber;
+                    tmp.Surname = employee.Surname;
+                    tmp.Password = employee.Password;
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+        public async Task<bool> ChangeEmployeeAsync(Employee employee)
+        {
+            return await Task.Run(() => ChangeEmployee(employee));
         }
     }
 }

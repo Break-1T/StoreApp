@@ -11,9 +11,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1400"
       Title="DepartamentsPage">
-    <Page.DataContext>
-        <vm:DepartamentsPageViewModel/>
-    </Page.DataContext>
     <Border CornerRadius="25" Margin="5" Background="#F1EDD7" >
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
@@ -34,12 +31,12 @@
                             <ColumnDefinition MaxWidth="75"/>
                         </Grid.ColumnDefinitions>
                         <Menu Grid.Column="0">
-                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
+                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddEmployeeGridCommand         }"/>
                             <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
                         </Menu>
                         <Image Grid.Column="1" Source="{Binding Path=SelectedDepartament.Image,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="60"/>
                     </Grid>
-                    <Grid Background="White"><!--Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}"-->
+                    <Grid Background="White"  Height="{Binding Path=OpenAddEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -48,8 +45,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="0.6*"/>
+                            <ColumnDefinition Width="0.68*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Name}" Cursor="IBeam"/>
                         <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Surname}" Cursor="IBeam">
@@ -60,7 +58,8 @@
                         <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.PhoneNumber}" Cursor="IBeam"/>
                         <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Login}" Cursor="IBeam"/>
                         <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Password}" Cursor="IBeam"/>
-                        <ComboBox Grid.Column="5" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Почта" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Email}" Cursor="IBeam"/>
+                        <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding Path=NewEmployee.AccessLevel}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -68,20 +67,20 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Отдел" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding Path=SelectedDepartament}">
+                        <ComboBox Grid.Column="7" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Отдел" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=NewEmployee.Department}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Grid.Column="7" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                        <Button Grid.Column="8" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                                 Command="{Binding Path=UploadNewEmployeePhotoCommand}"/>
-                        <Button Grid.Column="8" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                        <Button Grid.Column="9" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                                 Command="{Binding Path=SaveNewEmployeeCommand}"/>
                     </Grid>
-                    <Grid Background="White"><!--Height="{Binding Path=OpenSearchProductGridHeight,UpdateSourceTrigger=PropertyChanged}"-->
+                    <Grid Background="White" Height="{Binding Path=OpenSearchEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.3*"/>
                             <ColumnDefinition Width="*"/>
@@ -110,7 +109,7 @@
                                 Command="{Binding Path=SearchEmployeeCommand}"/>
                     </Grid>
                 </StackPanel>
-                <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeProductGridHeight,UpdateSourceTrigger=PropertyChanged}">
+                <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -118,45 +117,71 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя товара" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment}"/>
-                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Цена товара" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedDepartment}">
+                    <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Name}" Cursor="IBeam"/>
+                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Surname}" Cursor="IBeam">
                         <i:Interaction.Behaviors>
                             <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <ComboBox Grid.Column="2" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Имя категории" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding Path=NewEmployee.Department}" IsSelected="True">
+                    <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.PhoneNumber}" Cursor="IBeam"/>
+                    <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Login}" Cursor="IBeam"/>
+                    <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Password}" Cursor="IBeam"/>
+                    <ComboBox Grid.Column="5" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=SelectedEmployee.AccessLevel}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Name}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Column="3" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ChangeProductPhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="Hand"/>
-                    <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
-                            Command="{Binding Path=ChangeProductCommand}"/>
-                    <Button Grid.Column="5" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
+                    <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Отдел" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=SelectedEmployee.Department}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="7" Padding="0" Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding Path=ChangeEmployeePhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="Hand">
+                        <Button.ToolTip>
+                            <TextBlock Text="Изменить фото"/>
+                        </Button.ToolTip>
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Image Source="{Binding Path=SelectedEmployee.Image}"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Grid.Column="8" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                            Command="{Binding Path=ChangeEmployeeCommand}"/>
+                    <Button Grid.Column="9" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
                 </Grid>
                 <ScrollViewer DockPanel.Dock="Left" Background="White">
                     <DataGrid ItemsSource="{Binding Path=SelectedEmployees,UpdateSourceTrigger=PropertyChanged}" 
                               AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
-                              SelectedItem="{Binding Path=SelectedDepartment,UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding Path=SelectedEmployee,UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Удалить" Command="{Binding Path=DeleteProductCommand}"/>
-                                <MenuItem Header="Изменить" Command="{Binding Path=OpenChangeGridCommand}"/>
+                                <MenuItem Header="Удалить" Command="{Binding Path=DeleteEmployeeCommand}"/>
+                                <MenuItem Header="Изменить" Command="{Binding Path=OpenChangeEmployeeGridCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Department.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Department.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -176,19 +201,19 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition/>  
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Отделы" FontSize="16" Width="auto" VerticalAlignment="Center"/>
                         <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
-                                Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=OdenAddNewDepartamentCommand}">
+                                Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=OpenAddNewDepartamentCommand}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/>
+                                    <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/> 
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
                     </Grid>
-                    <StackPanel><!--Height="{Binding Path=ExpanderHeight}"-->
+                    <StackPanel Height="{Binding Path=ExpanderHeight}">
                         <TextBox materialDesign:HintAssist.Hint="Имя отдела" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Text="{Binding Path=NewDepartament.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <DockPanel Height="20">
                             <Button DockPanel.Dock="Left" MaxHeight="20" Padding="5 0 5 0" 
