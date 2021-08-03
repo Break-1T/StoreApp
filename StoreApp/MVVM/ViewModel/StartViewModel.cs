@@ -184,7 +184,7 @@ namespace StoreApp.MVVM.ViewModel
             if (await store.LoginAsync(Employee))
             {
                 Employee = await store.DataBaseControl.FindEmployeeAsync(Employee.Login, Employee.Password);
-                MainWindowViewModel mainWindow = new MainWindowViewModel() { Employee = Employee };
+                MainWindowViewModel mainWindow = new MainWindowViewModel(Employee);
                 Main = new MainWindow() { DataContext = mainWindow };
                 Main.Show();
                 App.Current.MainWindow.Close();

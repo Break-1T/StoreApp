@@ -38,21 +38,21 @@
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Почта" VerticalAlignment="Center" FontSize="15"/>
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Номер телефона" VerticalAlignment="Center" FontSize="15"/>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Name,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.Name,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Surname,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.Surname,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Login,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.Login,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Password,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.Password,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.Email,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.Email,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= MainWM.Employee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
             </Grid>
             <StackPanel DockPanel.Dock="Right" MinWidth="100" MaxWidth="200" MinHeight="100" MaxHeight="250">
-                <Image MinHeight="150" MaxHeight="150" Source="{Binding Path=MainWM.Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                <Image MinHeight="150" MaxHeight="150" Source="{Binding Path=Employee.Image,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
                 <Button Content="Загрузить фото" Command="{Binding Path=UploadImageCommand}" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
             </StackPanel>         
         </DockPanel> 

@@ -17,76 +17,11 @@ using StoreApp.MVVM.ViewModel.Base;
 
 namespace StoreApp.MVVM.ViewModel
 {
-    class DepartamentsPageViewModel:BaseViewModel,IDisposable
+    class DepartamentsPageViewModel:BaseViewModel
     {
         public DepartamentsPageViewModel()
         {
-
-            #region Commands
-
-            OpenAddNewDepartamentCommand = new RelayCommand(OnAppOpenAddNewDepartamentCommandExecute,
-                CanAppOpenAddNewDepartamentCommandExecute);
-            UploadNewDepartamentPhotoCommand = new RelayCommand(OnAppUploadNewDepartamentPhotoCommandExecute,
-                CanAppUploadNewDepartamentPhotoCommandExecute);
-            SaveNewDepartamentCommand = new RelayCommand(OnAppSaveNewDepartamentCommandExecute,
-                CanAppSaveNewDepartamentCommandExecute);
-
-            DeleteDepartamentCommand = new RelayCommand(OnAppDeleteDepartamentCommandExecute,
-                CanAppDeleteDepartamentCommandExecute);
-
-            SaveNewEmployeeCommand = new RelayCommand(OnAppSaveNewEmployeeCommandExecute,
-                CanAppSaveNewEmployeeCommandExecute);
-
-            UploadNewEmployeePhotoCommand = new RelayCommand(OnAppUploadNewEmployeePhotoCommandExecute,
-                CanAppUploadNewEmployeePhotoCommandExecute);
-
-            OpenAddEmployeeGridCommand = new RelayCommand(OnAppOpenAddEmployeeGridCommandExecute,
-                CanAppOpenAddEmployeeGridCommandExecute);
-
-            ShowAllEmployeesCommand = new RelayCommand(OnAppShowAllEmployeesCommandExecute,
-                CanAppShowAllEmployeesCommandExecute);
-            
-            DeleteEmployeeCommand = new RelayCommand(OnAppDeleteEmployeeCommandExecute,
-                CanAppDeleteEmployeeCommandExecute);
-            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
-                CanAppOpenSearchGridCommandExecute);
-
-            SearchEmployeeCommand = new RelayCommand(OnAppSearchEmployeeCommandExecute,
-                CanAppSearchEmployeeCommandExecute);
-
-            OpenChangeEmployeeGridCommand = new RelayCommand(OnAppOpenChangeEmployeeGridCommandExecute,
-                CanAppOpenChangeEmployeeGridCommandExecute);
-            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
-                CanAppCloseChangeGridCommandExecute);
-            ChangeEmployeeCommand = new RelayCommand(OnAppChangeEmployeeCommandExecute,
-                CanAppChangeEmployeeCommandExecute);
-            ChangeEmployeePhotoCommand = new RelayCommand(OnAppChangeEmployeePhotoCommandExecute,
-                CanAppChangeEmployeePhotoCommandExecute);
-
-            #endregion
-
-            #region Properties
-
-            ExpanderHeight = 0;
-            OpenAddEmployeeGridHeight = 0;
-            OpenSearchEmployeeGridHeight = 0;
-            OpenChangeEmployeeGridHeight = 0;
-
-            SearchEmployee = new SearchEmployee();
-            NewEmployee = new Employee();
-            NewDepartament = new Department();
-            SelectedDepartament = new Department();
-            
-            SelectedEmployee = new Employee();
-
-            SelectedEmployees = new ObservableCollection<Employee>();
-            Departments = new ObservableCollection<Department>();
-            
-            FillAllLists();
-            FillSelectedEmployees(AllEmployees);
-
-            #endregion
-
+            //FillViewModel();
         }
 
         #region Events
@@ -96,27 +31,27 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Commands
 
-        public RelayCommand OpenAddNewDepartamentCommand { get; set; }
-        public RelayCommand UploadNewDepartamentPhotoCommand { get; set; }
-        public RelayCommand SaveNewDepartamentCommand { get; set; }
-        public RelayCommand DeleteDepartamentCommand { get; set; }
+        public RelayCommand OpenAddNewDepartamentCommand { get; private set; }
+        public RelayCommand UploadNewDepartamentPhotoCommand { get; private set; }
+        public RelayCommand SaveNewDepartamentCommand { get; private set; }
+        public RelayCommand DeleteDepartamentCommand { get; private set; }
         
-        public RelayCommand SaveNewEmployeeCommand { get; set; }
-        public RelayCommand UploadNewEmployeePhotoCommand { get; set; }
+        public RelayCommand SaveNewEmployeeCommand { get; private set; }
+        public RelayCommand UploadNewEmployeePhotoCommand { get; private set; }
         
-        public RelayCommand OpenAddEmployeeGridCommand { get; set; }
+        public RelayCommand OpenAddEmployeeGridCommand { get; private set; }
         
-        public RelayCommand ShowAllEmployeesCommand { get; set; }
+        public RelayCommand ShowAllEmployeesCommand { get; private set; }
         
-        public RelayCommand DeleteEmployeeCommand { get; set; }
-        public RelayCommand OpenSearchGridCommand { get; set; }
+        public RelayCommand DeleteEmployeeCommand { get; private set; }
+        public RelayCommand OpenSearchGridCommand { get; private set; }
         
-        public RelayCommand SearchEmployeeCommand { get; set; }
+        public RelayCommand SearchEmployeeCommand { get; private set; }
         
-        public RelayCommand ChangeEmployeePhotoCommand { get; set; }
-        public RelayCommand ChangeEmployeeCommand { get; set; }
-        public RelayCommand OpenChangeEmployeeGridCommand { get; set; }
-        public RelayCommand CloseChangeGridCommand { get; set; }
+        public RelayCommand ChangeEmployeePhotoCommand { get; private set; }
+        public RelayCommand ChangeEmployeeCommand { get; private set; }
+        public RelayCommand OpenChangeEmployeeGridCommand { get; private set; }
+        public RelayCommand CloseChangeGridCommand { get; private set; }
 
         #endregion
 
@@ -142,7 +77,6 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Properties
 
-        public MainWindowViewModel MainVM { get; set; }
         public Department NewDepartament
         {
             get => _newDepartament;
@@ -153,7 +87,7 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        public Store StoreManagement { get; set; }
         public ObservableCollection<Department> Departments
         {
             get => _departments;
@@ -286,13 +220,14 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppChangeEmployeeCommandExecute(object arg) => true;
         private async void OnAppChangeEmployeeCommandExecute(object obj)
         {
-            if (await MainVM.StoreManagement.DataBaseControl.ChangeEmployeeAsync(SelectedEmployee))
+            if (await StoreManagement.DataBaseControl.ChangeEmployeeAsync(SelectedEmployee))
             {
                 FillAllLists(SelectedDepartament);
                 if (OpenChangeEmployeeGridHeight == 0d)
                     OpenChangeEmployeeGridHeight = 40d;
             }
         }
+
 
         private bool CanAppCloseChangeGridCommandExecute(object arg) => true;
         private void OnAppCloseChangeGridCommandExecute(object obj)
@@ -424,11 +359,10 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         private bool CanAppDeleteEmployeeCommandExecute(object arg) => true;
-        //
         private async void OnAppDeleteEmployeeCommandExecute(object obj)
         {
             string Name = SelectedEmployee.Name;
-            if (await MainVM.StoreManagement.DataBaseControl.RemoveEmployeeAsync(SelectedEmployee.Id))
+            if (await StoreManagement.DataBaseControl.RemoveEmployeeAsync(SelectedEmployee.Id))
             {
                 FillAllLists(SelectedDepartament);
                 MessageBox.Show($"Пользователь {Name} удалён");
@@ -461,14 +395,14 @@ namespace StoreApp.MVVM.ViewModel
             {
                 if (NewDepartament.Image != null && NewDepartament.Image.Any())
                 {
-                    await MainVM.StoreManagement.DataBaseControl.AddDepartamentAsync(NewDepartament.Name, NewDepartament.Image);
+                    await StoreManagement.DataBaseControl.AddDepartamentAsync(NewDepartament.Name, NewDepartament.Image);
                     FillAllLists();
                     SelectedDepartament = Departments.FirstOrDefault(x => x.Name.ToLower() == NewDepartament.Name.ToLower());
                     FillSelectedEmployees();
                 }
                 else
                 {
-                    await MainVM.StoreManagement.DataBaseControl.AddDepartamentAsync(NewDepartament.Name);
+                    await StoreManagement.DataBaseControl.AddDepartamentAsync(NewDepartament.Name);
                     FillAllLists();
                     SelectedDepartament = Departments.FirstOrDefault(x => x.Name.ToLower() == NewDepartament.Name.ToLower());
                     FillSelectedEmployees();
@@ -483,7 +417,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeleteDepartamentCommandExecute(object arg) => true;
         private async void OnAppDeleteDepartamentCommandExecute(object obj)
         {
-            if (await MainVM.StoreManagement.DataBaseControl.RemoveDepartamentAsync(SelectedDepartament.Id, SelectedDepartament.Name))
+            if (await StoreManagement.DataBaseControl.RemoveDepartamentAsync(SelectedDepartament.Id, SelectedDepartament.Name))
             {
                 FillAllLists();
                 FillSelectedEmployees(AllEmployees);
@@ -493,7 +427,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppSaveNewEmployeeCommandExecute(object arg) => true;
         private async void OnAppSaveNewEmployeeCommandExecute(object obj)
         {
-            if (await MainVM.StoreManagement.DataBaseControl.AddEmployeeAsync(NewEmployee.Login, NewEmployee.Password,
+            if (await StoreManagement.DataBaseControl.AddEmployeeAsync(NewEmployee.Login, NewEmployee.Password,
                 NewEmployee.AccessLevel, NewEmployee.Name, NewEmployee.Surname, NewEmployee.Email,
                 NewEmployee.Department, NewEmployee.PhoneNumber))
             {
@@ -559,9 +493,9 @@ namespace StoreApp.MVVM.ViewModel
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    Departments = new ObservableCollection<Department>(db.Departments.Include(x => x.Employees));
+                    Departments = new ObservableCollection<Department>(db.Departments);
                     AllEmployees = new ObservableCollection<Employee>(db.Employees.Include(x => x.Department));
-                    AccessLevels = new ObservableCollection<AccessLevel>(db.AccessLevels.Include(x => x.Employees));
+                    AccessLevels = new ObservableCollection<AccessLevel>(db.AccessLevels);
                 }
             }
             catch (Exception e)
@@ -601,9 +535,117 @@ namespace StoreApp.MVVM.ViewModel
 
         #endregion
 
-        /// <summary>
-        /// Освобождение ресурсов
-        /// </summary>
-        public void Dispose() { }
+        public override void Dispose()
+        {
+            #region Commands
+
+            OpenAddNewDepartamentCommand = null;
+            UploadNewDepartamentPhotoCommand = null;
+            SaveNewDepartamentCommand = null;
+            DeleteDepartamentCommand = null;
+            SaveNewEmployeeCommand = null;
+            UploadNewEmployeePhotoCommand = null;
+            OpenAddEmployeeGridCommand = null;
+            ShowAllEmployeesCommand = null;
+            DeleteEmployeeCommand = null;
+            OpenSearchGridCommand = null;
+            SearchEmployeeCommand = null;
+            OpenChangeEmployeeGridCommand = null;
+            CloseChangeGridCommand = null;
+            ChangeEmployeeCommand = null;
+
+            #endregion
+
+            #region Properties
+
+            ExpanderHeight = 0;
+            OpenAddEmployeeGridHeight = 0;
+            OpenSearchEmployeeGridHeight = 0;
+            OpenChangeEmployeeGridHeight = 0;
+
+            SearchEmployee = null;
+            NewEmployee = null;
+            NewDepartament = null;
+            SelectedDepartament = null;
+            SelectedEmployee = null;
+            
+            SelectedEmployees = null;
+            Departments = null;
+            AccessLevels = null;
+            AllEmployees = null;
+
+            #endregion
+            
+            base.Dispose();
+        }
+        public override void FillViewModel()
+        {
+            #region Commands
+
+            OpenAddNewDepartamentCommand = new RelayCommand(OnAppOpenAddNewDepartamentCommandExecute,
+                CanAppOpenAddNewDepartamentCommandExecute);
+            UploadNewDepartamentPhotoCommand = new RelayCommand(OnAppUploadNewDepartamentPhotoCommandExecute,
+                CanAppUploadNewDepartamentPhotoCommandExecute);
+            SaveNewDepartamentCommand = new RelayCommand(OnAppSaveNewDepartamentCommandExecute,
+                CanAppSaveNewDepartamentCommandExecute);
+
+            DeleteDepartamentCommand = new RelayCommand(OnAppDeleteDepartamentCommandExecute,
+                CanAppDeleteDepartamentCommandExecute);
+
+            SaveNewEmployeeCommand = new RelayCommand(OnAppSaveNewEmployeeCommandExecute,
+                CanAppSaveNewEmployeeCommandExecute);
+
+            UploadNewEmployeePhotoCommand = new RelayCommand(OnAppUploadNewEmployeePhotoCommandExecute,
+                CanAppUploadNewEmployeePhotoCommandExecute);
+
+            OpenAddEmployeeGridCommand = new RelayCommand(OnAppOpenAddEmployeeGridCommandExecute,
+                CanAppOpenAddEmployeeGridCommandExecute);
+
+            ShowAllEmployeesCommand = new RelayCommand(OnAppShowAllEmployeesCommandExecute,
+                CanAppShowAllEmployeesCommandExecute);
+
+            DeleteEmployeeCommand = new RelayCommand(OnAppDeleteEmployeeCommandExecute,
+                CanAppDeleteEmployeeCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
+                CanAppOpenSearchGridCommandExecute);
+
+            SearchEmployeeCommand = new RelayCommand(OnAppSearchEmployeeCommandExecute,
+                CanAppSearchEmployeeCommandExecute);
+
+            OpenChangeEmployeeGridCommand = new RelayCommand(OnAppOpenChangeEmployeeGridCommandExecute,
+                CanAppOpenChangeEmployeeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
+                CanAppCloseChangeGridCommandExecute);
+            ChangeEmployeeCommand = new RelayCommand(OnAppChangeEmployeeCommandExecute,
+                CanAppChangeEmployeeCommandExecute);
+            ChangeEmployeePhotoCommand = new RelayCommand(OnAppChangeEmployeePhotoCommandExecute,
+                CanAppChangeEmployeePhotoCommandExecute);
+
+            #endregion
+
+            #region Properties
+
+            ExpanderHeight = 0;
+            OpenAddEmployeeGridHeight = 0;
+            OpenSearchEmployeeGridHeight = 0;
+            OpenChangeEmployeeGridHeight = 0;
+
+            SearchEmployee = new SearchEmployee();
+            NewEmployee = new Employee();
+            NewDepartament = new Department();
+            SelectedDepartament = new Department();
+
+            SelectedEmployee = new Employee();
+
+            SelectedEmployees = new ObservableCollection<Employee>();
+            Departments = new ObservableCollection<Department>();
+
+            FillAllLists();
+            FillSelectedEmployees(AllEmployees);
+
+            #endregion
+            
+            base.FillViewModel();
+        }
     }
 }

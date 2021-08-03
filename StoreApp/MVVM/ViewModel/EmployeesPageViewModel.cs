@@ -11,7 +11,5 @@ namespace StoreApp.MVVM.ViewModel
         {
             
         }
-
-        public MainWindowViewModel MainVM { get; set; }
     }
 }

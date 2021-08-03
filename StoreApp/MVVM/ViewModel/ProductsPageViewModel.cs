@@ -3,21 +3,16 @@ using StoreApp.MVVM.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
-using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Annotations;
 using StoreApp.Infrastructure.DbManagement;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
-using Convert = System.Convert;
 
 namespace StoreApp.MVVM.ViewModel
 {
@@ -25,66 +20,7 @@ namespace StoreApp.MVVM.ViewModel
     {
         public ProductsPageViewModel()
         {
-
-            #region Commands
-            
-            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute,
-                CanAppAddCategoryCommandExecute);
-            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute,
-                CanAppUploadCategoryPhotoCommandExecute);
-            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
-                CanAppSaveCategoryCommandExecute);
-            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
-                CanAppDeleteCategoryCommandExecute);
-            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
-                CanAppAddProductCommandExecute);
-            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
-                CanAppUploadNewProductPhotoCommandExecute);
-            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
-                CanAppOpenAddProductGridCommandExecute);
-            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
-                CanAppShowAllProductsCommandExecute);
-            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
-                CanAppDeleteProductCommandExecute);
-            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
-                CanAppOpenSearchGridCommandExecute);
-            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
-                CanAppSearchProductCommandExecute);
-            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
-                CanAppOpenChangeGridCommandExecute);
-            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
-                CanAppCloseChangeGridCommandExecute);
-            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
-                CanAppChangeProductCommandExecute);
-            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
-                CanAppChangeProductPhotoCommandExecute);
-
-            #endregion
-
-            #region Properties
-
-            ExpanderHeight = 0;
-            OpenAddProductGridHeight = 0;
-            OpenSearchProductGridHeight = 0;
-            OpenChangeProductGridHeight = 0;
-
-            SearchId = "";
-            SearchName = "";
-            SearchPrice = "";
-
-            NewProduct = new Product();
-            Category = new Category();
-            SelectedCategory = new Category();
-
-            SelectedProducts = new ObservableCollection<Product>();
-            Categories = new ObservableCollection<Category>();
-            
-            FillCategories();
-            FillAllProducts();
-            SelectedProducts = AllProducts;
-
-            #endregion
-
+            //FillViewModel();
         }
 
         #region Events
@@ -133,7 +69,8 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Properties
 
-        public MainWindowViewModel MainVM { get; set; }
+        public Store StoreManagement { get; set; }
+        
         public Category Category
         {
             get => _category;
@@ -297,7 +234,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppChangeProductCommandExecute(object arg) => true;
         private async void OnAppChangeProductCommandExecute(object obj)
         {
-            if (await MainVM.StoreManagement.DataBaseControl.ChangeProductAsync(SelectedProduct))
+            if (await StoreManagement.DataBaseControl.ChangeProductAsync(SelectedProduct))
             {
                 FillCategories(SelectedCategory);
                 FillAllProducts();
@@ -406,7 +343,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeleteProductCommandExecute(object arg) => true;
         private async void OnAppDeleteProductCommandExecute(object obj)
         {
-            await MainVM.StoreManagement.DataBaseControl.RemoveProductAsync(SelectedProduct.Name,SelectedProduct.Id);
+            await StoreManagement.DataBaseControl.RemoveProductAsync(SelectedProduct.Name,SelectedProduct.Id);
             FillCategories(SelectedCategory);
             FillAllProducts();
             FillSelectedProducts();
@@ -432,7 +369,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (Category.Image != null && Category.Image.Any())
             {
-                await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
+                await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
                 FillCategories();
                 FillAllProducts();
                 SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
@@ -440,7 +377,7 @@ namespace StoreApp.MVVM.ViewModel
             }
             else
             {
-                await MainVM.StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
+                await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
                 FillCategories();
                 FillAllProducts();
                 SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
@@ -451,7 +388,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeleteCategoryCommandExecute(object arg) => true;
         private async void OnAppDeleteCategoryCommandExecute(object obj)
         {
-            await MainVM.StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
+            await StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
             FillCategories();
             FillAllProducts();
             FillSelectedProducts();
@@ -463,11 +400,11 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (NewProduct.Image.Any())
             {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, NewProduct.Image, SelectedCategory);
+                await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, NewProduct.Image, SelectedCategory);
             }
             else
             {
-                await MainVM.StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, SelectedCategory);
+                await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, SelectedCategory);
             }
             FillCategories(SelectedCategory);
             FillAllProducts();
@@ -522,36 +459,43 @@ namespace StoreApp.MVVM.ViewModel
                 {
                     Categories = new ObservableCollection<Category>(db.Categories.Include(x => x.Products).ToList());
                 }
+                SelectedCategory = Categories.FirstOrDefault(x => x.Id == selectedCategory.Id);
+                if (selectedCategory != null)
+                {
+                    SelectedCategory = Categories.FirstOrDefault(x => x.Id == selectedCategory.Id);
+                    FillSelectedProducts();
+                }
+                else
+                    FillSelectedProducts(AllProducts);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-            }
-            finally
-            {
-                SelectedCategory = Categories.FirstOrDefault(x=>x.Id==selectedCategory.Id);
             }
         }
         private void FillSelectedProducts()
         {
             try
             {
-                SelectedProducts = SelectedCategory != null
-                    ? new ObservableCollection<Product>(AllProducts.Where(x => x.Category.Id == SelectedCategory.Id).ToList())
-                    : new ObservableCollection<Product>();
+                if (SelectedCategory != null && AllProducts != null)
+                {
+                    SelectedProducts = new ObservableCollection<Product>(AllProducts.Where(x => (x.Category != null) && x.Category.Id == SelectedCategory.Id));
+                }
+                else
+                {
+                    FillSelectedProducts(AllProducts);
+                }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
         }
-        private void FillSelectedProducts(Category category)
+        private void FillSelectedProducts(ObservableCollection<Product> products)
         {
             try
             {
-                SelectedProducts = category != null
-                    ? new ObservableCollection<Product>(AllProducts.Where(x => x.Category.Id == category.Id).ToList())
-                    : new ObservableCollection<Product>();
+                SelectedProducts = products;
             }
             catch (Exception e)
             {
@@ -562,15 +506,144 @@ namespace StoreApp.MVVM.ViewModel
         {
             try
             {
-                AllProducts = new ObservableCollection<Product>( Categories.Select(x => x.Products).SelectMany(list=>list).ToList());
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    AllProducts = new ObservableCollection<Product>(db.Products.Include(x => x.Category).Select(t => new
+                        {
+                            CatId = t.Category.Id,
+                            CatName = t.Category.Name,
+                            PrName = t.Name,
+                            PrId = t.Id,
+                            PrImage = t.Image,
+                            PrPrice = t.Price
+                        }).AsEnumerable().Select(an => new Product()
+                        {
+                            Category = new Category() { Id = an.CatId, Name = an.CatName },
+                            Id = an.PrId,
+                            Image = an.PrImage,
+                            Name = an.PrName,
+                            Price = an.PrPrice
+                        })
+                    );
+                }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
 
-        #endregion
+        public override void FillViewModel()
+        {
+            #region Commands
 
+            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute,
+                CanAppAddCategoryCommandExecute);
+            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute,
+                CanAppUploadCategoryPhotoCommandExecute);
+            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
+                CanAppSaveCategoryCommandExecute);
+            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
+                CanAppDeleteCategoryCommandExecute);
+            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
+                CanAppAddProductCommandExecute);
+            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
+                CanAppUploadNewProductPhotoCommandExecute);
+            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
+                CanAppOpenAddProductGridCommandExecute);
+            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
+                CanAppShowAllProductsCommandExecute);
+            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
+                CanAppDeleteProductCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
+                CanAppOpenSearchGridCommandExecute);
+            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
+                CanAppSearchProductCommandExecute);
+            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
+                CanAppOpenChangeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
+                CanAppCloseChangeGridCommandExecute);
+            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
+                CanAppChangeProductCommandExecute);
+            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
+                CanAppChangeProductPhotoCommandExecute);
+
+            #endregion
+
+            #region Properties
+
+            ExpanderHeight = 0;
+            OpenAddProductGridHeight = 0;
+            OpenSearchProductGridHeight = 0;
+            OpenChangeProductGridHeight = 0;
+
+            SearchId = "";
+            SearchName = "";
+            SearchPrice = "";
+
+            StoreManagement = new Store();
+            NewProduct = new Product();
+            Category = new Category();
+            SelectedCategory = new Category();
+
+            SelectedProducts = new ObservableCollection<Product>();
+            Categories = new ObservableCollection<Category>();
+
+            FillCategories();
+            FillAllProducts();
+            SelectedProducts = AllProducts;
+
+            #endregion
+            
+            base.FillViewModel();
+        }
+        public override void Dispose()
+        {
+            #region Commands
+            
+            AddCategoryCommand = null;
+            UploadCategoryPhotoCommand = null;
+            SaveCategoryCommand = null;
+            DeleteCategoryCommand = null;
+            AddProductCommand = null;
+            UploadNewProductPhotoCommand = null;
+            OpenAddProductGridCommand = null;
+            ShowAllProductsCommand = null;
+            DeleteProductCommand = null;
+            OpenSearchGridCommand = null;
+            SearchProductCommand = null;
+            OpenChangeGridCommand = null;
+            CloseChangeGridCommand = null;
+            ChangeProductCommand = null;
+            ChangeProductPhotoCommand = null;
+            
+            #endregion
+
+            #region Properties
+
+            ExpanderHeight = 0;
+            OpenAddProductGridHeight = 0;
+            OpenSearchProductGridHeight = 0;
+            OpenChangeProductGridHeight = 0;
+
+            SearchId = null;
+            SearchName = null;
+            SearchPrice = null;
+
+            StoreManagement = null;
+            NewProduct = null;
+            Category = null;
+            SelectedCategory = null;
+
+            SelectedProducts = null;
+            Categories = null;
+            AllProducts = null;
+
+            #endregion
+
+            base.Dispose();
+        }
+
+        #endregion
     }
 }

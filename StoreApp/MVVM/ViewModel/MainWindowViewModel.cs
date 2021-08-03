@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using StoreApp.Infrastructure.Commands;
@@ -13,12 +14,13 @@ namespace StoreApp.MVVM.ViewModel
 {
     class MainWindowViewModel:BaseViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel( Employee employee)
         {
             //WindowLoadedCommand = new RelayCommand(OnAppWindowLoadedCommandExecute,
             //    CanAppWindowLoadedCommandExecute);
 
             StoreManagement = new Store();
+            this.Employee = employee;
             
             ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
             ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
@@ -26,11 +28,11 @@ namespace StoreApp.MVVM.ViewModel
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
             ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
 
-            HomeViewModel = new HomePageViewModel() { MainWM = this };
-            DepartamentsPageViewModel = new DepartamentsPageViewModel() { MainVM = this };
-            OrdersPageViewModel = new OrdersPageViewModel() { MainVM = this };
-            EmployeesPageViewModel = new EmployeesPageViewModel() { MainVM = this };
-            ProductsPageViewModel = new ProductsPageViewModel() {MainVM = this};
+            HomeViewModel = new HomePageViewModel();
+            DepartamentsPageViewModel = new DepartamentsPageViewModel();
+            OrdersPageViewModel = new OrdersPageViewModel() ;
+            EmployeesPageViewModel = new EmployeesPageViewModel();
+            ProductsPageViewModel = new ProductsPageViewModel();
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
             DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
@@ -38,7 +40,9 @@ namespace StoreApp.MVVM.ViewModel
             OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
             ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
 
-            CurrentPage = HomePage;
+            //DisposeViewModelExcept(HomeViewModel);
+            ActivatePage(HomePage);
+            GC.Collect();
         }
 
 
@@ -119,32 +123,36 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppToHomePageCommandExecute(object arg) => true;
         private void OnAppToHomePageCommandExecute(object obj)
         {
-            MovePage(HomePage);
+            ActivatePage(HomePage);
+            GC.Collect();
         }
 
         private bool CanAppToDepartamentsPageCommandExecute(object arg) => true;
         private void OnAppToDepartamentsPageCommandExecute(object obj)
         {
-            MovePage(DepartamentsPage);
-            ProductsPage.IsEnabled = false;
+            ActivatePage(DepartamentsPage);
+            GC.Collect();
         }
         private bool CanAppToOrdersPageCommandExecute(object arg) => true;
         private void OnAppToOrdersPageCommandExecute(object obj)
         {
-            MovePage(OrdersPage);
+            ActivatePage(OrdersPage);
+            GC.Collect();
+
         }
 
         private bool CanAppToEmployeesPageCommandExecute(object arg) => true;
         private void OnAppToEmployeesPageCommandExecute(object obj)
         {
-            MovePage(EmployeesPage);
+            ActivatePage(EmployeesPage);
+            GC.Collect();
         }
 
         private bool CanAppToProductsPageCommandExecute(object arg) => true;
         private void OnAppToProductsPageCommandExecute(object obj)
         {
-            MovePage(ProductsPage);
-            ProductsPage.IsEnabled = true;
+            ActivatePage(ProductsPage);
+            GC.Collect();
         }
 
         //private bool CanAppWindowLoadedCommandExecute(object arg) => true;
@@ -161,6 +169,115 @@ namespace StoreApp.MVVM.ViewModel
         private void MovePage(Page ToPage)
         {
             CurrentPage = ToPage;
+        }
+        private void DisposeViewModel<T>(T ViewModel)
+        {
+            try
+            {
+                if (ViewModel is null)
+                    return;
+                switch (ViewModel)
+                {
+                    case ProductsPageViewModel model:
+                        model.Dispose();
+                        break;
+                    case DepartamentsPageViewModel model:
+                        model.Dispose();
+                        break;
+                    case HomePageViewModel model:
+                        model.Dispose();
+                        break;
+                    case OrdersPageViewModel model:
+                        model.Dispose();
+                        break;
+                    case EmployeesPageViewModel model:
+                        model.Dispose();
+                        break;
+                    default: return;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+        private void ActivatePage(Page Page)
+        {
+            try
+            {
+                BaseViewModel ViewModel = Page.DataContext as BaseViewModel;
+
+                if (ViewModel != null && ViewModel.IsActiveViewModel)
+                {
+                    return;
+                } 
+                if(CurrentPage!=null)
+                    DisposeViewModel(CurrentPage.DataContext);
+                MovePage(Page);
+                ViewModel?.FillViewModel();
+
+                if (Page.DataContext is HomePageViewModel)
+                {
+                    ((HomePageViewModel)Page.DataContext).Employee =
+                        ((HomePageViewModel)Page.DataContext).GetEmployeeCopy(this.Employee);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+        /// <summary>
+        /// Высвобождает ресурсы всех ViewModel кроме введённой модели
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ViewModel"> ViewModel которая не должна быть очищена</param>
+        private void DisposeViewModelExcept<T>(T ViewModel)
+        {
+            try
+            {
+                if (ViewModel is null)
+                    return;
+                switch (ViewModel)
+                {
+                    case ProductsPageViewModel model:
+                        DisposeViewModel(DepartamentsPageViewModel);
+                        DisposeViewModel(HomeViewModel);
+                        DisposeViewModel(OrdersPageViewModel);
+                        DisposeViewModel(EmployeesPageViewModel);
+                        break;
+                    case DepartamentsPageViewModel model:
+                        DisposeViewModel(ProductsPageViewModel);
+                        DisposeViewModel(HomeViewModel);
+                        DisposeViewModel(OrdersPageViewModel);
+                        DisposeViewModel(EmployeesPageViewModel); 
+                        break;
+                    case HomePageViewModel model:
+                        DisposeViewModel(ProductsPageViewModel);
+                        DisposeViewModel(DepartamentsPageViewModel);
+                        DisposeViewModel(OrdersPageViewModel);
+                        DisposeViewModel(EmployeesPageViewModel); 
+                        break;
+                    case OrdersPageViewModel model:
+                        DisposeViewModel(ProductsPageViewModel);
+                        DisposeViewModel(DepartamentsPageViewModel);
+                        DisposeViewModel(HomeViewModel);
+                        DisposeViewModel(EmployeesPageViewModel); 
+                        break;
+                    case EmployeesPageViewModel model:
+                        DisposeViewModel(ProductsPageViewModel);
+                        DisposeViewModel(DepartamentsPageViewModel);
+                        DisposeViewModel(HomeViewModel);
+                        DisposeViewModel(OrdersPageViewModel); 
+                        break;
+                    default: 
+                        return;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

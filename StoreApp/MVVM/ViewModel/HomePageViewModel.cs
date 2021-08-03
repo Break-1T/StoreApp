@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.Resources;
 
@@ -14,13 +15,7 @@ namespace StoreApp.MVVM.ViewModel
     {
         public HomePageViewModel()
         {
-            EditCommand = new RelayCommand(OnAppEditCommandExecute, CanAppEditCommandExecute);
-            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute, CanAppSaveChangesCommandExecute);
-            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute, CanAppDeclineChangesCommandExecute);
-            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
-
-            ButtonsVisibility = Visibility.Hidden.ToString();
-            ToReadOnlyFields();
+            //FillViewModel();
         }
 
         #region Fields
@@ -31,13 +26,24 @@ namespace StoreApp.MVVM.ViewModel
         private bool _isReadOnlyCaretVisible;
         
         private Employee tempEmployee;
+        private Employee _employee;
 
         #endregion
 
         #region Properties
 
-        public MainWindowViewModel MainWM { get; set; }
+        public Employee Employee
+        {
+            get => _employee;
+            set
+            {
+                if (Equals(value, _employee)) return;
+                _employee = value;
+                OnPropertyChanged();
+            }
+        }
 
+        public Store StoreManagement { get; set; }
         public string ButtonsVisibility
         {
             get => _buttonsVisibility;
@@ -74,17 +80,17 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Commands
 
-        public RelayCommand EditCommand { get; }
-        public RelayCommand SaveChangesCommand { get; }
-        public RelayCommand DeclineChangesCommand { get; }
-        public RelayCommand UploadImageCommand { get; }
-
+        public RelayCommand EditCommand { get; private set; }
+        public RelayCommand SaveChangesCommand { get; private set; }
+        public RelayCommand DeclineChangesCommand { get; private set; }
+        public RelayCommand UploadImageCommand { get; private set; }
+        
         #endregion
 
         private bool CanAppEditCommandExecute(object arg) => true;
         private void OnAppEditCommandExecute(object obj)
         {
-            tempEmployee = GetEmployeeCopy(MainWM.Employee);
+            tempEmployee = GetEmployeeCopy(Employee);
             ButtonsVisibility = Visibility.Visible.ToString();
             ToReadWriteFields();
         }
@@ -92,7 +98,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeclineChangesCommandExecute(object arg) => true;
         private void OnAppDeclineChangesCommandExecute(object obj)
         {
-            MainWM.Employee = tempEmployee;
+            Employee = tempEmployee;
             ButtonsVisibility = Visibility.Hidden.ToString();
             ToReadOnlyFields();
         }
@@ -100,7 +106,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppSaveChangesCommandExecute(object arg) => true;
         private void OnAppSaveChangesCommandExecute(object obj)
         {
-            MainWM.StoreManagement.UpdateEmployee(MainWM.Employee);
+            StoreManagement.UpdateEmployee(Employee);
             tempEmployee = null;
             ButtonsVisibility = Visibility.Hidden.ToString();
             ToReadOnlyFields();
@@ -112,7 +118,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.ShowDialog();
-            MainWM.Employee.Image = File.ReadAllBytes(dialog.FileName);
+            Employee.Image = File.ReadAllBytes(dialog.FileName);
         }
 
         public void ToReadOnlyFields()
@@ -143,6 +149,32 @@ namespace StoreApp.MVVM.ViewModel
             };
         }
 
+        public override void Dispose()
+        {
+            EditCommand = null;
+            SaveChangesCommand = null;
+            DeclineChangesCommand = null;
+            UploadImageCommand = null;
+            ButtonsVisibility = null;
+            StoreManagement = null;
+            Employee = null;
+            
+            base.Dispose();
+        }
+        public override void FillViewModel()
+        {
+            EditCommand = new RelayCommand(OnAppEditCommandExecute, CanAppEditCommandExecute);
+            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute, CanAppSaveChangesCommandExecute);
+            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute, CanAppDeclineChangesCommandExecute);
+            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
+
+            Employee = new Employee();
+            StoreManagement = new Store();
+            ButtonsVisibility = Visibility.Hidden.ToString();
+            ToReadOnlyFields();
+            
+            base.FillViewModel();
+        }
     }
 
     public enum Visibility
