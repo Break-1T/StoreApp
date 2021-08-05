@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace StoreApp.MVVM.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для EmployeesPage.xaml
+    /// Логика взаимодействия для UsersPage.xaml
     /// </summary>
-    public partial class EmployeesPage : Page
+    public partial class UsersPage : Page
     {
-        public EmployeesPage()
+        public UsersPage()
         {
             InitializeComponent();
         }

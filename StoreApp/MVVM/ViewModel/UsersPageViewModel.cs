@@ -5,9 +5,9 @@ using StoreApp.MVVM.ViewModel.Base;
 
 namespace StoreApp.MVVM.ViewModel
 {
-    class EmployeesPageViewModel:BaseViewModel
+    class UsersPageViewModel:BaseViewModel
     {
-        public EmployeesPageViewModel()
+        public UsersPageViewModel()
         {
             
         }

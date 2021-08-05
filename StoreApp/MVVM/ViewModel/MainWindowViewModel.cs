@@ -23,7 +23,7 @@ namespace StoreApp.MVVM.ViewModel
             this.Employee = employee;
             
             ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
-            ToEmployeesPageCommand = new RelayCommand(OnAppToEmployeesPageCommandExecute, CanAppToEmployeesPageCommandExecute);
+            ToUsersPageCommand = new RelayCommand(OnAppToUsersPageCommandExecute, CanAppToUsersPageCommandExecute);
             ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
             ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
@@ -31,12 +31,12 @@ namespace StoreApp.MVVM.ViewModel
             HomeViewModel = new HomePageViewModel();
             DepartamentsPageViewModel = new DepartamentsPageViewModel();
             OrdersPageViewModel = new OrdersPageViewModel() ;
-            EmployeesPageViewModel = new EmployeesPageViewModel();
+            UsersPageViewModel = new UsersPageViewModel();
             ProductsPageViewModel = new ProductsPageViewModel();
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
             DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
-            EmployeesPage = new EmployeesPage() { DataContext = EmployeesPageViewModel };
+            UsersPage = new UsersPage() { DataContext = UsersPageViewModel };
             OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
             ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
 
@@ -51,7 +51,7 @@ namespace StoreApp.MVVM.ViewModel
         public HomePageViewModel HomeViewModel { get; set; }
         public DepartamentsPageViewModel DepartamentsPageViewModel { get; set; }
         public OrdersPageViewModel OrdersPageViewModel { get; set; }
-        public EmployeesPageViewModel EmployeesPageViewModel { get; set; }
+        public UsersPageViewModel UsersPageViewModel { get; set; }
         public ProductsPageViewModel ProductsPageViewModel { get; set; }
 
 
@@ -63,7 +63,7 @@ namespace StoreApp.MVVM.ViewModel
         //public RelayCommand WindowLoadedCommand { get; }
 
         public RelayCommand ToDepartamentsPageCommand { get; }
-        public RelayCommand ToEmployeesPageCommand { get; }
+        public RelayCommand ToUsersPageCommand { get; }
         public RelayCommand ToHomePageCommand { get; }
         public RelayCommand ToOrdersPageCommand { get; }
         public RelayCommand ToProductsPageCommand { get;}
@@ -113,7 +113,7 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         public DepartamentsPage DepartamentsPage { get; set; }
-        public EmployeesPage EmployeesPage { get; set; }
+        public UsersPage UsersPage { get; set; }
         public HomePage HomePage { get; set; }
         public OrdersPage OrdersPage { get; set; }
         public ProductsPage ProductsPage { get; set; }
@@ -141,10 +141,10 @@ namespace StoreApp.MVVM.ViewModel
 
         }
 
-        private bool CanAppToEmployeesPageCommandExecute(object arg) => true;
-        private void OnAppToEmployeesPageCommandExecute(object obj)
+        private bool CanAppToUsersPageCommandExecute(object arg) => true;
+        private void OnAppToUsersPageCommandExecute(object obj)
         {
-            ActivatePage(EmployeesPage);
+            ActivatePage(UsersPage);
             GC.Collect();
         }
 
@@ -160,7 +160,7 @@ namespace StoreApp.MVVM.ViewModel
         //{
         //    HomePage = new HomePage() { DataContext = HomeViewModel };
         //    DepartamentsPage = new DepartamentsPage();
-        //    EmployeesPage = new EmployeesPage();
+        //    UsersPage = new UsersPage();
         //    OrdersPage = new OrdersPage();
 
         //    CurrentPage = HomePage;
@@ -190,7 +190,7 @@ namespace StoreApp.MVVM.ViewModel
                     case OrdersPageViewModel model:
                         model.Dispose();
                         break;
-                    case EmployeesPageViewModel model:
+                    case UsersPageViewModel model:
                         model.Dispose();
                         break;
                     default: return;
@@ -244,27 +244,27 @@ namespace StoreApp.MVVM.ViewModel
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
                         DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(EmployeesPageViewModel);
+                        DisposeViewModel(UsersPageViewModel);
                         break;
                     case DepartamentsPageViewModel model:
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(HomeViewModel);
                         DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(EmployeesPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel); 
                         break;
                     case HomePageViewModel model:
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(EmployeesPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel); 
                         break;
                     case OrdersPageViewModel model:
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(EmployeesPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel); 
                         break;
-                    case EmployeesPageViewModel model:
+                    case UsersPageViewModel model:
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
