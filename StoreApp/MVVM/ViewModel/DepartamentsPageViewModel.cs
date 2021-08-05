@@ -109,7 +109,7 @@ namespace StoreApp.MVVM.ViewModel
         private double _openSearchEmployeeGridHeight;
         private double _openChangeEmployeeGridHeight;
         private double _expanderHeight;
-
+        private SearchEmployee _searchEmployee;
 
         #endregion
 
@@ -178,7 +178,17 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        public SearchEmployee SearchEmployee { get; set; }
+
+        public SearchEmployee SearchEmployee
+        {
+            get => _searchEmployee;
+            set
+            {
+                if (Equals(value, _searchEmployee)) return;
+                _searchEmployee = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double ExpanderHeight
         {
@@ -289,7 +299,7 @@ namespace StoreApp.MVVM.ViewModel
             int id;
             if (!string.IsNullOrEmpty(SearchEmployee.Id))
             {
-                if (int.TryParse(SearchEmployee.Id.Replace(".", ","), out id))
+                if (int.TryParse(SearchEmployee.Id, out id))
                 {
                     count++;
                     var tmp = AllEmployees.Where(x => x.Id == id);
