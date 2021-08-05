@@ -456,9 +456,9 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (var db = new ApplicationContext())
                 {
-                    var tmp = db.Employees.Include(x => x.Department).FirstOrDefault(t => t.Id == employee.Id);
-                    tmp.AccessLevel = employee.AccessLevel;
-                    tmp.Department = employee.Department;
+                    var tmp = db.Employees.Include(x => x.Department).Include(e=>e.AccessLevel).FirstOrDefault(t => t.Id == employee.Id);
+                    tmp.AccessLevel = db.AccessLevels.Include(x=>x.Employees).FirstOrDefault(t=>t.Id==employee.AccessLevel.Id);
+                    tmp.Department = db.Departments.Include(x=>x.Employees).FirstOrDefault(t=>t.Id==employee.Department.Id);
                     tmp.Email = employee.Email;
                     tmp.Image = employee.Image;
                     tmp.Login = employee.Login;
@@ -473,7 +473,7 @@ namespace StoreApp.Infrastructure.DbManagement
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                MessageBox.Show(e.Message);
                 return false;
             }
         }

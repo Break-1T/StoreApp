@@ -142,7 +142,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Категории" FontSize="16" Width="auto" VerticalAlignment="Center"/>                
                         <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
-                                Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=AddCategoryCommand}">
+                                Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=AddCategoryCommand,UpdateSourceTrigger=PropertyChanged}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/>

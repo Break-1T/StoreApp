@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using StoreApp.MVVM.Model;
 
 namespace StoreApp.Infrastructure.StoreManagement

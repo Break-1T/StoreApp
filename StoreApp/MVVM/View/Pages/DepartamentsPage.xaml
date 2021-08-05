@@ -51,9 +51,6 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Name}" Cursor="IBeam"/>
                         <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Surname}" Cursor="IBeam">
-                            <i:Interaction.Behaviors>
-                                <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
-                            </i:Interaction.Behaviors>
                         </TextBox>
                         <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.PhoneNumber}" Cursor="IBeam"/>
                         <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=NewEmployee.Login}" Cursor="IBeam"/>
@@ -124,9 +121,6 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Name}" Cursor="IBeam"/>
                     <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Surname}" Cursor="IBeam">
-                        <i:Interaction.Behaviors>
-                            <v:AllowableCharactersTextBoxBehavior RegularExpression="^[0-9.\-]+$" MaxLength="250"/>
-                        </i:Interaction.Behaviors>
                     </TextBox>
                     <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.PhoneNumber}" Cursor="IBeam"/>
                     <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedEmployee.Login}" Cursor="IBeam"/>
@@ -173,15 +167,15 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Почта" Binding="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Department.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path=PhoneNumber}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Path=Email}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Departament" Binding="{Binding Path=Department.Name}" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

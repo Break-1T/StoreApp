@@ -20,13 +20,52 @@ namespace StoreApp.MVVM.ViewModel
     {
         public ProductsPageViewModel()
         {
+            #region Commands
+
+            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute,
+                CanAppAddCategoryCommandExecute);
+            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute,
+                CanAppUploadCategoryPhotoCommandExecute);
+            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
+                CanAppSaveCategoryCommandExecute);
+            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
+                CanAppDeleteCategoryCommandExecute);
+            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
+                CanAppAddProductCommandExecute);
+            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
+                CanAppUploadNewProductPhotoCommandExecute);
+            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
+                CanAppOpenAddProductGridCommandExecute);
+            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
+                CanAppShowAllProductsCommandExecute);
+            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
+                CanAppDeleteProductCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
+                CanAppOpenSearchGridCommandExecute);
+            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
+                CanAppSearchProductCommandExecute);
+            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
+                CanAppOpenChangeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
+                CanAppCloseChangeGridCommandExecute);
+            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
+                CanAppChangeProductCommandExecute);
+            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
+                CanAppChangeProductPhotoCommandExecute);
+
+            #endregion
+
+            #region Properties
+
             //FillViewModel();
+            
+            #endregion
         }
 
         #region Events
 
 
-        #endregion
+            #endregion
 
         #region Commands
 
@@ -535,41 +574,6 @@ namespace StoreApp.MVVM.ViewModel
 
         public override void FillViewModel()
         {
-            #region Commands
-
-            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute,
-                CanAppAddCategoryCommandExecute);
-            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute,
-                CanAppUploadCategoryPhotoCommandExecute);
-            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
-                CanAppSaveCategoryCommandExecute);
-            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
-                CanAppDeleteCategoryCommandExecute);
-            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
-                CanAppAddProductCommandExecute);
-            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
-                CanAppUploadNewProductPhotoCommandExecute);
-            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
-                CanAppOpenAddProductGridCommandExecute);
-            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
-                CanAppShowAllProductsCommandExecute);
-            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
-                CanAppDeleteProductCommandExecute);
-            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
-                CanAppOpenSearchGridCommandExecute);
-            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
-                CanAppSearchProductCommandExecute);
-            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
-                CanAppOpenChangeGridCommandExecute);
-            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
-                CanAppCloseChangeGridCommandExecute);
-            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
-                CanAppChangeProductCommandExecute);
-            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
-                CanAppChangeProductPhotoCommandExecute);
-
-            #endregion
-
             #region Properties
 
             ExpanderHeight = 0;
@@ -599,26 +603,6 @@ namespace StoreApp.MVVM.ViewModel
         }
         public override void Dispose()
         {
-            #region Commands
-            
-            AddCategoryCommand = null;
-            UploadCategoryPhotoCommand = null;
-            SaveCategoryCommand = null;
-            DeleteCategoryCommand = null;
-            AddProductCommand = null;
-            UploadNewProductPhotoCommand = null;
-            OpenAddProductGridCommand = null;
-            ShowAllProductsCommand = null;
-            DeleteProductCommand = null;
-            OpenSearchGridCommand = null;
-            SearchProductCommand = null;
-            OpenChangeGridCommand = null;
-            CloseChangeGridCommand = null;
-            ChangeProductCommand = null;
-            ChangeProductPhotoCommand = null;
-            
-            #endregion
-
             #region Properties
 
             ExpanderHeight = 0;

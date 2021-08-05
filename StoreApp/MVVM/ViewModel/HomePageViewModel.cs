@@ -15,6 +15,12 @@ namespace StoreApp.MVVM.ViewModel
     {
         public HomePageViewModel()
         {
+            EditCommand = new RelayCommand(OnAppEditCommandExecute, CanAppEditCommandExecute);
+            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute, CanAppSaveChangesCommandExecute);
+            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute, CanAppDeclineChangesCommandExecute);
+            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
+            ButtonsVisibility = Visibility.Hidden.ToString();
+
             //FillViewModel();
         }
 
@@ -151,11 +157,6 @@ namespace StoreApp.MVVM.ViewModel
 
         public override void Dispose()
         {
-            EditCommand = null;
-            SaveChangesCommand = null;
-            DeclineChangesCommand = null;
-            UploadImageCommand = null;
-            ButtonsVisibility = null;
             StoreManagement = null;
             Employee = null;
             
@@ -163,14 +164,8 @@ namespace StoreApp.MVVM.ViewModel
         }
         public override void FillViewModel()
         {
-            EditCommand = new RelayCommand(OnAppEditCommandExecute, CanAppEditCommandExecute);
-            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute, CanAppSaveChangesCommandExecute);
-            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute, CanAppDeclineChangesCommandExecute);
-            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
-
             Employee = new Employee();
             StoreManagement = new Store();
-            ButtonsVisibility = Visibility.Hidden.ToString();
             ToReadOnlyFields();
             
             base.FillViewModel();

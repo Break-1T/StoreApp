@@ -21,13 +21,51 @@ namespace StoreApp.MVVM.ViewModel
     {
         public DepartamentsPageViewModel()
         {
+            #region Commands
+
+            OpenAddNewDepartamentCommand = new RelayCommand(OnAppOpenAddNewDepartamentCommandExecute,
+                CanAppOpenAddNewDepartamentCommandExecute);
+            UploadNewDepartamentPhotoCommand = new RelayCommand(OnAppUploadNewDepartamentPhotoCommandExecute,
+                CanAppUploadNewDepartamentPhotoCommandExecute);
+            SaveNewDepartamentCommand = new RelayCommand(OnAppSaveNewDepartamentCommandExecute,
+                CanAppSaveNewDepartamentCommandExecute);
+
+            DeleteDepartamentCommand = new RelayCommand(OnAppDeleteDepartamentCommandExecute,
+                CanAppDeleteDepartamentCommandExecute);
+
+            SaveNewEmployeeCommand = new RelayCommand(OnAppSaveNewEmployeeCommandExecute,
+                CanAppSaveNewEmployeeCommandExecute);
+
+            UploadNewEmployeePhotoCommand = new RelayCommand(OnAppUploadNewEmployeePhotoCommandExecute,
+                CanAppUploadNewEmployeePhotoCommandExecute);
+
+            OpenAddEmployeeGridCommand = new RelayCommand(OnAppOpenAddEmployeeGridCommandExecute,
+                CanAppOpenAddEmployeeGridCommandExecute);
+
+            ShowAllEmployeesCommand = new RelayCommand(OnAppShowAllEmployeesCommandExecute,
+                CanAppShowAllEmployeesCommandExecute);
+
+            DeleteEmployeeCommand = new RelayCommand(OnAppDeleteEmployeeCommandExecute,
+                CanAppDeleteEmployeeCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
+                CanAppOpenSearchGridCommandExecute);
+
+            SearchEmployeeCommand = new RelayCommand(OnAppSearchEmployeeCommandExecute,
+                CanAppSearchEmployeeCommandExecute);
+
+            OpenChangeEmployeeGridCommand = new RelayCommand(OnAppOpenChangeEmployeeGridCommandExecute,
+                CanAppOpenChangeEmployeeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
+                CanAppCloseChangeGridCommandExecute);
+            ChangeEmployeeCommand = new RelayCommand(OnAppChangeEmployeeCommandExecute,
+                CanAppChangeEmployeeCommandExecute);
+            ChangeEmployeePhotoCommand = new RelayCommand(OnAppChangeEmployeePhotoCommandExecute,
+                CanAppChangeEmployeePhotoCommandExecute);
+
+            #endregion
+            
             //FillViewModel();
         }
-
-        #region Events
-
-
-        #endregion
 
         #region Commands
 
@@ -537,25 +575,6 @@ namespace StoreApp.MVVM.ViewModel
 
         public override void Dispose()
         {
-            #region Commands
-
-            OpenAddNewDepartamentCommand = null;
-            UploadNewDepartamentPhotoCommand = null;
-            SaveNewDepartamentCommand = null;
-            DeleteDepartamentCommand = null;
-            SaveNewEmployeeCommand = null;
-            UploadNewEmployeePhotoCommand = null;
-            OpenAddEmployeeGridCommand = null;
-            ShowAllEmployeesCommand = null;
-            DeleteEmployeeCommand = null;
-            OpenSearchGridCommand = null;
-            SearchEmployeeCommand = null;
-            OpenChangeEmployeeGridCommand = null;
-            CloseChangeGridCommand = null;
-            ChangeEmployeeCommand = null;
-
-            #endregion
-
             #region Properties
 
             ExpanderHeight = 0;
@@ -563,6 +582,8 @@ namespace StoreApp.MVVM.ViewModel
             OpenSearchEmployeeGridHeight = 0;
             OpenChangeEmployeeGridHeight = 0;
 
+            StoreManagement = null;
+            
             SearchEmployee = null;
             NewEmployee = null;
             NewDepartament = null;
@@ -580,55 +601,14 @@ namespace StoreApp.MVVM.ViewModel
         }
         public override void FillViewModel()
         {
-            #region Commands
-
-            OpenAddNewDepartamentCommand = new RelayCommand(OnAppOpenAddNewDepartamentCommandExecute,
-                CanAppOpenAddNewDepartamentCommandExecute);
-            UploadNewDepartamentPhotoCommand = new RelayCommand(OnAppUploadNewDepartamentPhotoCommandExecute,
-                CanAppUploadNewDepartamentPhotoCommandExecute);
-            SaveNewDepartamentCommand = new RelayCommand(OnAppSaveNewDepartamentCommandExecute,
-                CanAppSaveNewDepartamentCommandExecute);
-
-            DeleteDepartamentCommand = new RelayCommand(OnAppDeleteDepartamentCommandExecute,
-                CanAppDeleteDepartamentCommandExecute);
-
-            SaveNewEmployeeCommand = new RelayCommand(OnAppSaveNewEmployeeCommandExecute,
-                CanAppSaveNewEmployeeCommandExecute);
-
-            UploadNewEmployeePhotoCommand = new RelayCommand(OnAppUploadNewEmployeePhotoCommandExecute,
-                CanAppUploadNewEmployeePhotoCommandExecute);
-
-            OpenAddEmployeeGridCommand = new RelayCommand(OnAppOpenAddEmployeeGridCommandExecute,
-                CanAppOpenAddEmployeeGridCommandExecute);
-
-            ShowAllEmployeesCommand = new RelayCommand(OnAppShowAllEmployeesCommandExecute,
-                CanAppShowAllEmployeesCommandExecute);
-
-            DeleteEmployeeCommand = new RelayCommand(OnAppDeleteEmployeeCommandExecute,
-                CanAppDeleteEmployeeCommandExecute);
-            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
-                CanAppOpenSearchGridCommandExecute);
-
-            SearchEmployeeCommand = new RelayCommand(OnAppSearchEmployeeCommandExecute,
-                CanAppSearchEmployeeCommandExecute);
-
-            OpenChangeEmployeeGridCommand = new RelayCommand(OnAppOpenChangeEmployeeGridCommandExecute,
-                CanAppOpenChangeEmployeeGridCommandExecute);
-            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
-                CanAppCloseChangeGridCommandExecute);
-            ChangeEmployeeCommand = new RelayCommand(OnAppChangeEmployeeCommandExecute,
-                CanAppChangeEmployeeCommandExecute);
-            ChangeEmployeePhotoCommand = new RelayCommand(OnAppChangeEmployeePhotoCommandExecute,
-                CanAppChangeEmployeePhotoCommandExecute);
-
-            #endregion
-
             #region Properties
 
             ExpanderHeight = 0;
             OpenAddEmployeeGridHeight = 0;
             OpenSearchEmployeeGridHeight = 0;
             OpenChangeEmployeeGridHeight = 0;
+
+            StoreManagement = new Store();
 
             SearchEmployee = new SearchEmployee();
             NewEmployee = new Employee();
