@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
@@ -46,7 +48,7 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Propertys
 
-        public MainWindow Main { get; set; }
+        //public MainWindow Main { get; set; }
 
         public Employee Employee { get; set; }
 
@@ -185,9 +187,11 @@ namespace StoreApp.MVVM.ViewModel
             {
                 Employee = await store.DataBaseControl.FindEmployeeAsync(Employee.Login, Employee.Password);
                 MainWindowViewModel mainWindow = new MainWindowViewModel(Employee);
-                Main = new MainWindow() { DataContext = mainWindow };
-                Main.Show();
+                
+                MainWindow Main = new MainWindow() { DataContext = mainWindow };
                 App.Current.MainWindow.Close();
+                Application.Current.MainWindow = Main;
+                Application.Current.MainWindow.Show();
             }
         }
     }

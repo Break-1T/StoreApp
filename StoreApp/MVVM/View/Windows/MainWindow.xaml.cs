@@ -20,6 +20,12 @@ namespace StoreApp.MVVM.View.Windows
         public MainWindow()
         {
             InitializeComponent();
+            this.Activated += MainWindow_Activated;
+        }
+
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            GC.Collect();
         }
     }
 }
