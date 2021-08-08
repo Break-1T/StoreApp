@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
+using System.Windows.Interactivity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
 using StoreApp.Infrastructure.StoreManagement;
@@ -25,6 +28,11 @@ namespace StoreApp.MVVM.ViewModel
         private User _selectedUser;
 
         private Store _store;
+
+        private System.Windows.Visibility _addUserGridVisibility;
+        private System.Windows.Visibility _searchUserGridVisibility;
+        private User _newUser;
+        private ObservableCollection<AccessLevel> _accessLevels;
 
         #endregion
 
@@ -50,7 +58,17 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+        public ObservableCollection<AccessLevel> AccessLevels
+        {
+            get => _accessLevels;
+            set
+            {
+                if (Equals(value, _accessLevels)) return;
+                _accessLevels = value;
+                OnPropertyChanged();
+            }
+        }
+
         public User SelectedUser
         {
             get => _selectedUser;
@@ -61,12 +79,91 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public User NewUser
+        {
+            get => _newUser;
+            set
+            {
+                if (Equals(value, _newUser)) return;
+                _newUser = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public System.Windows.Visibility AddUserGridVisibility
+        {
+            get => _addUserGridVisibility;
+            set
+            {
+                if (value == _addUserGridVisibility) return;
+                _addUserGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        public System.Windows.Visibility SearchUserGridVisibility
+        {
+            get => _searchUserGridVisibility;
+            set
+            {
+                if (value == _searchUserGridVisibility) return;
+                _searchUserGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
         #region Commands
 
         public RelayCommand DeleteUser { get; }
+
+        /// <summary>
+        /// Комманда для открытия Grid содержащего элементы добавления пользователя
+        /// </summary>
+        public RelayCommand OpenAddUserGridVisibilityCommand
+        {
+            get
+            {
+                return new RelayCommand((object x) =>
+                {
+                    AddUserGridVisibility = AddUserGridVisibility == System.Windows.Visibility.Visible? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+                    SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
+                }, (object x) => true);
+            }
+        }
+        /// <summary>
+        /// Комманда для открытия Grid содержащего элементы поиска пользователя
+        /// </summary>
+        public RelayCommand OpenSearchUserGridVisibilityCommand
+        {
+            get
+            {
+                return new RelayCommand((object x) =>
+                {
+                    AddUserGridVisibility = System.Windows.Visibility.Collapsed;
+                    SearchUserGridVisibility = SearchUserGridVisibility == System.Windows.Visibility.Visible? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+                }, (object x) => true);
+            }
+        }
+        /// <summary>
+        /// Комманда для записи фото в нового юзера
+        /// </summary>
+        public RelayCommand AddNewUserPhoto
+        {
+            get => new RelayCommand((x) =>
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog();
+                try
+                {
+                    NewUser.Image = File.ReadAllBytes(dialog.FileName);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            },(x)=>true);
+        }
 
         #endregion
 
@@ -114,13 +211,32 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
+        public void FillAccessLevels()
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    AccessLevels = new ObservableCollection<AccessLevel>(db.AccessLevels.Include(x=>x.Users));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
 
         public override void Dispose()
         {
             Users = null;
             Orders = null;
+            AccessLevels = null;
+
             SelectedUser = null;
 
+            AddUserGridVisibility = System.Windows.Visibility.Collapsed;
+            SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
+            
             _store = null;
 
             base.Dispose();
@@ -130,12 +246,19 @@ namespace StoreApp.MVVM.ViewModel
         {
             Users = new ObservableCollection<User>();
             Orders = new ObservableCollection<Order>();
+            AccessLevels = new ObservableCollection<AccessLevel>();
 
             SelectedUser = new User();
             _store = new Store();
 
+            NewUser = new User();
+
+            AddUserGridVisibility = System.Windows.Visibility.Collapsed;
+            SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
+
             FillOrders();
             FillUsers();
+            FillAccessLevels();
 
             base.FillViewModel();
         }

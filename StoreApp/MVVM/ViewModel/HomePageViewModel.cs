@@ -171,10 +171,4 @@ namespace StoreApp.MVVM.ViewModel
             base.FillViewModel();
         }
     }
-
-    public enum Visibility
-    {
-        Visible,
-        Hidden
-    }
 }

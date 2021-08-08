@@ -21,6 +21,7 @@ namespace StoreApp.MVVM.ViewModel
     {
         public DepartamentsPageViewModel()
         {
+            
             #region Commands
 
             OpenAddNewDepartamentCommand = new RelayCommand(OnAppOpenAddNewDepartamentCommandExecute,
