@@ -295,27 +295,29 @@ namespace StoreApp.Infrastructure.DbManagement
             return await Task.Run(() => AddUser(Login, Password, Name, Surname, PhoneNumber, Email));
         }
 
-        public bool RemoveUser(string Login)
+        public bool RemoveUser(int Id)
         {
             try
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Users.Remove(db.Users.FirstOrDefault(x => x.Login == Login));
-                    db.SaveChangesAsync();
+                    User user = db.Users.Include(t=>t.Orders).Include(e=>e.AccessLevel).FirstOrDefault(x => x.Id == Id);
+                    if (user == null) return false;
+                    db.Users.Remove(user);
+                    db.SaveChanges();
                     return true;
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
                 return false;
             }
         }
 
-        public async Task<bool> RemoveUserAsync(string Login)
+        public async Task<bool> RemoveUserAsync(int Id)
         {
-            return await Task.Run(() => RemoveUser(Login));
+            return await Task.Run(() => RemoveUser(Id));
         }
 
         public bool AddCategory(string Name)

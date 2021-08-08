@@ -9,11 +9,13 @@ namespace StoreApp.Infrastructure.StoreManagement
         public AccessLevel()
         {
             Employees = new ObservableCollection<Employee>();
+            Users = new ObservableCollection<User>();
         }
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        
+
+        public ObservableCollection<User> Users { get; set; }
         public ObservableCollection<Employee> Employees { get; set; }
     }
     //enum AccessLevel

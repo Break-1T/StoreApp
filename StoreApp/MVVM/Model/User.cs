@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using StoreApp.Annotations;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
@@ -23,6 +24,7 @@ namespace StoreApp.MVVM.Model
         [CanBeNull]
         public byte[] Image { get; set; }
 
+        public AccessLevel AccessLevel { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
     }
 }
