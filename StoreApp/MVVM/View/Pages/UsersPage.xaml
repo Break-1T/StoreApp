@@ -9,6 +9,15 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="UsersPage" Background="Gray">
+    <Page.Resources>
+        <Style x:Key="ShowCloseAddUserGrid" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ShowAddGridMenuItem,Path=IsPressed}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
     <Page.DataContext>
         <vm:UsersPageViewModel/>
     </Page.DataContext>
@@ -20,7 +29,7 @@
                     <ColumnDefinition MaxWidth="75"/>
                 </Grid.ColumnDefinitions>
                 <Menu Grid.Column="0">
-                    <MenuItem Header="Добавить" Height="45"/>
+                    <MenuItem x:Name="ShowAddGridMenuItem" Header="Добавить" Height="45"/>
                     <MenuItem Header="Поиск" Height="45"/>
                 </Menu>
                 <Image Grid.Column="1" Source="{Binding Path=SelectedDepartament.Image,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="60"/>
