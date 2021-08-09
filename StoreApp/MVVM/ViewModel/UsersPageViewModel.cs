@@ -17,7 +17,8 @@ namespace StoreApp.MVVM.ViewModel
     {
         public UsersPageViewModel()
         {
-            DeleteUser = new RelayCommand(OnDeleteUserExecute, CanDeleteUserExecute);
+            DeleteUserCommand = new RelayCommand(OnDeleteUserCommandExecute, CanDeleteUserCommandExecute);
+            AddNewUserCommand = new RelayCommand(OnAddNewUserCommandExecute, CanAddNewUserCommandExecute);
         }
 
         #region Fields
@@ -115,7 +116,8 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Commands
 
-        public RelayCommand DeleteUser { get; }
+        public RelayCommand DeleteUserCommand { get; }
+        public RelayCommand AddNewUserCommand { get; }
 
         /// <summary>
         /// Комманда для открытия Grid содержащего элементы добавления пользователя
@@ -169,13 +171,31 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Command methods
 
-        private bool CanDeleteUserExecute(object arg) => true;
-        private async void OnDeleteUserExecute(object obj)
+        private bool CanDeleteUserCommandExecute(object arg) => true;
+        private async void OnDeleteUserCommandExecute(object obj)
         {
             if (await _store.DataBaseControl.RemoveUserAsync(SelectedUser.Id))
             {
                 FillUsers();
                 FillOrders();
+            }
+        }
+
+        private bool CanAddNewUserCommandExecute(object arg) => true;
+        private async void OnAddNewUserCommandExecute(object obj)
+        {
+            try
+            {
+                if (await _store.DataBaseControl.AddUserAsync(NewUser.Login, NewUser.Password, NewUser.Name, NewUser.Surname,
+                    NewUser.PhoneNumber, NewUser.Email, NewUser.Image, NewUser.AccessLevel))
+                {
+                    FillUsers();
+                }
+                
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 

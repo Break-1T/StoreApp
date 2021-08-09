@@ -24,7 +24,9 @@ namespace StoreApp.MVVM.Model
         [CanBeNull]
         public byte[] Image { get; set; }
 
+        [CanBeNull]
         public AccessLevel AccessLevel { get; set; }
+        [CanBeNull]
         public ObservableCollection<Order> Orders { get; set; }
     }
 }

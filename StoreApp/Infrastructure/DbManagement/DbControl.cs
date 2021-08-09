@@ -262,7 +262,7 @@ namespace StoreApp.Infrastructure.DbManagement
         }
 
         public bool AddUser(string Login, string Password, string Name, string Surname, string PhoneNumber,
-            string Email)
+            string Email,byte[] Image, AccessLevel AccessLevel)
         {
             try
             {
@@ -276,23 +276,25 @@ namespace StoreApp.Infrastructure.DbManagement
                             Login = Login,
                             Password = Password,
                             PhoneNumber = PhoneNumber,
-                            Email = Email
+                            Email = Email,
+                            Image=Image,
+                            AccessLevel = AccessLevel
                         });
-                    db.SaveChangesAsync();
+                    db.SaveChanges();
                     return true;
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
                 return false;
             }
 
         }
         public async Task<bool> AddUserAsync(string Login, string Password, string Name, string Surname,
-            string PhoneNumber, string Email)
+            string PhoneNumber, string Email, byte[] Image, AccessLevel AccessLevel)
         {
-            return await Task.Run(() => AddUser(Login, Password, Name, Surname, PhoneNumber, Email));
+            return await Task.Run(() => AddUser(Login, Password, Name, Surname, PhoneNumber, Email,Image, AccessLevel));
         }
 
         public bool RemoveUser(int Id)
@@ -482,6 +484,32 @@ namespace StoreApp.Infrastructure.DbManagement
         public async Task<bool> ChangeEmployeeAsync(Employee employee)
         {
             return await Task.Run(() => ChangeEmployee(employee));
+        }
+
+        public bool AddAccessLevel(string Name)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    if (!String.IsNullOrEmpty(Name))
+                    {
+                        db.AccessLevels.Add(new AccessLevel() { Name = Name });
+                        db.SaveChanges();
+                        return true;
+                    }
+                    throw new Exception("String is null or empty!");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> AddAccessLevelAsync(string Name)
+        {
+            return await Task.Run(() => AddAccessLevel(Name));
         }
     }
 }

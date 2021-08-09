@@ -27,24 +27,26 @@ namespace StoreApp.MVVM.ViewModel
             ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
             ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
+            ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute, CanAppToAccessLevelsPageCommandExecute);
 
             HomeViewModel = new HomePageViewModel();
             DepartamentsPageViewModel = new DepartamentsPageViewModel();
             OrdersPageViewModel = new OrdersPageViewModel() ;
             UsersPageViewModel = new UsersPageViewModel();
             ProductsPageViewModel = new ProductsPageViewModel();
+            AccessLevelsViewModel = new AccessLevelsViewModel();
 
             HomePage = new HomePage() { DataContext = HomeViewModel };
             DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
             UsersPage = new UsersPage() { DataContext = UsersPageViewModel };
             OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
             ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
+            AccessLevelsPage = new AccessLevelsPage() { DataContext = AccessLevelsViewModel };
 
             //DisposeViewModelExcept(HomeViewModel);
             ActivatePage(HomePage);
             GC.Collect();
         }
-
 
         #region ViewModels
 
@@ -53,6 +55,7 @@ namespace StoreApp.MVVM.ViewModel
         public OrdersPageViewModel OrdersPageViewModel { get; set; }
         public UsersPageViewModel UsersPageViewModel { get; set; }
         public ProductsPageViewModel ProductsPageViewModel { get; set; }
+        public AccessLevelsViewModel AccessLevelsViewModel { get; set; }
 
 
 
@@ -67,6 +70,7 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand ToHomePageCommand { get; }
         public RelayCommand ToOrdersPageCommand { get; }
         public RelayCommand ToProductsPageCommand { get;}
+        public RelayCommand ToAccessLevelsPageCommand { get; }
 
         #endregion
 
@@ -117,6 +121,7 @@ namespace StoreApp.MVVM.ViewModel
         public HomePage HomePage { get; set; }
         public OrdersPage OrdersPage { get; set; }
         public ProductsPage ProductsPage { get; set; }
+        public AccessLevelsPage AccessLevelsPage { get; set; }
 
         #endregion
 
@@ -155,6 +160,13 @@ namespace StoreApp.MVVM.ViewModel
             GC.Collect();
         }
 
+
+        private bool CanAppToAccessLevelsPageCommandExecute(object arg) => true;
+        private void OnAppToAccessLevelsPageCommandExecute(object obj)
+        {
+            ActivatePage(AccessLevelsPage);
+        }
+
         //private bool CanAppWindowLoadedCommandExecute(object arg) => true;
         //private void OnAppWindowLoadedCommandExecute(object obj)
         //{
@@ -191,6 +203,9 @@ namespace StoreApp.MVVM.ViewModel
                         model.Dispose();
                         break;
                     case UsersPageViewModel model:
+                        model.Dispose();
+                        break;
+                    case AccessLevelsViewModel model:
                         model.Dispose();
                         break;
                     default: return;
@@ -241,37 +256,62 @@ namespace StoreApp.MVVM.ViewModel
                 switch (ViewModel)
                 {
                     case ProductsPageViewModel model:
+                    {
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
                         DisposeViewModel(OrdersPageViewModel);
                         DisposeViewModel(UsersPageViewModel);
+                        DisposeViewModel(AccessLevelsViewModel);
                         break;
+                    }
                     case DepartamentsPageViewModel model:
+                    {
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(HomeViewModel);
                         DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(UsersPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel);
+                        DisposeViewModel(AccessLevelsViewModel);
                         break;
+                    }
                     case HomePageViewModel model:
+                    {
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(UsersPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel);
+                        DisposeViewModel(AccessLevelsViewModel);
                         break;
+                    }
                     case OrdersPageViewModel model:
+                    {
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(UsersPageViewModel); 
+                        DisposeViewModel(UsersPageViewModel);
+                        DisposeViewModel(AccessLevelsViewModel);
                         break;
+                    }
                     case UsersPageViewModel model:
+                    {
                         DisposeViewModel(ProductsPageViewModel);
                         DisposeViewModel(DepartamentsPageViewModel);
                         DisposeViewModel(HomeViewModel);
                         DisposeViewModel(OrdersPageViewModel); 
+                        DisposeViewModel(AccessLevelsViewModel);
                         break;
-                    default: 
+                    }
+                    case AccessLevelsViewModel model:
+                    {
+                        DisposeViewModel(ProductsPageViewModel);
+                        DisposeViewModel(DepartamentsPageViewModel);
+                        DisposeViewModel(HomeViewModel);
+                        DisposeViewModel(OrdersPageViewModel);
+                        break;
+                    }
+                    default:
+                    {
                         return;
+                    }
                 }
             }
             catch (Exception e)
