@@ -114,7 +114,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> RemoveDepartamentAsync(int id, string Name)
         {
             return await Task.Run(() => RemoveDepartament(id, Name));
@@ -144,7 +143,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> AddProductAsync(string Name, decimal Price, byte[] Image, Category category)
         {
             return await Task.Run(() => AddProduct(Name, Price, Image, category));
@@ -173,7 +171,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> AddProductAsync(string Name, decimal Price, Category category)
         {
             return await Task.Run(() => AddProduct(Name, Price, category));
@@ -196,7 +193,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> RemoveProductAsync(string Name, int Id)
         {
             return await Task.Run(() => RemoveProduct(Name, Id));
@@ -231,7 +227,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> AddEmployeeAsync(string Login, string Password, AccessLevel accessLevel, string Name,
             string Surname, string Email, Department department, string PhoneNumber)
         {
@@ -316,7 +311,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> RemoveUserAsync(int Id)
         {
             return await Task.Run(() => RemoveUser(Id));
@@ -343,7 +337,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public bool AddCategory(string Name, byte[] Image)
         {
             try
@@ -371,7 +364,6 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => AddCategory(Name));
         }
-
         public async Task<bool> AddCategoryAsync(string Name, byte[] Image)
         {
             return await Task.Run(() => AddCategory(Name, Image));
@@ -398,7 +390,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
         public async Task<bool> RemoveCategoryAsync(int CategoryId, string CategoryName)
         {
             return await Task.Run(() => RemoveCategory(CategoryId, CategoryName));
@@ -420,7 +411,6 @@ namespace StoreApp.Infrastructure.DbManagement
                 return null;
             }
         }
-
         public async Task<Employee> FindEmployeeAsync(string Login, string Password)
         {
             return await Task.Run(() => FindEmployee(Login, Password));
@@ -492,7 +482,7 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    if (!String.IsNullOrEmpty(Name))
+                    if (!string.IsNullOrEmpty(Name))
                     {
                         db.AccessLevels.Add(new AccessLevel() { Name = Name });
                         db.SaveChanges();
@@ -510,6 +500,35 @@ namespace StoreApp.Infrastructure.DbManagement
         public async Task<bool> AddAccessLevelAsync(string Name)
         {
             return await Task.Run(() => AddAccessLevel(Name));
+        }
+
+        public bool DeleteAccessLevel(int Id)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    AccessLevel accessLevel = db.AccessLevels.Include(x => x.Employees).Include(t => t.Users)
+                        .FirstOrDefault(a => a.Id == Id);
+                    if (accessLevel!=null)
+                    {
+                        db.AccessLevels.Remove(accessLevel);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> DeleteAccessLevelAsync(int Id)
+        {
+            return await Task.Run(() => DeleteAccessLevel(Id));
         }
     }
 }

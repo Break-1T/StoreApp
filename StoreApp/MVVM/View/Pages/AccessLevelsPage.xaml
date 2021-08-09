@@ -15,6 +15,17 @@
     </Page.DataContext>-->
 
     <DockPanel>
+        <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedAccessLevel.Name}" Cursor="IBeam"/>
+            <Button Grid.Column="1" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                    Command="{Binding Path=ChangeEmployeeCommand}"/>
+            <Button Grid.Column="2" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
+        </Grid>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
                 <MenuItem Header="Добавить" Height="45" Command="{Binding AddAccessLevelGridVisibilityCommand}"/>
@@ -47,5 +58,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
+
     </DockPanel>
 </Page>

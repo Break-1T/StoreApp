@@ -98,9 +98,19 @@ namespace StoreApp.MVVM.ViewModel
         #region Methods
 
         private bool CanDeleteAcessLevelCommandExecute(object arg) => true;
-        private void OnDeleteAcessLevelCommandExecute(object obj)
+        private async void OnDeleteAcessLevelCommandExecute(object obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (await _store.DataBaseControl.DeleteAccessLevelAsync(SelectedAccessLevel.Id))
+                {
+                    FillAccessLevels();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private bool CanAddNewAccessLevelCommandExecute(object arg) => true;

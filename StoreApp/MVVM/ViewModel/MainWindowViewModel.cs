@@ -116,12 +116,12 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        public DepartamentsPage DepartamentsPage { get; set; }
-        public UsersPage UsersPage { get; set; }
-        public HomePage HomePage { get; set; }
-        public OrdersPage OrdersPage { get; set; }
-        public ProductsPage ProductsPage { get; set; }
-        public AccessLevelsPage AccessLevelsPage { get; set; }
+        public DepartamentsPage DepartamentsPage { get; }
+        public UsersPage UsersPage { get;}
+        public HomePage HomePage { get;}
+        public OrdersPage OrdersPage { get;}
+        public ProductsPage ProductsPage { get;}
+        public AccessLevelsPage AccessLevelsPage { get;}
 
         #endregion
 
@@ -143,7 +143,6 @@ namespace StoreApp.MVVM.ViewModel
         {
             ActivatePage(OrdersPage);
             GC.Collect();
-
         }
 
         private bool CanAppToUsersPageCommandExecute(object arg) => true;
@@ -242,82 +241,83 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
-        /// <summary>
-        /// Высвобождает ресурсы всех ViewModel кроме введённой модели
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ViewModel"> ViewModel которая не должна быть очищена</param>
-        private void DisposeViewModelExcept<T>(T ViewModel)
-        {
-            try
-            {
-                if (ViewModel is null)
-                    return;
-                switch (ViewModel)
-                {
-                    case ProductsPageViewModel model:
-                    {
-                        DisposeViewModel(DepartamentsPageViewModel);
-                        DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(UsersPageViewModel);
-                        DisposeViewModel(AccessLevelsViewModel);
-                        break;
-                    }
-                    case DepartamentsPageViewModel model:
-                    {
-                        DisposeViewModel(ProductsPageViewModel);
-                        DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(UsersPageViewModel);
-                        DisposeViewModel(AccessLevelsViewModel);
-                        break;
-                    }
-                    case HomePageViewModel model:
-                    {
-                        DisposeViewModel(ProductsPageViewModel);
-                        DisposeViewModel(DepartamentsPageViewModel);
-                        DisposeViewModel(OrdersPageViewModel);
-                        DisposeViewModel(UsersPageViewModel);
-                        DisposeViewModel(AccessLevelsViewModel);
-                        break;
-                    }
-                    case OrdersPageViewModel model:
-                    {
-                        DisposeViewModel(ProductsPageViewModel);
-                        DisposeViewModel(DepartamentsPageViewModel);
-                        DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(UsersPageViewModel);
-                        DisposeViewModel(AccessLevelsViewModel);
-                        break;
-                    }
-                    case UsersPageViewModel model:
-                    {
-                        DisposeViewModel(ProductsPageViewModel);
-                        DisposeViewModel(DepartamentsPageViewModel);
-                        DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(OrdersPageViewModel); 
-                        DisposeViewModel(AccessLevelsViewModel);
-                        break;
-                    }
-                    case AccessLevelsViewModel model:
-                    {
-                        DisposeViewModel(ProductsPageViewModel);
-                        DisposeViewModel(DepartamentsPageViewModel);
-                        DisposeViewModel(HomeViewModel);
-                        DisposeViewModel(OrdersPageViewModel);
-                        break;
-                    }
-                    default:
-                    {
-                        return;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+
+        ///// <summary>
+        ///// Высвобождает ресурсы всех ViewModel кроме введённой модели
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="ViewModel"> ViewModel которая не должна быть очищена</param>
+        //private void DisposeViewModelExcept<T>(T ViewModel)
+        //{
+        //    try
+        //    {
+        //        if (ViewModel is null)
+        //            return;
+        //        switch (ViewModel)
+        //        {
+        //            case ProductsPageViewModel model:
+        //            {
+        //                DisposeViewModel(DepartamentsPageViewModel);
+        //                DisposeViewModel(HomeViewModel);
+        //                DisposeViewModel(OrdersPageViewModel);
+        //                DisposeViewModel(UsersPageViewModel);
+        //                DisposeViewModel(AccessLevelsViewModel);
+        //                break;
+        //            }
+        //            case DepartamentsPageViewModel model:
+        //            {
+        //                DisposeViewModel(ProductsPageViewModel);
+        //                DisposeViewModel(HomeViewModel);
+        //                DisposeViewModel(OrdersPageViewModel);
+        //                DisposeViewModel(UsersPageViewModel);
+        //                DisposeViewModel(AccessLevelsViewModel);
+        //                break;
+        //            }
+        //            case HomePageViewModel model:
+        //            {
+        //                DisposeViewModel(ProductsPageViewModel);
+        //                DisposeViewModel(DepartamentsPageViewModel);
+        //                DisposeViewModel(OrdersPageViewModel);
+        //                DisposeViewModel(UsersPageViewModel);
+        //                DisposeViewModel(AccessLevelsViewModel);
+        //                break;
+        //            }
+        //            case OrdersPageViewModel model:
+        //            {
+        //                DisposeViewModel(ProductsPageViewModel);
+        //                DisposeViewModel(DepartamentsPageViewModel);
+        //                DisposeViewModel(HomeViewModel);
+        //                DisposeViewModel(UsersPageViewModel);
+        //                DisposeViewModel(AccessLevelsViewModel);
+        //                break;
+        //            }
+        //            case UsersPageViewModel model:
+        //            {
+        //                DisposeViewModel(ProductsPageViewModel);
+        //                DisposeViewModel(DepartamentsPageViewModel);
+        //                DisposeViewModel(HomeViewModel);
+        //                DisposeViewModel(OrdersPageViewModel); 
+        //                DisposeViewModel(AccessLevelsViewModel);
+        //                break;
+        //            }
+        //            case AccessLevelsViewModel model:
+        //            {
+        //                DisposeViewModel(ProductsPageViewModel);
+        //                DisposeViewModel(DepartamentsPageViewModel);
+        //                DisposeViewModel(HomeViewModel);
+        //                DisposeViewModel(OrdersPageViewModel);
+        //                break;
+        //            }
+        //            default:
+        //            {
+        //                return;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message);
+        //    }
+        //}
     }
 }
