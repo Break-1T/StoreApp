@@ -263,18 +263,21 @@ namespace StoreApp.Infrastructure.DbManagement
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    db.Users.Add(
-                        new User()
-                        {
-                            Name = Name,
-                            Surname = Surname,
-                            Login = Login,
-                            Password = Password,
-                            PhoneNumber = PhoneNumber,
-                            Email = Email,
-                            Image=Image,
-                            AccessLevel = AccessLevel
-                        });
+                    User user = new User();
+                    user.Name = Name;
+                    user.Surname = Surname;
+                    user.Login = Login;
+                    user.Password = Password;
+                    user.PhoneNumber = PhoneNumber;
+                    user.Email = Email;
+                    user.Image = Image;
+                    if (AccessLevel!=null)
+                    {
+                        user.AccessLevel = db.AccessLevels.Include(x => x.Employees).Include(t => t.Users)
+                                .FirstOrDefault(e => e.Id == AccessLevel.Id);
+                    }
+
+                    db.Users.Add(user);
                     db.SaveChanges();
                     return true;
                 }
@@ -451,8 +454,14 @@ namespace StoreApp.Infrastructure.DbManagement
                 using (var db = new ApplicationContext())
                 {
                     var tmp = db.Employees.Include(x => x.Department).Include(e=>e.AccessLevel).FirstOrDefault(t => t.Id == employee.Id);
-                    tmp.AccessLevel = db.AccessLevels.Include(x=>x.Employees).FirstOrDefault(t=>t.Id==employee.AccessLevel.Id);
-                    tmp.Department = db.Departments.Include(x=>x.Employees).FirstOrDefault(t=>t.Id==employee.Department.Id);
+                    
+                    if (employee.AccessLevel!=null)
+                        tmp.AccessLevel = db.AccessLevels.Include(x => x.Employees).FirstOrDefault(t => t.Id == employee.AccessLevel.Id);
+                    
+                    if (employee.Department != null)
+                        tmp.Department = db.Departments.Include(x => x.Employees)
+                            .FirstOrDefault(t => t.Id == employee.Department.Id);
+
                     tmp.Email = employee.Email;
                     tmp.Image = employee.Image;
                     tmp.Login = employee.Login;
@@ -529,6 +538,35 @@ namespace StoreApp.Infrastructure.DbManagement
         public async Task<bool> DeleteAccessLevelAsync(int Id)
         {
             return await Task.Run(() => DeleteAccessLevel(Id));
+        }
+
+        public bool ChangeAccessLevel(int id,string Name)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    AccessLevel accessLevel = db.AccessLevels.Include(x => x.Users).Include(t => t.Employees)
+                        .FirstOrDefault(i => i.Id == id);
+                    if (accessLevel!=null)
+                    {
+                        accessLevel.Name = Name;
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> ChangeAccessLevelAsync(int id, string Name)
+        {
+            return await Task.Run(() => ChangeAccessLevel(id, Name));
         }
     }
 }

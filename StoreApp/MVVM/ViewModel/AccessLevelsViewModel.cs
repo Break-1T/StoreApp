@@ -19,20 +19,33 @@ namespace StoreApp.MVVM.ViewModel
             AddNewAccessLevelCommand = new RelayCommand(OnAddNewAccessLevelCommandExecute, CanAddNewAccessLevelCommandExecute);
             DeleteAcessLevelCommand =
                 new RelayCommand(OnDeleteAcessLevelCommandExecute, CanDeleteAcessLevelCommandExecute);
+            AddAccessLevelGridVisibilityCommand = new RelayCommand((x) =>
+            {
+                AddAccessLevelGridVisibility = AddAccessLevelGridVisibility == System.Windows.Visibility.Collapsed
+                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            }, (e) => true);
+
+            ChangeAccessLevelCommand = new RelayCommand(OnChangeAccessLevelCommandExecute);
+
+            EditAccessLevelGridVisibilityCommand = new RelayCommand((x) =>
+            {
+                EditAccessLevelGridVisibility = System.Windows.Visibility.Visible;
+            });
+
+            CloseEditGridCommand = new RelayCommand((x) =>
+            {
+                EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         #region Commands
 
         public RelayCommand AddNewAccessLevelCommand { get; }
-        public RelayCommand AddAccessLevelGridVisibilityCommand
-        {
-            get => new RelayCommand((x) =>
-            {
-                AddAccessLevelGridVisibility = AddAccessLevelGridVisibility == System.Windows.Visibility.Collapsed
-                    ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
-            }, (e) => true);
-        }
+        public RelayCommand AddAccessLevelGridVisibilityCommand { get; }
         public RelayCommand DeleteAcessLevelCommand { get; }
+        public RelayCommand ChangeAccessLevelCommand { get; }
+        public RelayCommand EditAccessLevelGridVisibilityCommand { get; }
+        public RelayCommand CloseEditGridCommand { get; }
 
         #endregion
 
@@ -44,6 +57,7 @@ namespace StoreApp.MVVM.ViewModel
 
         private Store _store;
         private System.Windows.Visibility _addAccessLevelGridVisibility;
+        private System.Windows.Visibility _editAccessLevelGridVisibility;
 
         #endregion
 
@@ -91,11 +105,29 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
+        public System.Windows.Visibility EditAccessLevelGridVisibility
+        {
+            get => _editAccessLevelGridVisibility;
+            set
+            {
+                if (value == _editAccessLevelGridVisibility) return;
+                _editAccessLevelGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
 
         #region Methods
+
+        private async void OnChangeAccessLevelCommandExecute(object obj)
+        {
+            if (await _store.DataBaseControl.ChangeAccessLevelAsync(SelectedAccessLevel.Id,SelectedAccessLevel.Name))
+            {
+                FillAccessLevels();
+            }
+        }
 
         private bool CanDeleteAcessLevelCommandExecute(object arg) => true;
         private async void OnDeleteAcessLevelCommandExecute(object obj)
@@ -148,6 +180,9 @@ namespace StoreApp.MVVM.ViewModel
             _store = null;
             NewAccessLevel = null;
 
+            AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+            EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+
             base.Dispose();
         }
 
@@ -159,6 +194,7 @@ namespace StoreApp.MVVM.ViewModel
             NewAccessLevel = new AccessLevel();
 
             AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+            EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
 
             FillAccessLevels();
 

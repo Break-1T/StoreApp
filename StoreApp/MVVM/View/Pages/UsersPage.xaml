@@ -46,7 +46,7 @@
                 <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Text="{Binding Path=NewUser.Login}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
                 <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Text="{Binding Path=NewUser.Password}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
                 <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Почта" Text="{Binding Path=NewUser.Email}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels}">
+                <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels}" SelectedItem="{Binding Path=NewUser.AccessLevel}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Path=Name}"/>
@@ -74,13 +74,7 @@
                 <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
                 <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
                 <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа">
-                <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <TextBox Grid.Column="6" materialDesign:HintAssist.Hint="Уровень доступа" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
                 <Button Grid.Column="7" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"/>
             </Grid>
         </StackPanel>

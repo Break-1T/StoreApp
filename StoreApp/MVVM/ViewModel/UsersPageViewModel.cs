@@ -209,7 +209,7 @@ namespace StoreApp.MVVM.ViewModel
             {
                 using (ApplicationContext db = new ApplicationContext())
                 {
-                    Users = new ObservableCollection<User>(db.Users.Include(x=>x.Orders));
+                    Users = new ObservableCollection<User>(db.Users.Include(x=>x.Orders).Include(t=>t.AccessLevel));
                 }
             }
             catch (Exception e)

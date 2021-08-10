@@ -15,7 +15,7 @@
     </Page.DataContext>-->
 
     <DockPanel>
-        <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
+        <Grid DockPanel.Dock="Bottom" Background="White" Visibility="{Binding Path=EditAccessLevelGridVisibility,UpdateSourceTrigger=PropertyChanged}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="*"/>
@@ -23,8 +23,8 @@
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedAccessLevel.Name}" Cursor="IBeam"/>
             <Button Grid.Column="1" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
-                    Command="{Binding Path=ChangeEmployeeCommand}"/>
-            <Button Grid.Column="2" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseChangeGridCommand}"/>
+                    Command="{Binding Path=ChangeAccessLevelCommand}"/>
+            <Button Grid.Column="2" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseEditGridCommand}"/>
         </Grid>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
@@ -47,7 +47,7 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding Path=DeleteAcessLevelCommand}"/>
-                        <MenuItem Header="Изменить"/>
+                        <MenuItem Header="Изменить" Command="{Binding Path=EditAccessLevelGridVisibilityCommand}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
