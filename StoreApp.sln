@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp", "StoreApp\StoreApp.csproj", "{FDF41857-1FB1-46B5-872A-6CE9EF1086ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStoreApp", "UserStoreApp\UserStoreApp.csproj", "{C578CB3F-FBB5-4D42-8124-628F4B410760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserStoreApp", "UserStoreApp\UserStoreApp.csproj", "{C578CB3F-FBB5-4D42-8124-628F4B410760}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{C548797D-FE9F-467D-9BFB-97CE35DF9426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C578CB3F-FBB5-4D42-8124-628F4B410760}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C578CB3F-FBB5-4D42-8124-628F4B410760}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C578CB3F-FBB5-4D42-8124-628F4B410760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C548797D-FE9F-467D-9BFB-97CE35DF9426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C548797D-FE9F-467D-9BFB-97CE35DF9426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C548797D-FE9F-467D-9BFB-97CE35DF9426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C548797D-FE9F-467D-9BFB-97CE35DF9426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

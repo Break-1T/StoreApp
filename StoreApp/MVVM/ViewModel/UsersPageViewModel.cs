@@ -19,6 +19,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             DeleteUserCommand = new RelayCommand(OnDeleteUserCommandExecute, CanDeleteUserCommandExecute);
             AddNewUserCommand = new RelayCommand(OnAddNewUserCommandExecute, CanAddNewUserCommandExecute);
+            ChangeUserCommand = new RelayCommand(OnChangeUserCommandExecute);
         }
 
         #region Fields
@@ -34,6 +35,7 @@ namespace StoreApp.MVVM.ViewModel
         private System.Windows.Visibility _searchUserGridVisibility;
         private User _newUser;
         private ObservableCollection<AccessLevel> _accessLevels;
+        private System.Windows.Visibility _editUserGridVisibility;
 
         #endregion
 
@@ -112,12 +114,51 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
+        public System.Windows.Visibility EditUserGridVisibility
+        {
+            get => _editUserGridVisibility;
+            set
+            {
+                if (value == _editUserGridVisibility) return;
+                _editUserGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
 
         public RelayCommand DeleteUserCommand { get; }
         public RelayCommand AddNewUserCommand { get; }
+
+        /// <summary>
+        /// Комманда для открытия Grid содержащего элементы редактирования пользователя
+        /// </summary>
+        public RelayCommand OpenEditUserGridVisibilityCommand
+        {
+            get
+            {
+                return new RelayCommand((x) =>
+                {
+                    EditUserGridVisibility = System.Windows.Visibility.Visible;
+                });
+            }
+        }
+        /// <summary>
+        /// Комманда для закрытия Grid содержащего элементы редактирования пользователя
+        /// </summary>
+        public RelayCommand CloseEditUserGridVisibilityCommand
+        {
+            get
+            {
+                return new RelayCommand((x) =>
+                {
+                    EditUserGridVisibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+        }
+
 
         /// <summary>
         /// Комманда для открытия Grid содержащего элементы добавления пользователя
@@ -166,6 +207,24 @@ namespace StoreApp.MVVM.ViewModel
                 }
             },(x)=>true);
         }
+        public RelayCommand ChangeSelectedUserPhotoCommand
+        {
+            get => new RelayCommand((x) =>
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog();
+                try
+                {
+                    SelectedUser.Image = !string.IsNullOrEmpty(dialog.FileName)? File.ReadAllBytes(dialog.FileName): SelectedUser.Image;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            });
+        }
+        public RelayCommand ChangeUserCommand { get; }
+
 
         #endregion
 
@@ -192,6 +251,21 @@ namespace StoreApp.MVVM.ViewModel
                     FillUsers();
                 }
                 
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private async void OnChangeUserCommandExecute(object obj)
+        {
+            try
+            {
+                if (await _store.DataBaseControl.ChangeUserAsync(SelectedUser))
+                {
+                    FillUsers();
+                }
             }
             catch (Exception e)
             {
@@ -256,7 +330,8 @@ namespace StoreApp.MVVM.ViewModel
 
             AddUserGridVisibility = System.Windows.Visibility.Collapsed;
             SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
-            
+            EditUserGridVisibility = System.Windows.Visibility.Collapsed;
+
             _store = null;
 
             base.Dispose();
@@ -275,6 +350,7 @@ namespace StoreApp.MVVM.ViewModel
 
             AddUserGridVisibility = System.Windows.Visibility.Collapsed;
             SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
+            EditUserGridVisibility = System.Windows.Visibility.Collapsed;
 
             FillOrders();
             FillUsers();

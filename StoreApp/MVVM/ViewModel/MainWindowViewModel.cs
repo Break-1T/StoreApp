@@ -16,9 +16,6 @@ namespace StoreApp.MVVM.ViewModel
     {
         public MainWindowViewModel(Employee employee)
         {
-            //WindowLoadedCommand = new RelayCommand(OnAppWindowLoadedCommandExecute,
-            //    CanAppWindowLoadedCommandExecute);
-
             StoreManagement = new Store();
             this.Employee = employee;
             
@@ -31,7 +28,7 @@ namespace StoreApp.MVVM.ViewModel
 
             HomeViewModel = new HomePageViewModel();
             DepartamentsPageViewModel = new DepartamentsPageViewModel();
-            OrdersPageViewModel = new OrdersPageViewModel() ;
+            OrdersPageViewModel = new OrdersPageViewModel();
             UsersPageViewModel = new UsersPageViewModel();
             ProductsPageViewModel = new ProductsPageViewModel();
             AccessLevelsViewModel = new AccessLevelsViewModel();
@@ -40,10 +37,9 @@ namespace StoreApp.MVVM.ViewModel
             DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
             UsersPage = new UsersPage() { DataContext = UsersPageViewModel };
             OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
-            ProductsPage = new ProductsPage() {DataContext = ProductsPageViewModel};
+            ProductsPage = new ProductsPage() { DataContext = ProductsPageViewModel };
             AccessLevelsPage = new AccessLevelsPage() { DataContext = AccessLevelsViewModel };
 
-            //DisposeViewModelExcept(HomeViewModel);
             ActivatePage(HomePage);
             GC.Collect();
         }
@@ -62,8 +58,6 @@ namespace StoreApp.MVVM.ViewModel
         #endregion
 
         #region Commands
-
-        //public RelayCommand WindowLoadedCommand { get; }
 
         public RelayCommand ToDepartamentsPageCommand { get; }
         public RelayCommand ToUsersPageCommand { get; }
@@ -166,17 +160,6 @@ namespace StoreApp.MVVM.ViewModel
             ActivatePage(AccessLevelsPage);
         }
 
-        //private bool CanAppWindowLoadedCommandExecute(object arg) => true;
-        //private void OnAppWindowLoadedCommandExecute(object obj)
-        //{
-        //    HomePage = new HomePage() { DataContext = HomeViewModel };
-        //    DepartamentsPage = new DepartamentsPage();
-        //    UsersPage = new UsersPage();
-        //    OrdersPage = new OrdersPage();
-
-        //    CurrentPage = HomePage;
-        //}
-
         private void MovePage(Page ToPage)
         {
             CurrentPage = ToPage;
@@ -243,83 +226,5 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
-
-        ///// <summary>
-        ///// Высвобождает ресурсы всех ViewModel кроме введённой модели
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="ViewModel"> ViewModel которая не должна быть очищена</param>
-        //private void DisposeViewModelExcept<T>(T ViewModel)
-        //{
-        //    try
-        //    {
-        //        if (ViewModel is null)
-        //            return;
-        //        switch (ViewModel)
-        //        {
-        //            case ProductsPageViewModel model:
-        //                {
-        //                    DisposeViewModel(DepartamentsPageViewModel);
-        //                    DisposeViewModel(HomeViewModel);
-        //                    DisposeViewModel(OrdersPageViewModel);
-        //                    DisposeViewModel(UsersPageViewModel);
-        //                    DisposeViewModel(AccessLevelsViewModel);
-        //                    break;
-        //                }
-        //            case DepartamentsPageViewModel model:
-        //                {
-        //                    DisposeViewModel(ProductsPageViewModel);
-        //                    DisposeViewModel(HomeViewModel);
-        //                    DisposeViewModel(OrdersPageViewModel);
-        //                    DisposeViewModel(UsersPageViewModel);
-        //                    DisposeViewModel(AccessLevelsViewModel);
-        //                    break;
-        //                }
-        //            case HomePageViewModel model:
-        //                {
-        //                    DisposeViewModel(ProductsPageViewModel);
-        //                    DisposeViewModel(DepartamentsPageViewModel);
-        //                    DisposeViewModel(OrdersPageViewModel);
-        //                    DisposeViewModel(UsersPageViewModel);
-        //                    DisposeViewModel(AccessLevelsViewModel);
-        //                    break;
-        //                }
-        //            case OrdersPageViewModel model:
-        //                {
-        //                    DisposeViewModel(ProductsPageViewModel);
-        //                    DisposeViewModel(DepartamentsPageViewModel);
-        //                    DisposeViewModel(HomeViewModel);
-        //                    DisposeViewModel(UsersPageViewModel);
-        //                    DisposeViewModel(AccessLevelsViewModel);
-        //                    break;
-        //                }
-        //            case UsersPageViewModel model:
-        //                {
-        //                    DisposeViewModel(ProductsPageViewModel);
-        //                    DisposeViewModel(DepartamentsPageViewModel);
-        //                    DisposeViewModel(HomeViewModel);
-        //                    DisposeViewModel(OrdersPageViewModel);
-        //                    DisposeViewModel(AccessLevelsViewModel);
-        //                    break;
-        //                }
-        //            case AccessLevelsViewModel model:
-        //                {
-        //                    DisposeViewModel(ProductsPageViewModel);
-        //                    DisposeViewModel(DepartamentsPageViewModel);
-        //                    DisposeViewModel(HomeViewModel);
-        //                    DisposeViewModel(OrdersPageViewModel);
-        //                    break;
-        //                }
-        //            default:
-        //                {
-        //                    return;
-        //                }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.Message);
-        //    }
-        //}
     }
 }

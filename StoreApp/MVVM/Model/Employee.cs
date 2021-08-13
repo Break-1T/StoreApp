@@ -90,7 +90,7 @@ namespace StoreApp.MVVM.Model
         [CanBeNull]
         public AccessLevel AccessLevel { get; set; }
 
-        [Required,CanBeNull]
+        [Required, CanBeNull]
         public byte[] Image
         {
             get => _image;

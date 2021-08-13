@@ -568,5 +568,38 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => ChangeAccessLevel(id, Name));
         }
+
+        public bool ChangeUser(User user)
+        {
+            try
+            {
+                using (var db = new ApplicationContext())
+                {
+                    var tmp = db.Users.Include(x =>x.Orders).Include(e => e.AccessLevel).FirstOrDefault(t => t.Id == user.Id);
+
+                    if (user.AccessLevel != null)
+                        tmp.AccessLevel = db.AccessLevels.Include(x => x.Employees).Include(e=>e.Users).FirstOrDefault(t => t.Id == user.AccessLevel.Id);
+
+                    tmp.Email = !string.IsNullOrEmpty(user.Email)? user.Email: tmp.Email;
+                    tmp.Image = user.Image;
+                    tmp.Login = user.Login;
+                    tmp.Name = user.Name;
+                    tmp.PhoneNumber = user.PhoneNumber;
+                    tmp.Surname = user.Surname;
+                    tmp.Password = user.Password;
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> ChangeUserAsync(User user) => await Task.Run(() => ChangeUser(user));
+        
     }
 }

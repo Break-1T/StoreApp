@@ -24,7 +24,7 @@ namespace StoreApp.MVVM.ViewModel.Base
         public virtual void Dispose()
         {
             IsActiveViewModel = false;
-            MessageBox.Show(this.GetType().Name + " - Disposed!");
+            //MessageBox.Show(this.GetType().Name + " - Disposed!");
         }
 
         /// <summary>
