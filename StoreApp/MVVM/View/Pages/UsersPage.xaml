@@ -10,9 +10,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="UsersPage" Background="Gray">
-    <Page.DataContext>
+    <!--<Page.DataContext>
         <vm:UsersPageViewModel/>
-    </Page.DataContext>
+    </Page.DataContext>-->
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -131,12 +131,14 @@
                     <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Почта" Binding="{Binding Path=Email}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name}" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Image" IsReadOnly="True">
+                    <DataGridTemplateColumn Header="Image" IsReadOnly="True" ClipboardContentBinding="{Binding}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <DockPanel>
-                                    <Image DockPanel.Dock="Top" Source="{Binding Path=Image}" Height="30"/>
-                                </DockPanel>
+                                <Image Height="20">
+                                    <Image.Source>
+                                        <BitmapImage StreamSource="{Binding Path=Image.GetBitmapImage}" CacheOption="OnLoad"></BitmapImage>
+                                    </Image.Source>
+                                </Image>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

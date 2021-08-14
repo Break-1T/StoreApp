@@ -65,7 +65,7 @@ namespace StoreApp.MVVM.ViewModel
 
             #endregion
             
-            //FillViewModel();
+            FillViewModel();
         }
 
         #region Commands

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using StoreApp.Infrastructure.Commands;
-using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.View.Pages;
 using StoreApp.MVVM.ViewModel.Base;
@@ -14,57 +11,49 @@ namespace StoreApp.MVVM.ViewModel
 {
     class MainWindowViewModel:BaseViewModel
     {
-        public MainWindowViewModel(Employee employee)
+        public MainWindowViewModel()
         {
-            StoreManagement = new Store();
-            this.Employee = employee;
+            ToDepartmentsPageCommand = new RelayCommand(OnAppToDepartmentsPageCommandExecute);
+            ToUsersPageCommand = new RelayCommand(OnAppToUsersPageCommandExecute);
+            ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute);
+            ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute);
+            ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute);
+            ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute);
+            MainWindowLoadedCommand = new RelayCommand(OnAppMainWindowLoadedCommandExecute);
+
             
-            ToDepartamentsPageCommand = new RelayCommand(OnAppToDepartamentsPageCommandExecute, CanAppToDepartamentsPageCommandExecute);
-            ToUsersPageCommand = new RelayCommand(OnAppToUsersPageCommandExecute, CanAppToUsersPageCommandExecute);
-            ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute, CanAppToHomePageCommandExecute);
-            ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute, CanAppToOrdersPageCommandExecute);
-            ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute, CanAppToProductsPageCommandExecute);
-            ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute, CanAppToAccessLevelsPageCommandExecute);
 
-            HomeViewModel = new HomePageViewModel();
-            DepartamentsPageViewModel = new DepartamentsPageViewModel();
-            OrdersPageViewModel = new OrdersPageViewModel();
-            UsersPageViewModel = new UsersPageViewModel();
-            ProductsPageViewModel = new ProductsPageViewModel();
-            AccessLevelsViewModel = new AccessLevelsViewModel();
-
-            HomePage = new HomePage() { DataContext = HomeViewModel };
-            DepartamentsPage = new DepartamentsPage() { DataContext = DepartamentsPageViewModel };
-            UsersPage = new UsersPage() { DataContext = UsersPageViewModel };
-            OrdersPage = new OrdersPage() { DataContext = OrdersPageViewModel };
-            ProductsPage = new ProductsPage() { DataContext = ProductsPageViewModel };
-            AccessLevelsPage = new AccessLevelsPage() { DataContext = AccessLevelsViewModel };
-
-            ActivatePage(HomePage);
-            GC.Collect();
+            //DepartmentsPage = new DepartmentsPage();
+            //UsersPage = new UsersPage();
+            //OrdersPage = new OrdersPage();
+            //ProductsPage = new ProductsPage();
+            //AccessLevelsPage = new AccessLevelsPage();
+            
+            //ActivatePage(HomePage);
+            //GC.Collect();
         }
 
-        #region ViewModels
+        #region Events
 
-        public HomePageViewModel HomeViewModel { get; }
-        public DepartamentsPageViewModel DepartamentsPageViewModel { get; }
-        public OrdersPageViewModel OrdersPageViewModel { get; }
-        public UsersPageViewModel UsersPageViewModel { get; }
-        public ProductsPageViewModel ProductsPageViewModel { get; }
-        public AccessLevelsViewModel AccessLevelsViewModel { get; }
-
-
+        private void OnAppMainWindowLoadedCommandExecute(object obj)
+        {
+            HomePage = new HomePage();
+            ((HomePageViewModel)HomePage.DataContext).Employee = Employee;
+            MovePage(HomePage);
+        }
 
         #endregion
 
+
         #region Commands
 
-        public RelayCommand ToDepartamentsPageCommand { get; }
+        public RelayCommand ToDepartmentsPageCommand { get; }
         public RelayCommand ToUsersPageCommand { get; }
         public RelayCommand ToHomePageCommand { get; }
         public RelayCommand ToOrdersPageCommand { get; }
         public RelayCommand ToProductsPageCommand { get;}
         public RelayCommand ToAccessLevelsPageCommand { get; }
+        public RelayCommand MainWindowLoadedCommand { get; }
 
         #endregion
 
@@ -83,7 +72,6 @@ namespace StoreApp.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        public Store StoreManagement { get; set; }
 
         #endregion
 
@@ -110,59 +98,106 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        public DepartamentsPage DepartamentsPage { get; }
-        public UsersPage UsersPage { get;}
-        public HomePage HomePage { get;}
-        public OrdersPage OrdersPage { get;}
-        public ProductsPage ProductsPage { get;}
-        public AccessLevelsPage AccessLevelsPage { get;}
+        public DepartmentsPage DepartmentsPage { get; set; }
+        public UsersPage UsersPage { get; set; }
+        public HomePage HomePage { get; set; }
+        public OrdersPage OrdersPage { get; set; }
+        public ProductsPage ProductsPage { get; set; }
+        public AccessLevelsPage AccessLevelsPage { get; set; }
 
         #endregion
 
-        private bool CanAppToHomePageCommandExecute(object arg) => true;
         private void OnAppToHomePageCommandExecute(object obj)
         {
-            ActivatePage(HomePage);
-            GC.Collect();
+            if (HomePage==null)
+            {
+                HomePage = new HomePage();
+                MovePageAsync(HomePage);
+            }
+            else
+                MovePageAsync(HomePage);
+            //GC.Collect();
         }
 
-        private bool CanAppToDepartamentsPageCommandExecute(object arg) => true;
-        private void OnAppToDepartamentsPageCommandExecute(object obj)
+        private void OnAppToDepartmentsPageCommandExecute(object obj)
         {
-            ActivatePage(DepartamentsPage);
-            GC.Collect();
+            if (DepartmentsPage==null)
+            {
+                DepartmentsPage = new DepartmentsPage();
+                MovePageAsync(DepartmentsPage);
+            }
+            else
+            {
+                MovePageAsync(DepartmentsPage);
+            }
+            //GC.Collect();
         }
-        private bool CanAppToOrdersPageCommandExecute(object arg) => true;
         private void OnAppToOrdersPageCommandExecute(object obj)
         {
-            ActivatePage(OrdersPage);
-            GC.Collect();
+            if (OrdersPage==null)
+            {
+                OrdersPage = new OrdersPage();
+                MovePageAsync(OrdersPage);
+            }
+            else
+            {
+                MovePageAsync(OrdersPage);
+            }
+            //GC.Collect();
         }
 
-        private bool CanAppToUsersPageCommandExecute(object arg) => true;
         private void OnAppToUsersPageCommandExecute(object obj)
         {
-            ActivatePage(UsersPage);
-            GC.Collect();
+            if (UsersPage==null)
+            {
+                UsersPage = new UsersPage();
+                MovePageAsync(UsersPage);
+            }
+            else
+            {
+                MovePageAsync(UsersPage);
+            }
+            //GC.Collect();
         }
 
-        private bool CanAppToProductsPageCommandExecute(object arg) => true;
         private void OnAppToProductsPageCommandExecute(object obj)
         {
-            ActivatePage(ProductsPage);
-            GC.Collect();
+            if (ProductsPage==null)
+            {
+                ProductsPage = new ProductsPage();
+                MovePageAsync(ProductsPage);
+            }
+            else
+            {
+                MovePageAsync(ProductsPage);
+            }
+            //GC.Collect();
         }
 
 
-        private bool CanAppToAccessLevelsPageCommandExecute(object arg) => true;
         private void OnAppToAccessLevelsPageCommandExecute(object obj)
         {
-            ActivatePage(AccessLevelsPage);
+            if (AccessLevelsPage==null)
+            {
+                AccessLevelsPage = new AccessLevelsPage();
+                MovePageAsync(AccessLevelsPage);
+            }
+            else
+            {
+                MovePageAsync(AccessLevelsPage);
+            }
+            //GC.Collect();
         }
 
         private void MovePage(Page ToPage)
         {
             CurrentPage = ToPage;
+            GC.Collect();
+        }
+
+        private async void MovePageAsync(Page ToPage)
+        {
+            await Task.Run(() => MovePage(ToPage));
         }
         private void DisposeViewModel<T>(T ViewModel)
         {

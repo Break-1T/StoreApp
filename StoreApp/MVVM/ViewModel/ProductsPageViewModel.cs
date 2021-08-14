@@ -57,7 +57,7 @@ namespace StoreApp.MVVM.ViewModel
 
             #region Properties
 
-            //FillViewModel();
+            FillViewModel();
             
             #endregion
         }

@@ -1,14 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Windows.Media.Imaging;
 using StoreApp.Annotations;
-using StoreApp.Infrastructure.Interfaces;
 using StoreApp.Infrastructure.StoreManagement;
-using StoreApp.Resources;
+using Test.Resources;
 
 namespace StoreApp.MVVM.Model
 {
-    class User:IByteArrayToBitmapImageConverter
+    class User
     {
         public User()
         {
@@ -30,6 +28,5 @@ namespace StoreApp.MVVM.Model
         public AccessLevel AccessLevel { get; set; }
         [CanBeNull]
         public ObservableCollection<Order> Orders { get; set; }
-
     }
 }

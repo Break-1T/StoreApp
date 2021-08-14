@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Interactivity;
+using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
@@ -20,6 +22,8 @@ namespace StoreApp.MVVM.ViewModel
             DeleteUserCommand = new RelayCommand(OnDeleteUserCommandExecute, CanDeleteUserCommandExecute);
             AddNewUserCommand = new RelayCommand(OnAddNewUserCommandExecute, CanAddNewUserCommandExecute);
             ChangeUserCommand = new RelayCommand(OnChangeUserCommandExecute);
+
+            FillViewModel();
         }
 
         #region Fields
@@ -193,9 +197,9 @@ namespace StoreApp.MVVM.ViewModel
         /// </summary>
         public RelayCommand AddNewUserPhoto
         {
-            get => new RelayCommand((x) =>
+            get => new ((x) =>
             {
-                OpenFileDialog dialog = new OpenFileDialog();
+                OpenFileDialog dialog = new ();
                 dialog.ShowDialog();
                 try
                 {
@@ -209,9 +213,9 @@ namespace StoreApp.MVVM.ViewModel
         }
         public RelayCommand ChangeSelectedUserPhotoCommand
         {
-            get => new RelayCommand((x) =>
+            get => new ((x) =>
             {
-                OpenFileDialog dialog = new OpenFileDialog();
+                OpenFileDialog dialog = new ();
                 dialog.ShowDialog();
                 try
                 {
@@ -281,9 +285,21 @@ namespace StoreApp.MVVM.ViewModel
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
-                    Users = new ObservableCollection<User>(db.Users.Include(x=>x.Orders).Include(t=>t.AccessLevel));
+                    Users = new (db.Users.Include(e => e.AccessLevel).Select(x => new User()
+                    {
+                        AccessLevel = x.AccessLevel != null ? new AccessLevel { Id = x.AccessLevel.Id, Name = x.AccessLevel.Name } : null,
+                        Orders = null,
+                        Image = x.Image,
+                        Email = x.Email,
+                        Id = x.Id,
+                        Login = x.Login,
+                        Name = x.Name,
+                        Password = x.Password,
+                        PhoneNumber = x.PhoneNumber,
+                        Surname = x.Surname
+                    }));
                 }
             }
             catch (Exception e)
@@ -295,7 +311,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
                     Orders = new ObservableCollection<Order>(db.Orders.Include(x => x.Product).Include(t=>t.User));
                 }
@@ -309,9 +325,9 @@ namespace StoreApp.MVVM.ViewModel
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
-                    AccessLevels = new ObservableCollection<AccessLevel>(db.AccessLevels.Include(x=>x.Users));
+                    AccessLevels = new (db.AccessLevels.Include(x=>x.Users));
                 }
             }
             catch (Exception e)
@@ -319,6 +335,7 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
+
 
         public override void Dispose()
         {
@@ -352,9 +369,9 @@ namespace StoreApp.MVVM.ViewModel
             SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
             EditUserGridVisibility = System.Windows.Visibility.Collapsed;
 
-            FillOrders();
+            //FillOrders();
             FillUsers();
-            FillAccessLevels();
+            //FillAccessLevels();
 
             base.FillViewModel();
         }

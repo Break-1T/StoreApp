@@ -36,6 +36,8 @@ namespace StoreApp.MVVM.ViewModel
             {
                 EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
             });
+
+            FillViewModel();
         }
 
         #region Commands

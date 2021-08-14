@@ -21,7 +21,7 @@ namespace StoreApp.MVVM.ViewModel
             UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
             ButtonsVisibility = Visibility.Hidden.ToString();
 
-            //FillViewModel();
+            FillViewModel();
         }
 
         #region Fields
