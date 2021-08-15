@@ -21,16 +21,11 @@ namespace StoreApp.MVVM.ViewModel
             ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute);
             MainWindowLoadedCommand = new RelayCommand(OnAppMainWindowLoadedCommandExecute);
 
-            
-
-            //DepartmentsPage = new DepartmentsPage();
-            //UsersPage = new UsersPage();
-            //OrdersPage = new OrdersPage();
-            //ProductsPage = new ProductsPage();
-            //AccessLevelsPage = new AccessLevelsPage();
-            
-            //ActivatePage(HomePage);
-            //GC.Collect();
+            DepartmentsPage = new DepartmentsPage();
+            UsersPage = new UsersPage();
+            OrdersPage = new OrdersPage();
+            ProductsPage = new ProductsPage();
+            AccessLevelsPage = new AccessLevelsPage();
         }
 
         #region Events
@@ -109,84 +104,33 @@ namespace StoreApp.MVVM.ViewModel
 
         private void OnAppToHomePageCommandExecute(object obj)
         {
-            if (HomePage==null)
-            {
-                HomePage = new HomePage();
-                MovePageAsync(HomePage);
-            }
-            else
-                MovePageAsync(HomePage);
-            //GC.Collect();
+            MovePageAsync(HomePage);
         }
 
         private void OnAppToDepartmentsPageCommandExecute(object obj)
         {
-            if (DepartmentsPage==null)
-            {
-                DepartmentsPage = new DepartmentsPage();
-                MovePageAsync(DepartmentsPage);
-            }
-            else
-            {
-                MovePageAsync(DepartmentsPage);
-            }
-            //GC.Collect();
+            MovePageAsync(DepartmentsPage);
         }
         private void OnAppToOrdersPageCommandExecute(object obj)
         {
-            if (OrdersPage==null)
-            {
-                OrdersPage = new OrdersPage();
-                MovePageAsync(OrdersPage);
-            }
-            else
-            {
-                MovePageAsync(OrdersPage);
-            }
-            //GC.Collect();
+            MovePageAsync(OrdersPage);
         }
 
         private void OnAppToUsersPageCommandExecute(object obj)
         {
-            if (UsersPage==null)
-            {
-                UsersPage = new UsersPage();
-                MovePageAsync(UsersPage);
-            }
-            else
-            {
-                MovePageAsync(UsersPage);
-            }
-            //GC.Collect();
+            MovePageAsync(UsersPage);
+
         }
 
         private void OnAppToProductsPageCommandExecute(object obj)
         {
-            if (ProductsPage==null)
-            {
-                ProductsPage = new ProductsPage();
-                MovePageAsync(ProductsPage);
-            }
-            else
-            {
-                MovePageAsync(ProductsPage);
-            }
-            //GC.Collect();
+            MovePageAsync(ProductsPage);
         }
 
 
         private void OnAppToAccessLevelsPageCommandExecute(object obj)
         {
-            if (AccessLevelsPage==null)
-            {
-                AccessLevelsPage = new AccessLevelsPage();
-                MovePageAsync(AccessLevelsPage);
-            }
-            else
-            {
-                MovePageAsync(AccessLevelsPage);
-            }
-            //GC.Collect();
+            MovePageAsync(AccessLevelsPage);
         }
 
         private void MovePage(Page ToPage)
@@ -198,68 +142,6 @@ namespace StoreApp.MVVM.ViewModel
         private async void MovePageAsync(Page ToPage)
         {
             await Task.Run(() => MovePage(ToPage));
-        }
-        private void DisposeViewModel<T>(T ViewModel)
-        {
-            try
-            {
-                if (ViewModel is null)
-                    return;
-                switch (ViewModel)
-                {
-                    case ProductsPageViewModel model:
-                        model.Dispose();
-                        break;
-                    case DepartamentsPageViewModel model:
-                        model.Dispose();
-                        break;
-                    case HomePageViewModel model:
-                        model.Dispose();
-                        break;
-                    case OrdersPageViewModel model:
-                        model.Dispose();
-                        break;
-                    case UsersPageViewModel model:
-                        model.Dispose();
-                        break;
-                    case AccessLevelsViewModel model:
-                        model.Dispose();
-                        break;
-                    default: return;
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-        private void ActivatePage(Page Page)
-        {
-            try
-            {
-                BaseViewModel ViewModel = Page.DataContext as BaseViewModel;
-
-                if (ViewModel != null && ViewModel.IsActiveViewModel)
-                {
-                    return;
-                }
-                //if(CurrentPage!=null)
-                //    DisposeViewModel(CurrentPage.DataContext);
-                if (CurrentPage != null)
-                    (CurrentPage.DataContext as BaseViewModel)?.Dispose();
-
-                MovePage(Page);
-                ViewModel?.FillViewModel();
-
-                if (Page.DataContext is HomePageViewModel model)
-                {
-                    model.Employee = model.GetEmployeeCopy(this.Employee);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
         }
     }
 }

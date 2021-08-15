@@ -14,6 +14,7 @@
     <Page.DataContext>
         <vm:ProductsPageViewModel/>
     </Page.DataContext>
+
     <Border CornerRadius="25" Margin="5" Background="#F1EDD7" >
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
@@ -37,7 +38,7 @@
                             <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
                             <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
                         </Menu>
-                        <Image Grid.Column="1" Source="{Binding Path=SelectedCategory.Image,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="60"/>
+                        <Image Grid.Column="1" Source="{Binding Path=SelectedCategory.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" MaxHeight="45"/>
                     </Grid>
                     <Grid Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">
                         <Grid.ColumnDefinitions>
@@ -126,9 +127,7 @@
                             <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <Image DockPanel.Dock="Top" Source="{Binding Path=Image}" Height="30"/>
-                                        </DockPanel>
+                                        <Image DockPanel.Dock="Top" Source="{Binding Path=GetBitmapImage}" Height="30"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
