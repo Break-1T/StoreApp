@@ -10,10 +10,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="UsersPage" Background="Gray">
-    <!--<Page.DataContext>
+    <Page.DataContext>
         <vm:UsersPageViewModel/>
-    </Page.DataContext>-->
-
+    </Page.DataContext>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
@@ -114,7 +113,7 @@
         <ScrollViewer DockPanel.Dock="Left" Background="White">
             <DataGrid ItemsSource="{Binding Path=Users,UpdateSourceTrigger=PropertyChanged}" 
                               AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
-                              SelectedItem="{Binding Path=SelectedUser,UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding Path=SelectedUser,UpdateSourceTrigger=PropertyChanged}" RowHeight="45">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding Path=DeleteUserCommand}"/>
@@ -131,14 +130,10 @@
                     <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Почта" Binding="{Binding Path=Email}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="AccessLevel" Binding="{Binding Path=AccessLevel.Name}" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Image" IsReadOnly="True" ClipboardContentBinding="{Binding}">
+                    <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Height="20">
-                                    <Image.Source>
-                                        <BitmapImage StreamSource="{Binding Path=Image.GetBitmapImage}" CacheOption="OnLoad"></BitmapImage>
-                                    </Image.Source>
-                                </Image>
+                                <Image Source="{Binding Path=GetBitmapImage}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

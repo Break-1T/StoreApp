@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StoreApp.Annotations;
 using StoreApp.Infrastructure.Interfaces;
@@ -8,7 +11,7 @@ using StoreApp.Resources;
 
 namespace StoreApp.MVVM.Model
 {
-    class User:IByteArrayToBitmapImageConverter
+    class User : ClassWithImage
     {
         public User()
         {
@@ -23,13 +26,10 @@ namespace StoreApp.MVVM.Model
         public string Surname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        [CanBeNull]
-        public byte[] Image { get; set; }
 
         [CanBeNull]
         public AccessLevel AccessLevel { get; set; }
         [CanBeNull]
         public ObservableCollection<Order> Orders { get; set; }
-
     }
 }

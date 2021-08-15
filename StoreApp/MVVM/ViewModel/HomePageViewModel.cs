@@ -21,7 +21,9 @@ namespace StoreApp.MVVM.ViewModel
             UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
             ButtonsVisibility = Visibility.Hidden.ToString();
 
-            FillViewModel();
+            Employee = new Employee();
+            StoreManagement = new Store();
+            ToReadOnlyFields();
         }
 
         #region Fields
@@ -159,16 +161,6 @@ namespace StoreApp.MVVM.ViewModel
         {
             StoreManagement = null;
             Employee = null;
-            
-            base.Dispose();
-        }
-        public override void FillViewModel()
-        {
-            Employee = new Employee();
-            StoreManagement = new Store();
-            ToReadOnlyFields();
-            
-            base.FillViewModel();
         }
     }
 }

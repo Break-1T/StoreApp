@@ -57,15 +57,34 @@ namespace StoreApp.MVVM.ViewModel
 
             #region Properties
 
-            FillViewModel();
-            
+            ExpanderHeight = 0;
+            OpenAddProductGridHeight = 0;
+            OpenSearchProductGridHeight = 0;
+            OpenChangeProductGridHeight = 0;
+
+            SearchId = "";
+            SearchName = "";
+            SearchPrice = "";
+
+            StoreManagement = new Store();
+            NewProduct = new Product();
+            Category = new Category();
+            SelectedCategory = new Category();
+
+            SelectedProducts = new ObservableCollection<Product>();
+            Categories = new ObservableCollection<Category>();
+
+            FillCategories();
+            FillAllProducts();
+            SelectedProducts = AllProducts;
+
             #endregion
         }
 
         #region Events
 
 
-            #endregion
+        #endregion
 
         #region Commands
 
@@ -572,35 +591,6 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        public override void FillViewModel()
-        {
-            #region Properties
-
-            ExpanderHeight = 0;
-            OpenAddProductGridHeight = 0;
-            OpenSearchProductGridHeight = 0;
-            OpenChangeProductGridHeight = 0;
-
-            SearchId = "";
-            SearchName = "";
-            SearchPrice = "";
-
-            StoreManagement = new Store();
-            NewProduct = new Product();
-            Category = new Category();
-            SelectedCategory = new Category();
-
-            SelectedProducts = new ObservableCollection<Product>();
-            Categories = new ObservableCollection<Category>();
-
-            FillCategories();
-            FillAllProducts();
-            SelectedProducts = AllProducts;
-
-            #endregion
-            
-            base.FillViewModel();
-        }
         public override void Dispose()
         {
             #region Properties
@@ -624,8 +614,6 @@ namespace StoreApp.MVVM.ViewModel
             AllProducts = null;
 
             #endregion
-
-            base.Dispose();
         }
 
         #endregion

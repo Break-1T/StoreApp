@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using StoreApp.MVVM.Model;
 using StoreApp.MVVM.ViewModel;
 
 namespace StoreApp.MVVM.View.Pages
@@ -22,7 +23,7 @@ namespace StoreApp.MVVM.View.Pages
         public UsersPage()
         {
             InitializeComponent();
-            DataContext = new UsersPageViewModel();
+            //DataContext = new UsersPageViewModel();
         }
     }
 }

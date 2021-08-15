@@ -37,7 +37,17 @@ namespace StoreApp.MVVM.ViewModel
                 EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
             });
 
-            FillViewModel();
+
+
+            AccessLevels = new ObservableCollection<AccessLevel>();
+            SelectedAccessLevel = new AccessLevel();
+            _store = new Store();
+            NewAccessLevel = new AccessLevel();
+
+            AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+            EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
+
+            FillAccessLevels();
         }
 
         #region Commands
@@ -184,24 +194,8 @@ namespace StoreApp.MVVM.ViewModel
 
             AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
             EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
-
-            base.Dispose();
         }
 
-        public override void FillViewModel()
-        {
-            AccessLevels = new ObservableCollection<AccessLevel>();
-            SelectedAccessLevel = new AccessLevel();
-            _store = new Store();
-            NewAccessLevel = new AccessLevel();
-
-            AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
-            EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
-
-            FillAccessLevels();
-
-            base.FillViewModel();
-        }
 
         #endregion
 

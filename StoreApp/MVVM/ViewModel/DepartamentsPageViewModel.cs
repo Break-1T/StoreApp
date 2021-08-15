@@ -64,11 +64,33 @@ namespace StoreApp.MVVM.ViewModel
                 CanAppChangeEmployeePhotoCommandExecute);
 
             #endregion
-            
-            FillViewModel();
+
+            #region Properties
+
+            ExpanderHeight = 0;
+            OpenAddEmployeeGridHeight = 0;
+            OpenSearchEmployeeGridHeight = 0;
+            OpenChangeEmployeeGridHeight = 0;
+
+            StoreManagement = new Store();
+
+            SearchEmployee = new SearchEmployee();
+            NewEmployee = new Employee();
+            NewDepartament = new Department();
+            SelectedDepartament = new Department();
+
+            SelectedEmployee = new Employee();
+
+            SelectedEmployees = new ObservableCollection<Employee>();
+            Departments = new ObservableCollection<Department>();
+
+            FillAllLists();
+            FillSelectedEmployees(AllEmployees);
+
+            #endregion
         }
 
-        #region Commands
+            #region Commands
 
         public RelayCommand OpenAddNewDepartamentCommand { get; private set; }
         public RelayCommand UploadNewDepartamentPhotoCommand { get; private set; }
@@ -607,36 +629,6 @@ namespace StoreApp.MVVM.ViewModel
             AllEmployees = null;
 
             #endregion
-            
-            base.Dispose();
-        }
-        public override void FillViewModel()
-        {
-            #region Properties
-
-            ExpanderHeight = 0;
-            OpenAddEmployeeGridHeight = 0;
-            OpenSearchEmployeeGridHeight = 0;
-            OpenChangeEmployeeGridHeight = 0;
-
-            StoreManagement = new Store();
-
-            SearchEmployee = new SearchEmployee();
-            NewEmployee = new Employee();
-            NewDepartament = new Department();
-            SelectedDepartament = new Department();
-
-            SelectedEmployee = new Employee();
-
-            SelectedEmployees = new ObservableCollection<Employee>();
-            Departments = new ObservableCollection<Department>();
-
-            FillAllLists();
-            FillSelectedEmployees(AllEmployees);
-
-            #endregion
-            
-            base.FillViewModel();
         }
     }
 }
