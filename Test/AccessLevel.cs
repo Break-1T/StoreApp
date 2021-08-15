@@ -1,23 +1,27 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using StoreApp.Annotations;
-using StoreApp.Infrastructure.Interfaces;
-using StoreApp.Resources;
+using StoreApp.MVVM.Model;
 
-namespace StoreApp.MVVM.Model
+namespace StoreApp.Infrastructure.StoreManagement
 {
-    class Department:ClassWithImage
+    class AccessLevel
     {
-        public Department()
+        public AccessLevel()
         {
-            Image = Images.Empty_departament_icon;
             Employees = new ObservableCollection<Employee>();
+            Users = new ObservableCollection<User>();
         }
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public ObservableCollection<User> Users { get; set; }
         public ObservableCollection<Employee> Employees { get; set; }
-
     }
+    //enum AccessLevel
+    //{
+    //    User,
+    //    Employee,
+    //    Administrator
+    //}
 }

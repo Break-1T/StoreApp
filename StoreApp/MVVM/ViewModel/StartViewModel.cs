@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using MaterialDesignThemes.Wpf;
-using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
 using StoreApp.Infrastructure.StoreManagement;
@@ -186,12 +180,12 @@ namespace StoreApp.MVVM.ViewModel
             if (await store.LoginAsync(Employee))
             {
                 Employee = await store.DataBaseControl.FindEmployeeAsync(Employee.Login, Employee.Password);
-                MainWindowViewModel mainWindow = new MainWindowViewModel(Employee);
                 
-                MainWindow Main = new MainWindow() { DataContext = mainWindow };
-                App.Current.MainWindow.Close();
-                Application.Current.MainWindow = Main;
-                Application.Current.MainWindow.Show();
+                MainWindow Main = new MainWindow();
+                ((MainWindowViewModel)Main.DataContext).Employee = Employee;
+
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
+                Main.Show();
             }
         }
     }

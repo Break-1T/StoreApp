@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Interactivity;
+using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
@@ -20,6 +24,18 @@ namespace StoreApp.MVVM.ViewModel
             DeleteUserCommand = new RelayCommand(OnDeleteUserCommandExecute, CanDeleteUserCommandExecute);
             AddNewUserCommand = new RelayCommand(OnAddNewUserCommandExecute, CanAddNewUserCommandExecute);
             ChangeUserCommand = new RelayCommand(OnChangeUserCommandExecute);
+
+            SelectedUser = new User();
+            _store = new Store();
+            NewUser = new User();
+
+            AddUserGridVisibility = System.Windows.Visibility.Collapsed;
+            SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
+            EditUserGridVisibility = System.Windows.Visibility.Collapsed;
+
+            //FillOrders();
+            FillUsers();
+            FillAccessLevels();
         }
 
         #region Fields
@@ -193,9 +209,9 @@ namespace StoreApp.MVVM.ViewModel
         /// </summary>
         public RelayCommand AddNewUserPhoto
         {
-            get => new RelayCommand((x) =>
+            get => new ((x) =>
             {
-                OpenFileDialog dialog = new OpenFileDialog();
+                OpenFileDialog dialog = new ();
                 dialog.ShowDialog();
                 try
                 {
@@ -209,9 +225,9 @@ namespace StoreApp.MVVM.ViewModel
         }
         public RelayCommand ChangeSelectedUserPhotoCommand
         {
-            get => new RelayCommand((x) =>
+            get => new ((x) =>
             {
-                OpenFileDialog dialog = new OpenFileDialog();
+                OpenFileDialog dialog = new ();
                 dialog.ShowDialog();
                 try
                 {
@@ -224,7 +240,6 @@ namespace StoreApp.MVVM.ViewModel
             });
         }
         public RelayCommand ChangeUserCommand { get; }
-
 
         #endregion
 
@@ -277,13 +292,25 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Methods
 
-        public void FillUsers()
+        private void FillUsers()
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
-                    Users = new ObservableCollection<User>(db.Users.Include(x=>x.Orders).Include(t=>t.AccessLevel));
+                    Users = new( db.Users.Include(e => e.AccessLevel).Select(x => new User()
+                    {
+                        AccessLevel = x.AccessLevel != null ? new AccessLevel { Id = x.AccessLevel.Id, Name = x.AccessLevel.Name } : null,
+                        Orders = null,
+                        Image = x.Image,
+                        Email = x.Email,
+                        Id = x.Id,
+                        Login = x.Login,
+                        Name = x.Name,
+                        Password = x.Password,
+                        PhoneNumber = x.PhoneNumber,
+                        Surname = x.Surname
+                    }));
                 }
             }
             catch (Exception e)
@@ -291,11 +318,11 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
-        public void FillOrders()
+        private void FillOrders()
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
                     Orders = new ObservableCollection<Order>(db.Orders.Include(x => x.Product).Include(t=>t.User));
                 }
@@ -305,13 +332,32 @@ namespace StoreApp.MVVM.ViewModel
                 MessageBox.Show(e.Message);
             }
         }
-        public void FillAccessLevels()
+        private void FillAccessLevels()
         {
             try
             {
-                using (ApplicationContext db = new ApplicationContext())
+                using (ApplicationContext db = new ())
                 {
-                    AccessLevels = new ObservableCollection<AccessLevel>(db.AccessLevels.Include(x=>x.Users));
+                    AccessLevels = new (db.AccessLevels.Include(x=>x.Users).Select(level=>new AccessLevel()
+                    {
+                        Users = new (level.Users.Select(user=>new User()
+                            {
+                                AccessLevel = user.AccessLevel,
+                                Email=user.Email,
+                                Id=user.Id,
+                                Image = null,
+                                Login = user.Login,
+                                Name = user.Name,
+                                Orders = new ObservableCollection<Order>(),
+                                Password = user.Password,
+                                PhoneNumber = user.PhoneNumber,
+                                Surname = user.Surname
+                            })
+                        ),
+                        Employees = new(),
+                        Id=level.Id,
+                        Name = level.Name
+                    }));
                 }
             }
             catch (Exception e)
@@ -335,28 +381,6 @@ namespace StoreApp.MVVM.ViewModel
             _store = null;
 
             base.Dispose();
-        }
-
-        public override void FillViewModel()
-        {
-            Users = new ObservableCollection<User>();
-            Orders = new ObservableCollection<Order>();
-            AccessLevels = new ObservableCollection<AccessLevel>();
-
-            SelectedUser = new User();
-            _store = new Store();
-
-            NewUser = new User();
-
-            AddUserGridVisibility = System.Windows.Visibility.Collapsed;
-            SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
-            EditUserGridVisibility = System.Windows.Visibility.Collapsed;
-
-            FillOrders();
-            FillUsers();
-            FillAccessLevels();
-
-            base.FillViewModel();
         }
 
         #endregion

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,9 +6,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Pictures\Empty_category_icon.png" />
+    <None Remove="Resources\Pictures\Empty_departament_icon.png" />
+    <None Remove="Resources\Pictures\Empty_employee_icon.png" />
+    <None Remove="Resources\Pictures\Empty_goods_icon.png" />
+    <None Remove="Resources\Pictures\Empty_user_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Pictures\Empty_category_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_departament_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_employee_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_goods_icon.png" />
+    <Resource Include="Resources\Pictures\Empty_user_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Images.Designer.cs">
+      <DependentUpon>Images.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Images.resx">
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

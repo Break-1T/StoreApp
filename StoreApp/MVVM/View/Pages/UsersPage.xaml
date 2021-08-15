@@ -13,7 +13,6 @@
     <Page.DataContext>
         <vm:UsersPageViewModel/>
     </Page.DataContext>
-
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
@@ -114,7 +113,7 @@
         <ScrollViewer DockPanel.Dock="Left" Background="White">
             <DataGrid ItemsSource="{Binding Path=Users,UpdateSourceTrigger=PropertyChanged}" 
                               AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
-                              SelectedItem="{Binding Path=SelectedUser,UpdateSourceTrigger=PropertyChanged}">
+                              SelectedItem="{Binding Path=SelectedUser,UpdateSourceTrigger=PropertyChanged}" RowHeight="45">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding Path=DeleteUserCommand}"/>
@@ -134,9 +133,7 @@
                     <DataGridTemplateColumn Header="Image" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <DockPanel>
-                                    <Image DockPanel.Dock="Top" Source="{Binding Path=Image}" Height="30"/>
-                                </DockPanel>
+                                <Image Source="{Binding Path=GetBitmapImage}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

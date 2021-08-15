@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using StoreApp.Annotations;
-using StoreApp.Infrastructure.Interfaces;
-using StoreApp.Resources;
+using Test.Resources;
 
 namespace StoreApp.MVVM.Model
 {
-    class Department:ClassWithImage
+    class Department
     {
         public Department()
         {
@@ -16,6 +15,8 @@ namespace StoreApp.MVVM.Model
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        [CanBeNull]
+        public byte[] Image { get; set; }
 
         public ObservableCollection<Employee> Employees { get; set; }
 

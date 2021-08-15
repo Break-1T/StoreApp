@@ -4,14 +4,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Windows.Controls;
 using StoreApp.Annotations;
-using StoreApp.Infrastructure.Interfaces;
-using StoreApp.Resources;
+using Test.Resources;
 
 namespace StoreApp.MVVM.Model
 {
-    class Product : ClassWithImage, INotifyPropertyChanged
+    class Product:INotifyPropertyChanged
     {
         [NotNull] private Category _category;
 
@@ -24,6 +22,9 @@ namespace StoreApp.MVVM.Model
         public string Name { get; set; }
 
         public decimal Price { get; set; }
+
+        [CanBeNull]
+        public byte[] Image { get; set; }
 
         [Required, NotNull]
         public Category Category
