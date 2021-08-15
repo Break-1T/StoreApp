@@ -11,31 +11,33 @@ namespace StoreApp.MVVM.ViewModel
 {
     class MainWindowViewModel:BaseViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel() { }
+
+        public MainWindowViewModel(Employee employee)
         {
+            this.Employee = employee;
+
             ToDepartmentsPageCommand = new RelayCommand(OnAppToDepartmentsPageCommandExecute);
             ToUsersPageCommand = new RelayCommand(OnAppToUsersPageCommandExecute);
             ToHomePageCommand = new RelayCommand(OnAppToHomePageCommandExecute);
             ToOrdersPageCommand = new RelayCommand(OnAppToOrdersPageCommandExecute);
             ToProductsPageCommand = new RelayCommand(OnAppToProductsPageCommandExecute);
             ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute);
-            MainWindowLoadedCommand = new RelayCommand(OnAppMainWindowLoadedCommandExecute);
+
+            HomePage = new HomePage();
+            (HomePage.DataContext as HomePageViewModel).Employee = Employee;
 
             DepartmentsPage = new DepartmentsPage();
             UsersPage = new UsersPage();
             OrdersPage = new OrdersPage();
             ProductsPage = new ProductsPage();
             AccessLevelsPage = new AccessLevelsPage();
+
+            MovePage(HomePage);
         }
 
         #region Events
 
-        private void OnAppMainWindowLoadedCommandExecute(object obj)
-        {
-            HomePage = new HomePage();
-            ((HomePageViewModel)HomePage.DataContext).Employee = Employee;
-            MovePage(HomePage);
-        }
 
         #endregion
 

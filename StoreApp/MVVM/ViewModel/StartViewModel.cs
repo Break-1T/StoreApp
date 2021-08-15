@@ -42,8 +42,6 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Propertys
 
-        //public MainWindow Main { get; set; }
-
         public Employee Employee { get; set; }
 
         public Func<string> Password1Handler { get; set; }
@@ -182,9 +180,11 @@ namespace StoreApp.MVVM.ViewModel
                 Employee = await store.DataBaseControl.FindEmployeeAsync(Employee.Login, Employee.Password);
                 
                 MainWindow Main = new MainWindow();
-                ((MainWindowViewModel)Main.DataContext).Employee = Employee;
+                Main.DataContext = new MainWindowViewModel(Employee);
 
                 if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
+
+                MessageBox.Show("Успех");
                 Main.Show();
             }
         }
