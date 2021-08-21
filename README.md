@@ -16,9 +16,9 @@ StoreApp provides a simple graphical interface for product management and person
 To install the project clone the repository by ``` git clone https://github.com/Break-1T/StoreApp.git```
 
 ## Usage
-1. Run the project through Visual Studio or any other IDE
-2. In the start window go to the "Зарегистрироваться" tab
+1. Run the project through StoreApp.sln file and compile project.
+2. In the start window go to the "Зарегистрироваться" tab.
 3. After successful registration, enter user data in the login window.
-4. At the first start, the StoreDB database will be created, which is located along the path "C : \ Users \ User"
+4. At the first start, the StoreDB database will be created, which is located along the path "C : \ Users \ User".
 5. After that, you can start filling the database with information about products, users, departments, orders, access levels.
 
