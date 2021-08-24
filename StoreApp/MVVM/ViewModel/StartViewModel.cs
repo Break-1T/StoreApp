@@ -184,7 +184,6 @@ namespace StoreApp.MVVM.ViewModel
 
                 if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();
 
-                MessageBox.Show("Успех");
                 Main.Show();
             }
         }

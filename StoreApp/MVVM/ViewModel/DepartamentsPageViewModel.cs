@@ -488,7 +488,7 @@ namespace StoreApp.MVVM.ViewModel
         private bool CanAppDeleteDepartamentCommandExecute(object arg) => true;
         private async void OnAppDeleteDepartamentCommandExecute(object obj)
         {
-            if (await StoreManagement.DataBaseControl.RemoveDepartamentAsync(SelectedDepartament.Id, SelectedDepartament.Name))
+            if (await StoreManagement.DataBaseControl.RemoveDepartmentAsync(SelectedDepartament.Id, SelectedDepartament.Name))
             {
                 FillAllLists();
                 FillSelectedEmployees(AllEmployees);

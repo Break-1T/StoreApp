@@ -7,12 +7,130 @@
       xmlns:vm="clr-namespace:StoreApp.MVVM.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" Background="Green"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Title="OrdersPage">
 
     <Page.DataContext>
         <vm:OrdersPageViewModel/>
     </Page.DataContext>
-    <Grid>
-        <TextBlock Text="1"/>
-    </Grid>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
+                <MenuItem Header="Добавить" Height="45" Command="{Binding OpenAddUserGridVisibilityCommand}"/>
+                <MenuItem Header="Поиск" Height="45" Command="{Binding OpenSearchUserGridVisibilityCommand}"/>
+            </Menu>
+            <Grid Background="White" Visibility="{Binding Path=AddUserGridVisibility,UpdateSourceTrigger=PropertyChanged}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.68*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Text="{Binding Path=NewUser.Name}"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" Text="{Binding Path=NewUser.Surname}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam">
+                </TextBox>
+                <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Text="{Binding Path=NewUser.PhoneNumber}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Text="{Binding Path=NewUser.Login}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Text="{Binding Path=NewUser.Password}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Почта" Text="{Binding Path=NewUser.Email}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <ComboBox Grid.Column="6" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels}" SelectedItem="{Binding Path=NewUser.AccessLevel}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Column="7" Content="Загрузить фото" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=AddNewUserPhoto}" Padding="0"/>
+                <Button Grid.Column="8" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Command="{Binding Path=AddNewUserCommand}"/>
+            </Grid>
+            <Grid Background="White" Visibility="{Binding Path=SearchUserGridVisibility,UpdateSourceTrigger=PropertyChanged}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="6" materialDesign:HintAssist.Hint="Уровень доступа" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <Button Grid.Column="7" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"/>
+            </Grid>
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom" Background="White" Visibility="{Binding Path=EditUserGridVisibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedUser.Name}" Cursor="IBeam"/>
+            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Фамилия" MaxLength="250" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedUser.Surname}" Cursor="IBeam"/>
+            <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedUser.PhoneNumber}" Cursor="IBeam"/>
+            <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedUser.Login}" Cursor="IBeam"/>
+            <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SelectedUser.Password}" Cursor="IBeam"/>
+            <ComboBox Grid.Column="5" VerticalAlignment="Bottom" materialDesign:HintAssist.Hint="Уровень доступа" ItemsSource="{Binding Path=AccessLevels,UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=SelectedUser.AccessLevel}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="6" Padding="0" Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding Path=ChangeSelectedUserPhotoCommand}" VerticalAlignment="Bottom" Content="Фото" Cursor="Hand">
+                <Button.ToolTip>
+                    <TextBlock Text="Изменить фото"/>
+                </Button.ToolTip>
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="{Binding Path=SelectedUser.Image}"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Grid.Column="7" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
+                            Command="{Binding Path=ChangeUserCommand}"/>
+            <Button Grid.Column="8" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseEditUserGridVisibilityCommand}"/>
+        </Grid>
+        <ScrollViewer DockPanel.Dock="Left" Background="White">
+            <DataGrid ItemsSource="{Binding Path=Orders,UpdateSourceTrigger=PropertyChanged}" 
+                              AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" 
+                              SelectedItem="{Binding Path=SelectedOrder,UpdateSourceTrigger=PropertyChanged}" RowHeight="45">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Command="{Binding Path=DeleteUserCommand}"/>
+                        <MenuItem Header="Изменить" Command ="{Binding Path=OpenEditUserGridVisibilityCommand}"/>
+                        <MenuItem Header="Показать заказы"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <materialDesign:DataGridTextColumn Header="OrderId" Binding="{Binding Path= Id}" IsReadOnly="True"/>
+                    <materialDesign:DataGridTextColumn Header="ProdutctName" Binding="{Binding Path=Product.Name}" IsReadOnly="True"/>
+                    <materialDesign:DataGridTextColumn Header="ProductId" Binding="{Binding Path=ProductId}" IsReadOnly="True"/>
+                    <materialDesign:DataGridTextColumn Header="UserName" Binding="{Binding Path=User.Name}" IsReadOnly="True"/>
+                    <materialDesign:DataGridTextColumn Header="UserId" Binding="{Binding Path=UserId}" IsReadOnly="True"/>
+                    <materialDesign:DataGridTextColumn Header="Date" Binding="{Binding Path=Date,StringFormat={}{DD:MM}}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+    </DockPanel>
 </Page>

@@ -13,6 +13,12 @@ namespace StoreApp.Infrastructure.DbManagement
 {
     class DbControl
     {
+
+        /// <summary>
+        /// Добавляет в базу данных новый департамент
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
         public bool AddDepartament(string Name)
         {
             try
@@ -34,12 +40,23 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
+        
+        /// <summary>
+        /// Добавляет в базу данных новый департамент
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddDepartamentAsync(string Name)
         {
             return await Task.Run(() => AddDepartament(Name));
         }
 
+        /// <summary>
+        /// Добавляет в базу данных новый департамент
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <param name="Image">Фото департамента</param>
+        /// <returns>bool</returns>
         public bool AddDepartament(string Name, byte[] Image)
         {
             try
@@ -63,12 +80,23 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
 
+        /// <summary>
+        /// Добавляет в базу данных новый департамент
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <param name="Image">Фото департамента</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddDepartamentAsync(string Name, byte[] Image)
         {
             return await Task.Run(() => AddDepartament(Name, Image));
         }
 
-        public bool RemoveDepartament(string Name)
+        /// <summary>
+        /// Удаляет департамент по заданному имени
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
+        public bool RemoveDepartment(string Name)
         {
             try
             {
@@ -88,13 +116,24 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
-        public async Task<bool> RemoveDepartamentAsync(string Name)
+        
+        /// <summary>
+        /// Удаляет департамент по заданному имени
+        /// </summary>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
+        public async Task<bool> RemoveDepartmentAsync(string Name)
         {
-            return await Task.Run(() => RemoveDepartament(Name));
+            return await Task.Run(() => RemoveDepartment(Name));
         }
 
-        public bool RemoveDepartament(int id, string Name)
+        /// <summary>
+        /// Удаляет департамент по его Id и Name
+        /// </summary>
+        /// <param name="id">Id департамента</param>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
+        public bool RemoveDepartment(int id, string Name)
         {
             try
             {
@@ -114,11 +153,26 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-        public async Task<bool> RemoveDepartamentAsync(int id, string Name)
+        
+        /// <summary>
+        /// Удаляет департамент по его Id и Name
+        /// </summary>
+        /// <param name="id">Id департамента</param>
+        /// <param name="Name">Имя департамента</param>
+        /// <returns>bool</returns>
+        public async Task<bool> RemoveDepartmentAsync(int id, string Name)
         {
-            return await Task.Run(() => RemoveDepartament(id, Name));
+            return await Task.Run(() => RemoveDepartment(id, Name));
         }
 
+        /// <summary>
+        /// Добавляет новый продукт в базу данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Price">Цена продукта</param>
+        /// <param name="Image">Фото продукта</param>
+        /// <param name="category">Категория продукта</param>
+        /// <returns>bool</returns>
         public bool AddProduct(string Name, decimal Price, byte[] Image, Category category)
         {
             try
@@ -143,11 +197,27 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Добавляет новый продукт в базу данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Price">Цена продукта</param>
+        /// <param name="Image">Фото продукта</param>
+        /// <param name="category">Категория продукта</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddProductAsync(string Name, decimal Price, byte[] Image, Category category)
         {
             return await Task.Run(() => AddProduct(Name, Price, Image, category));
         }
 
+        /// <summary>
+        /// Добавляет новый продукт в базу данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Price">Цена продукта</param>
+        /// <param name="category">Категория продукта</param>
+        /// <returns>bool</returns>
         public bool AddProduct(string Name, decimal Price, Category category)
         {
             try
@@ -171,11 +241,24 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        /// <summary>
+        /// Добавляет новый продукт в базу данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Price">Цена продукта</param>
+        /// <param name="category">Категория продукта</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddProductAsync(string Name, decimal Price, Category category)
         {
             return await Task.Run(() => AddProduct(Name, Price, category));
         }
 
+        /// <summary>
+        /// Удаляет продукт из базы данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Id">Id продукта</param>
+        /// <returns>bool</returns>
         public bool RemoveProduct(string Name, int Id)
         {
             try
@@ -193,11 +276,29 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        /// <summary>
+        /// Удаляет продукт из базы данных
+        /// </summary>
+        /// <param name="Name">Имя продукта</param>
+        /// <param name="Id">Id продукта</param>
+        /// <returns>bool</returns>
         public async Task<bool> RemoveProductAsync(string Name, int Id)
         {
             return await Task.Run(() => RemoveProduct(Name, Id));
         }
 
+        /// <summary>
+        /// Добавляет работника в базу данных
+        /// </summary>
+        /// <param name="Login">Логин</param>
+        /// <param name="Password">Пароль</param>
+        /// <param name="accessLevel">Уровень доступа</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="Email">Почта</param>
+        /// <param name="department">Департамент</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <returns>bool</returns>
         public bool AddEmployee(string Login, string Password, AccessLevel accessLevel, string Name, string Surname,
             string Email, Department department, string PhoneNumber)
         {
@@ -227,6 +328,19 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Добавляет работника в базу данных
+        /// </summary>
+        /// <param name="Login">Логин</param>
+        /// <param name="Password">Пароль</param>
+        /// <param name="accessLevel">Уровень доступа</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="Email">Почта</param>
+        /// <param name="department">Департамент</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddEmployeeAsync(string Login, string Password, AccessLevel accessLevel, string Name,
             string Surname, string Email, Department department, string PhoneNumber)
         {
@@ -234,6 +348,11 @@ namespace StoreApp.Infrastructure.DbManagement
                 PhoneNumber));
         }
 
+        /// <summary>
+        /// Удаляет работника из базы данных
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <returns>bool</returns>
         public bool RemoveEmployee(int id)
         {
             try
@@ -251,11 +370,29 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Удаляет работника из базы данных
+        /// </summary>
+        /// <param name="id">Id работника</param>
+        /// <returns>bool</returns>
         public async Task<bool> RemoveEmployeeAsync(int id)
         {
             return await Task.Run(() => RemoveEmployee(id));
         }
 
+        /// <summary>
+        /// Добавляет нового пользователя в базу данных
+        /// </summary>
+        /// <param name="Login">Логин</param>
+        /// <param name="Password">Пароль</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <param name="Email">Почта</param>
+        /// <param name="Image">Фото</param>
+        /// <param name="AccessLevel">Уровень доступа</param>
+        /// <returns>bool</returns>
         public bool AddUser(string Login, string Password, string Name, string Surname, string PhoneNumber,
             string Email,byte[] Image, AccessLevel AccessLevel)
         {
@@ -289,12 +426,30 @@ namespace StoreApp.Infrastructure.DbManagement
             }
 
         }
+
+        /// <summary>
+        /// Добавляет нового пользователя в базу данных
+        /// </summary>
+        /// <param name="Login">Логин</param>
+        /// <param name="Password">Пароль</param>
+        /// <param name="Name">Имя</param>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="PhoneNumber">Номер телефона</param>
+        /// <param name="Email">Почта</param>
+        /// <param name="Image">Фото</param>
+        /// <param name="AccessLevel">Уровень доступа</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddUserAsync(string Login, string Password, string Name, string Surname,
             string PhoneNumber, string Email, byte[] Image, AccessLevel AccessLevel)
         {
             return await Task.Run(() => AddUser(Login, Password, Name, Surname, PhoneNumber, Email,Image, AccessLevel));
         }
 
+        /// <summary>
+        /// Удаляет пользователя из базы данных
+        /// </summary>
+        /// <param name="Id">Имя пользователя</param>
+        /// <returns>bool</returns>
         public bool RemoveUser(int Id)
         {
             try
@@ -314,11 +469,22 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Удаляет пользователя из базы данных
+        /// </summary>
+        /// <param name="Id">Имя пользователя</param>
+        /// <returns>bool</returns>
         public async Task<bool> RemoveUserAsync(int Id)
         {
             return await Task.Run(() => RemoveUser(Id));
         }
 
+        /// <summary>
+        /// Добавляет новую категорию
+        /// </summary>
+        /// <param name="Name">Имя категории</param>
+        /// <returns>bool</returns>
         public bool AddCategory(string Name)
         {
             try
@@ -340,6 +506,13 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Добавляет новую категорию
+        /// </summary>
+        /// <param name="Name">Имя категории</param>
+        /// <param name="Image">Изоображение категории</param>
+        /// <returns>bool</returns>
         public bool AddCategory(string Name, byte[] Image)
         {
             try
@@ -362,16 +535,34 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
-
+        
+        /// <summary>
+        /// Добавляет новую категорию
+        /// </summary>
+        /// <param name="Name">Имя категории</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddCategoryAsync(string Name)
         {
             return await Task.Run(() => AddCategory(Name));
         }
+        
+        /// <summary>
+        /// Добавляет новую категорию
+        /// </summary>
+        /// <param name="Name">Имя категории</param>
+        /// <param name="Image">Изоображение категории</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddCategoryAsync(string Name, byte[] Image)
         {
             return await Task.Run(() => AddCategory(Name, Image));
         }
 
+        /// <summary>
+        /// Удаляет категорию из базы данных
+        /// </summary>
+        /// <param name="CategoryId">Id категории</param>
+        /// <param name="CategoryName">Имя категории</param>
+        /// <returns>bool</returns>
         public bool RemoveCategory(int CategoryId, string CategoryName)
         {
             try
@@ -393,11 +584,24 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Удаляет категорию из базы данных
+        /// </summary>
+        /// <param name="CategoryId">Id категории</param>
+        /// <param name="CategoryName">Имя категории</param>
+        /// <returns>bool</returns>
         public async Task<bool> RemoveCategoryAsync(int CategoryId, string CategoryName)
         {
             return await Task.Run(() => RemoveCategory(CategoryId, CategoryName));
         }
 
+        /// <summary>
+        /// Производит поиск работника по базе данных
+        /// </summary>
+        /// <param name="Login">Логин работника</param>
+        /// <param name="Password">Пароль работника</param>
+        /// <returns>new Employee()</returns>
         public Employee FindEmployee(string Login, string Password)
         {
             try
@@ -414,11 +618,23 @@ namespace StoreApp.Infrastructure.DbManagement
                 return null;
             }
         }
+        
+        /// <summary>
+        /// Производит поиск работника по базе данных
+        /// </summary>
+        /// <param name="Login">Логин работника</param>
+        /// <param name="Password">Пароль работника</param>
+        /// <returns>new Employee()</returns>
         public async Task<Employee> FindEmployeeAsync(string Login, string Password)
         {
             return await Task.Run(() => FindEmployee(Login, Password));
         }
 
+        /// <summary>
+        /// Изменяет свойства продукта в базе данных
+        /// </summary>
+        /// <param name="product">Продукт</param>
+        /// <returns>bool</returns>
         public bool ChangeProduct(Product product)
         {
             try
@@ -442,11 +658,22 @@ namespace StoreApp.Infrastructure.DbManagement
             }
 
         }
+        
+        /// <summary>
+        /// Изменяет свойства продукта в базе данных
+        /// </summary>
+        /// <param name="product">Продукт</param>
+        /// <returns>bool</returns>
         public async Task<bool> ChangeProductAsync(Product product)
         {
             return await Task.Run(() => ChangeProduct(product));
         }
 
+        /// <summary>
+        /// Изменяет свойства работника в базе данных
+        /// </summary>
+        /// <param name="employee">Работник</param>
+        /// <returns>bool</returns>
         public bool ChangeEmployee(Employee employee)
         {
             try
@@ -480,11 +707,22 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Изменяет свойства работника в базе данных
+        /// </summary>
+        /// <param name="employee">Работник</param>
+        /// <returns>bool</returns>
         public async Task<bool> ChangeEmployeeAsync(Employee employee)
         {
             return await Task.Run(() => ChangeEmployee(employee));
         }
 
+        /// <summary>
+        /// Добавляет новый уровень доступа в базу данных
+        /// </summary>
+        /// <param name="Name">Имя уровня доступа</param>
+        /// <returns>bool</returns>
         public bool AddAccessLevel(string Name)
         {
             try
@@ -506,12 +744,23 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Добавляет новый уровень доступа в базу данных
+        /// </summary>
+        /// <param name="Name">Имя уровня доступа</param>
+        /// <returns>bool</returns>
         public async Task<bool> AddAccessLevelAsync(string Name)
         {
             return await Task.Run(() => AddAccessLevel(Name));
         }
 
-        public bool DeleteAccessLevel(int Id)
+        /// <summary>
+        /// Удаляет уровень доступа из базы данных
+        /// </summary>
+        /// <param name="Id">Id уровня доступа</param>
+        /// <returns>bool</returns>
+        public bool RemoveAccessLevel(int Id)
         {
             try
             {
@@ -535,11 +784,23 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Удаляет уровень доступа из базы данных
+        /// </summary>
+        /// <param name="Id">Id уровня доступа</param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteAccessLevelAsync(int Id)
         {
-            return await Task.Run(() => DeleteAccessLevel(Id));
+            return await Task.Run(() => RemoveAccessLevel(Id));
         }
 
+        /// <summary>
+        /// Изменяет свойства уровня доступа в базе данных
+        /// </summary>
+        /// <param name="id">Id уровня доступа</param>
+        /// <param name="Name">Имя уровня доступа</param>
+        /// <returns>bool</returns>
         public bool ChangeAccessLevel(int id,string Name)
         {
             try
@@ -564,11 +825,23 @@ namespace StoreApp.Infrastructure.DbManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Изменяет свойства уровня доступа в базе данных
+        /// </summary>
+        /// <param name="id">Id уровня доступа</param>
+        /// <param name="Name">Имя уровня доступа</param>
+        /// <returns>bool</returns>
         public async Task<bool> ChangeAccessLevelAsync(int id, string Name)
         {
             return await Task.Run(() => ChangeAccessLevel(id, Name));
         }
 
+        /// <summary>
+        /// Изменяет значения пользователя в базе данных
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>bool</returns>
         public bool ChangeUser(User user)
         {
             try
@@ -599,6 +872,11 @@ namespace StoreApp.Infrastructure.DbManagement
             }
         }
 
+        /// <summary>
+        /// Изменяет значения пользователя в базе данных
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>bool</returns>
         public async Task<bool> ChangeUserAsync(User user) => await Task.Run(() => ChangeUser(user));
         
     }

@@ -46,7 +46,6 @@ namespace StoreApp.Infrastructure.StoreManagement
                 return false;
             }
         }
-
         public async Task<bool> LoginAsync(Employee employee)
         {
             return await Task.Run(()=>Login(employee));
@@ -70,6 +69,10 @@ namespace StoreApp.Infrastructure.StoreManagement
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+        public async Task<bool> UpdateEmployeeAsync(Employee employee)
+        {
+            return await Task.Run(()=>UpdateEmployee(employee));
         }
         private void EmployeeCopy(Employee empOut,Employee eppIn)
         {

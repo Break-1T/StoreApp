@@ -22,9 +22,9 @@ namespace StoreApp.MVVM.View.Windows
         {
             InitializeComponent();
         }
-        ~StartupWindow()
-        {
-            MessageBox.Show("StartupWindow Disposed!");
-        }
+        //~StartupWindow()
+        //{
+        //    MessageBox.Show("StartupWindow Disposed!");
+        //}
     }
 }

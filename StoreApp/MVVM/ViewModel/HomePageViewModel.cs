@@ -15,10 +15,10 @@ namespace StoreApp.MVVM.ViewModel
     {
         public HomePageViewModel()
         {
-            EditCommand = new RelayCommand(OnAppEditCommandExecute, CanAppEditCommandExecute);
-            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute, CanAppSaveChangesCommandExecute);
-            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute, CanAppDeclineChangesCommandExecute);
-            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute, CanAppUploadImageCommandExecute);
+            EditCommand = new RelayCommand(OnAppEditCommandExecute);
+            SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute);
+            DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute);
+            UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute);
             ButtonsVisibility = Visibility.Hidden.ToString();
 
             Employee = new Employee();
@@ -95,7 +95,6 @@ namespace StoreApp.MVVM.ViewModel
         
         #endregion
 
-        private bool CanAppEditCommandExecute(object arg) => true;
         private void OnAppEditCommandExecute(object obj)
         {
             tempEmployee = GetEmployeeCopy(Employee);
@@ -103,7 +102,6 @@ namespace StoreApp.MVVM.ViewModel
             ToReadWriteFields();
         }
 
-        private bool CanAppDeclineChangesCommandExecute(object arg) => true;
         private void OnAppDeclineChangesCommandExecute(object obj)
         {
             Employee = tempEmployee;
@@ -111,7 +109,6 @@ namespace StoreApp.MVVM.ViewModel
             ToReadOnlyFields();
         }
 
-        private bool CanAppSaveChangesCommandExecute(object arg) => true;
         private void OnAppSaveChangesCommandExecute(object obj)
         {
             StoreManagement.UpdateEmployee(Employee);
@@ -120,8 +117,6 @@ namespace StoreApp.MVVM.ViewModel
             ToReadOnlyFields();
         }
 
-
-        private bool CanAppUploadImageCommandExecute(object arg) => true;
         private void OnAppUploadImageCommandExecute(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();

@@ -14,11 +14,7 @@
     <Page.DataContext>
         <vm:DepartamentsPageViewModel/>
     </Page.DataContext>
-    <Border CornerRadius="25" Margin="5" Background="#F1EDD7" >
-        <Border.Effect>
-            <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
-        </Border.Effect>
-        <Grid>
+    <Grid Background="#F1EDD7">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -243,5 +239,4 @@
                 </ScrollViewer>
             </DockPanel>
         </Grid>
-    </Border>
 </Page>

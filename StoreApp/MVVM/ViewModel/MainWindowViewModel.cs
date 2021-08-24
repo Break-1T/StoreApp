@@ -25,7 +25,7 @@ namespace StoreApp.MVVM.ViewModel
             ToAccessLevelsPageCommand = new RelayCommand(OnAppToAccessLevelsPageCommandExecute);
 
             HomePage = new HomePage();
-            (HomePage.DataContext as HomePageViewModel).Employee = Employee;
+            ((HomePageViewModel)HomePage.DataContext).Employee = Employee;
 
             DepartmentsPage = new DepartmentsPage();
             UsersPage = new UsersPage();
@@ -35,12 +35,6 @@ namespace StoreApp.MVVM.ViewModel
 
             MovePage(HomePage);
         }
-
-        #region Events
-
-
-        #endregion
-
 
         #region Commands
 
@@ -53,7 +47,6 @@ namespace StoreApp.MVVM.ViewModel
         public RelayCommand MainWindowLoadedCommand { get; }
 
         #endregion
-
 
         #region Properties
 
@@ -78,7 +71,6 @@ namespace StoreApp.MVVM.ViewModel
         private Employee _employee;
 
         #endregion
-
 
         #region Pages
 
@@ -121,7 +113,6 @@ namespace StoreApp.MVVM.ViewModel
         private void OnAppToUsersPageCommandExecute(object obj)
         {
             MovePageAsync(UsersPage);
-
         }
 
         private void OnAppToProductsPageCommandExecute(object obj)
@@ -129,16 +120,18 @@ namespace StoreApp.MVVM.ViewModel
             MovePageAsync(ProductsPage);
         }
 
-
         private void OnAppToAccessLevelsPageCommandExecute(object obj)
         {
             MovePageAsync(AccessLevelsPage);
         }
 
+        /// <summary>
+        /// Осуществляет переход с текущей страницы на заданную 
+        /// </summary>
+        /// <param name="ToPage"></param>
         private void MovePage(Page ToPage)
         {
             CurrentPage = ToPage;
-            GC.Collect();
         }
 
         private async void MovePageAsync(Page ToPage)

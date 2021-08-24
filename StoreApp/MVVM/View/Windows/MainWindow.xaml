@@ -17,17 +17,20 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
         </i:EventTrigger>
-    </i:Interaction.Triggers>
-    <DockPanel Background="AliceBlue">
-        <StackPanel DockPanel.Dock="Top" MinHeight="10" MaxHeight="25" Background="#d1dcf0"/>
-        <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200">
-            <Button Content="Home" Command="{Binding Path=ToHomePageCommand}"/>
-            <Button Content="Departments" Command="{Binding Path=ToDepartmentsPageCommand}"/>
-            <Button Content="Orders" Command="{Binding Path=ToOrdersPageCommand}"/>
-            <Button Content="Users" Command="{Binding Path=ToUsersPageCommand}" Cursor="Hand"/>
-            <Button Content="Products" Command="{Binding Path=ToProductsPageCommand}" Cursor="Hand"/>
-            <Button Content="AccessLevels" Command="{Binding Path=ToAccessLevelsPageCommand}" Cursor="Hand"/>
-        </StackPanel>
-        <Frame DockPanel.Dock="Right" Visibility="Visible" NavigationUIVisibility="Hidden" Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
+    </i:Interaction.Triggers>    
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200" Background="#232626">
+                <RadioButton Content="Home" Command="{Binding Path=ToHomePageCommand}" Style="{StaticResource MainWindowButton}" IsChecked="True"/>
+                <RadioButton Content="Departments" Command="{Binding Path=ToDepartmentsPageCommand}" Style="{StaticResource MainWindowButton}"/>
+                <RadioButton Content="Orders" Command="{Binding Path=ToOrdersPageCommand}" Style="{StaticResource MainWindowButton}"/>
+                <RadioButton Content="Users" Command="{Binding Path=ToUsersPageCommand}" Cursor="Hand" Style="{StaticResource MainWindowButton}"/>
+                <RadioButton Content="Products" Command="{Binding Path=ToProductsPageCommand}" Cursor="Hand" Style="{StaticResource MainWindowButton}"/>
+                <RadioButton Content="AccessLevels" Command="{Binding Path=ToAccessLevelsPageCommand}" Cursor="Hand" Style="{StaticResource MainWindowButton}"/>
+            </StackPanel>
+        <Frame DockPanel.Dock="Right"
+               Visibility="Visible"
+               NavigationUIVisibility="Hidden"
+               Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}"
+               Background="#374040"/>
     </DockPanel>
 </Window>
