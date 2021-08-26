@@ -7,22 +7,22 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:vm ="clr-namespace:StoreApp.MVVM.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="1000"
       Title="HomePage">
     <Page.DataContext>
         <vm:HomePageViewModel/>
     </Page.DataContext>
-    <Border CornerRadius="25" Margin="20" Background="#F1EDD7" MinWidth="400" MaxWidth="600" VerticalAlignment="Center" Padding="30">
+    <Border CornerRadius="25" Margin="20" Background="White" MinWidth="400" MaxWidth="700" VerticalAlignment="Center" Padding="30">
         <Border.Effect>
             <DropShadowEffect Color="LightGray" BlurRadius="20" ShadowDepth="1"/>
         </Border.Effect>
-        <DockPanel>
-            <Grid DockPanel.Dock="Bottom" Margin="0 30 0 0">
-                <Button Content="Изменить" Command="{Binding Path=EditCommand}" HorizontalAlignment="Left"/>
-                <Button Content="Сохранить" Command="{Binding Path=SaveChangesCommand}" HorizontalAlignment="Right" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Отменить" Command="{Binding Path=DeclineChangesCommand}" HorizontalAlignment="Center" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
+        <DockPanel Background="White">
+            <Grid DockPanel.Dock="Bottom" Margin="0 50 0 0">
+                <Button Content="Изменить" Command="{Binding Path=EditCommand}" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}" Foreground="Black"/>
+                <Button Content="Сохранить" Command="{Binding Path=SaveChangesCommand}" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}" Foreground="Black" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Отменить" Command="{Binding Path=DeclineChangesCommand}" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignFlatButton}" Foreground="Black" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
             </Grid>
-            <Grid DockPanel.Dock="Left"  MinWidth="350" Margin="5" MinHeight="100" MaxHeight="250">
+            <Grid DockPanel.Dock="Left"  MinWidth="350" Margin="5 20 5 5" MinHeight="100" MaxHeight="250">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -55,9 +55,9 @@
                 <TextBox Grid.Row="5" Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="15" Text="{Binding Path= Employee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding Path=IsReadOnlyField,UpdateSourceTrigger=PropertyChanged}" IsReadOnlyCaretVisible="{Binding Path=IsReadOnlyCaretVisible,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
             </Grid>
-            <StackPanel DockPanel.Dock="Right" MinWidth="100" MaxWidth="200" MinHeight="100" MaxHeight="250">
+            <StackPanel DockPanel.Dock="Right" MinWidth="100" MaxWidth="200" MinHeight="100" MaxHeight="250" Margin="0 20 0 0">
                 <Image MinHeight="150" MaxHeight="150" Source="{Binding Path=Employee.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
-                <Button Content="Загрузить фото" Command="{Binding Path=UploadImageCommand}" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Cursor="Hand"/>
+                <Button Content="Загрузить фото" Command="{Binding Path=UploadImageCommand}" Visibility="{Binding Path=ButtonsVisibility,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="Black" Cursor="Hand"/>
             </StackPanel>         
         </DockPanel> 
     </Border>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.ViewModel.Base;
@@ -17,6 +18,7 @@ namespace StoreApp.MVVM.ViewModel
             FillOrders();
             FillOrders();
             FillProducts();
+            FillUsers();
         }
 
         #region Fields
@@ -26,6 +28,8 @@ namespace StoreApp.MVVM.ViewModel
         private ObservableCollection<User> _users;
         private ObservableCollection<Product> _products;
         private ObservableCollection<Order> _orders;
+        private System.Windows.Visibility _addOrderGridVisibility;
+        private System.Windows.Visibility _searchOrderGridVisibility;
 
         #endregion
 
@@ -81,6 +85,52 @@ namespace StoreApp.MVVM.ViewModel
                 _newOrder = value;
                 OnPropertyChanged();
             }
+        }
+
+        public System.Windows.Visibility AddOrderGridVisibility
+        {
+            get => _addOrderGridVisibility;
+            set
+            {
+                if (value == _addOrderGridVisibility) return;
+                _addOrderGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        public System.Windows.Visibility SearchOrderGridVisibility
+        {
+            get => _searchOrderGridVisibility;
+            set
+            {
+                if (value == _searchOrderGridVisibility) return;
+                _searchOrderGridVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Commands
+
+        public RelayCommand OpenAddOrderGridCommand
+        {
+            get => new (x =>
+            {
+                AddOrderGridVisibility = AddOrderGridVisibility == System.Windows.Visibility.Collapsed
+                    ? System.Windows.Visibility.Visible
+                    : System.Windows.Visibility.Collapsed;
+                SearchOrderGridVisibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+        public RelayCommand OpenSearchOrderGridCommand
+        {
+            get => new(x =>
+            {
+                SearchOrderGridVisibility = SearchOrderGridVisibility == System.Windows.Visibility.Collapsed
+                    ? System.Windows.Visibility.Visible
+                    : System.Windows.Visibility.Collapsed;
+                AddOrderGridVisibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         #endregion

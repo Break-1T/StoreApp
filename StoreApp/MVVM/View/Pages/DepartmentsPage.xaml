@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0.35*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+        <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#B3B5BD"/>
 
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
@@ -30,7 +30,7 @@
                             <ColumnDefinition MaxWidth="75"/>
                         </Grid.ColumnDefinitions>
                         <Menu Grid.Column="0">
-                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddEmployeeGridCommand         }"/>
+                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddEmployeeGridCommand}"/>
                             <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
                         </Menu>
                         <Image Grid.Column="1" Source="{Binding Path=SelectedDepartament.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="45"/>
@@ -188,19 +188,19 @@
                 </ScrollViewer>
             </DockPanel>
 
-            <DockPanel Grid.Column="2" MinWidth="100">
+        <DockPanel Grid.Column="2" MinWidth="100" Background="#B3B5BD">
                 <StackPanel DockPanel.Dock="Top">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>  
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Отделы" FontSize="16" Width="auto" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Text="Отделы" FontSize="20" Width="auto" VerticalAlignment="Bottom"/>
                         <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=OpenAddNewDepartamentCommand}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/> 
+                                    <TextBlock Text="+" VerticalAlignment="Center" Foreground="Black"  FontSize="30"/> 
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
@@ -219,7 +219,7 @@
                     </StackPanel>
                 </StackPanel>
                 <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllEmployeesCommand}"/>
-                <ScrollViewer>
+            <ScrollViewer>
                     <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedDepartament}">
                         <ListBox.ContextMenu>
                             <ContextMenu Padding="0">

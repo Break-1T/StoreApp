@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:StoreApp.MVVM.ViewModel"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1400" Cursor="Hand" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="700" Width="1400" Cursor="Hand" WindowStartupLocation="CenterScreen" Background="#9496A1">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -19,7 +19,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>    
     <DockPanel>
-        <StackPanel DockPanel.Dock="Left" MinWidth="100" MaxWidth="200" Background="#232626">
+        <StackPanel DockPanel.Dock="Left" MinWidth="120" MaxWidth="200" Background="#9496A1" Margin="0 10 0 0">
                 <RadioButton Content="Home" Command="{Binding Path=ToHomePageCommand}" Style="{StaticResource MainWindowButton}" IsChecked="True"/>
                 <RadioButton Content="Departments" Command="{Binding Path=ToDepartmentsPageCommand}" Style="{StaticResource MainWindowButton}"/>
                 <RadioButton Content="Orders" Command="{Binding Path=ToOrdersPageCommand}" Style="{StaticResource MainWindowButton}"/>
@@ -31,6 +31,6 @@
                Visibility="Visible"
                NavigationUIVisibility="Hidden"
                Content="{Binding Path=CurrentPage,UpdateSourceTrigger=PropertyChanged}"
-               Background="#374040"/>
+               Background="#B3B5BD"/>
     </DockPanel>
 </Window>

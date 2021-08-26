@@ -121,7 +121,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.ShowDialog();
-            Employee.Image = File.ReadAllBytes(dialog.FileName);
+            Employee.Image = !string.IsNullOrEmpty(dialog.FileName)? File.ReadAllBytes(dialog.FileName):Employee.Image;
         }
 
         public void ToReadOnlyFields()

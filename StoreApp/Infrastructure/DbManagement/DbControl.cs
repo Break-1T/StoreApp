@@ -878,6 +878,5 @@ namespace StoreApp.Infrastructure.DbManagement
         /// <param name="user">Пользователь</param>
         /// <returns>bool</returns>
         public async Task<bool> ChangeUserAsync(User user) => await Task.Run(() => ChangeUser(user));
-        
     }
 }
