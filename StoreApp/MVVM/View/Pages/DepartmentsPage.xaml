@@ -195,12 +195,12 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>  
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Отделы" FontSize="20" Width="auto" VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Column="0" Text="Отделы" FontSize="20" Width="auto" Foreground="White" VerticalAlignment="Bottom"/>
                         <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=OpenAddNewDepartamentCommand}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="+" VerticalAlignment="Center" Foreground="Black"  FontSize="30"/> 
+                                    <TextBlock Text="+" VerticalAlignment="Center" Foreground="White"  FontSize="30"/> 
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
@@ -218,9 +218,9 @@
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>
-                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllEmployeesCommand}"/>
+                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllEmployeesCommand}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="White"/>
             <ScrollViewer>
-                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedDepartament}">
+                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Departments,UpdateSourceTrigger=PropertyChanged}" Foreground="White" SelectedItem="{Binding Path=SelectedDepartament}">
                         <ListBox.ContextMenu>
                             <ContextMenu Padding="0">
                                 <MenuItem Header="Удалить" Command="{Binding Path=DeleteDepartamentCommand}"/>

@@ -31,5 +31,7 @@ namespace StoreApp.MVVM.Model
         public AccessLevel AccessLevel { get; set; }
         [CanBeNull]
         public ObservableCollection<Order> Orders { get; set; }
+
+        public string GetFullName => Name + " " + Surname;
     }
 }

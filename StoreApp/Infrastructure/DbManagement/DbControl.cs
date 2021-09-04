@@ -878,5 +878,46 @@ namespace StoreApp.Infrastructure.DbManagement
         /// <param name="user">Пользователь</param>
         /// <returns>bool</returns>
         public async Task<bool> ChangeUserAsync(User user) => await Task.Run(() => ChangeUser(user));
+
+        /// <summary>
+        /// Добавляет новый заказ в базу данных
+        /// </summary>
+        /// <param name="order">Объект типа Order</param>
+        /// <returns>bool</returns>
+        public bool AddOrder(Order order)
+        {
+            try
+            {
+                using (ApplicationContext db = new())
+                {
+                    order.Product = db.Products.Include(x => x.Category).FirstOrDefault(p=>p.Id==order.Product.Id);
+                    order.User = db.Users.Include(x => x.AccessLevel).Include(e => e.Orders)
+                        .FirstOrDefault(u => u.Id == order.User.Id);
+                    db.Orders.Add(new Order()
+                    {
+                        Date = order.Date,
+                        Product = order.Product,
+                        User = order.User
+                    });
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Добавляет новый заказ в базу данных
+        /// </summary>
+        /// <param name="order">Объект типа Order</param>
+        /// <returns>bool</returns>
+        public async Task<bool> AddOrderAsync(Order order)
+        {
+            return await Task.Run(() => AddOrder(order));
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.DbManagement;
+using StoreApp.Infrastructure.StoreManagement;
 using StoreApp.MVVM.Model;
 using StoreApp.MVVM.ViewModel.Base;
 
@@ -15,7 +16,18 @@ namespace StoreApp.MVVM.ViewModel
     {
         public OrdersPageViewModel()
         {
-            FillOrders();
+            AddNewOrderCommand = new RelayCommand(OnAddNewOrderCommandExecute);
+            
+            SelectedDate=DateTime.Now;
+
+            AddOrderGridVisibility = System.Windows.Visibility.Collapsed;
+            SearchOrderGridVisibility = System.Windows.Visibility.Collapsed;
+
+            UseCurrentDateTime = true;
+
+            StoreManagement = new();
+            NewOrder = new();
+
             FillOrders();
             FillProducts();
             FillUsers();
@@ -30,6 +42,9 @@ namespace StoreApp.MVVM.ViewModel
         private ObservableCollection<Order> _orders;
         private System.Windows.Visibility _addOrderGridVisibility;
         private System.Windows.Visibility _searchOrderGridVisibility;
+        private DateTime _selectedDate;
+        private DateTime _selectedTime;
+        private bool _useCurrentDateTime;
 
         #endregion
 
@@ -108,6 +123,30 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
+        public bool UseCurrentDateTime
+        {
+            get => _useCurrentDateTime;
+            set
+            {
+                if (value == _useCurrentDateTime) return;
+                _useCurrentDateTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                if (value.Equals(_selectedDate)) return;
+                _selectedDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Store StoreManagement { get; set; }
+
         #endregion
 
         #region Commands
@@ -132,10 +171,20 @@ namespace StoreApp.MVVM.ViewModel
                 AddOrderGridVisibility = System.Windows.Visibility.Collapsed;
             });
         }
+        public RelayCommand AddNewOrderCommand { get; set; }
 
         #endregion
 
         #region Methods
+
+        private async void OnAddNewOrderCommandExecute(object obj)
+        {
+            NewOrder.Date = !UseCurrentDateTime ? SelectedDate : DateTime.Now;
+            if (await StoreManagement.DataBaseControl.AddOrderAsync(NewOrder))
+            {
+                FillOrders();
+            }
+        }
 
         /// <summary>
         /// Заполняет список Orders

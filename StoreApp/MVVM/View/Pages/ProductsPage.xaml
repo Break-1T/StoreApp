@@ -14,7 +14,7 @@
     <Page.DataContext>
         <vm:ProductsPageViewModel/>
     </Page.DataContext>
-    <Grid Background="#F1EDD7">
+    <Grid Background="#B3B5BD">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -132,18 +132,18 @@
             </DockPanel>
 
             <DockPanel Grid.Column="2" MinWidth="100">
-                <StackPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Top" Background="#B3B5BD">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Категории" FontSize="16" Width="auto" VerticalAlignment="Center"/>                
+                        <TextBlock Grid.Column="0" Text="Категории" Foreground="White" FontSize="16" Width="auto" VerticalAlignment="Center"/>                
                         <Button Grid.Column="1" Margin="5 0 0 0" FontSize="25" HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Command="{Binding Path=AddCategoryCommand,UpdateSourceTrigger=PropertyChanged}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="+" VerticalAlignment="Center"  FontSize="30"/>
+                                    <TextBlock Text="+" VerticalAlignment="Center" Foreground="White" FontSize="30"/>
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
@@ -161,9 +161,9 @@
                         </DockPanel>
                     </StackPanel>
                 </StackPanel>
-                <Button Content="Показать всё" DockPanel.Dock="Bottom" Command="{Binding Path=ShowAllProductsCommand}"/>
-                <ScrollViewer>
-                    <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedCategory}">
+                <Button Content="Показать всё" DockPanel.Dock="Bottom" Foreground="White" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ShowAllProductsCommand}"/>
+            <ScrollViewer Background="#B3B5BD">
+                <ListBox DockPanel.Dock="Left" ItemsSource="{Binding Path=Categories,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedCategory}">
                         <ListBox.ContextMenu>
                             <ContextMenu Padding="0"> 
                                 <MenuItem Header="Удалить" Command="{Binding Path=DeleteCategoryCommand}"/> 

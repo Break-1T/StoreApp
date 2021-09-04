@@ -37,10 +37,11 @@
                           materialDesign:HintAssist.Hint="Пользователь" 
                           ItemsSource="{Binding Path=Users}" 
                           SelectedItem="{Binding Path=NewOrder.User}"
-                          IsTextSearchEnabled="True" TextSearch.TextPath="Name" IsTextSearchCaseSensitive="True">
+                          IsTextSearchEnabled="True" TextSearch.TextPath="Name" IsTextSearchCaseSensitive="True"
+                          IsEditable="True">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Name}"/>
+                            <TextBlock Text="{Binding Path=GetFullName}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -59,7 +60,7 @@
 
                 <CheckBox x:Name="DateTimeCheckBox" Grid.Column="2" 
                              Content="Использовать текущую дату и время" 
-                             IsChecked="True"/>
+                             IsChecked="{Binding Path=UseCurrentDateTime,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Grid Grid.Column="3">
                     <Grid.Style>
@@ -82,10 +83,10 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DatePicker materialDesign:HintAssist.Hint = "Дата" Grid.Column="0"/>
-                    <materialDesign:TimePicker Grid.Column="1" materialDesign:HintAssist.Hint = "Время"/>
+                    <DatePicker materialDesign:HintAssist.Hint = "Дата" Grid.Column="0" SelectedDate="{Binding Path=SelectedDate}"/>
+                    <materialDesign:TimePicker Grid.Column="1" materialDesign:HintAssist.Hint = "Время" SelectedTime="{Binding Path=SelectedDate}"/>
                 </Grid>
-                <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Command="{Binding Path=AddNewUserCommand}"/>
+                <Button Grid.Column="4" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Command="{Binding Path=AddNewOrderCommand}"/>
             </Grid>
 
             <Grid Background="White" Visibility="{Binding SearchOrderGridVisibility,UpdateSourceTrigger=PropertyChanged}">
@@ -167,9 +168,9 @@
                     <DataGridTextColumn Header="OrderId" Binding="{Binding Path= Id}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="ProdutctName" Binding="{Binding Path=Product.Name}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="ProductId" Binding="{Binding Path=ProductId}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="UserName" Binding="{Binding Path=User.Name}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="UserName" Binding="{Binding Path=User.GetFullName}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="UserId" Binding="{Binding Path=UserId}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Path=Date,StringFormat={}{DD:MM}}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Path=Date,StringFormat=\{0:dd.MM.yy HH:mm\}}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
