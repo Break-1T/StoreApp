@@ -23,6 +23,9 @@
                 <RadioButton Width="100" Content="Поиск"
                              Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
                              Command="{Binding OpenSearchOrderGridCommand}"/>
+                <Button Width="120" Content="Показать всё"
+                             Style="{StaticResource MaterialDesignFlatAccentButton}" Height="45"
+                             Command="{Binding ShowAllOrdersCommand}" Foreground="Black"/>
             </StackPanel>
 
             <Grid Background="White" Visibility="{Binding AddOrderGridVisibility,UpdateSourceTrigger=PropertyChanged}">
@@ -91,24 +94,24 @@
 
             <Grid Background="White" Visibility="{Binding SearchOrderGridVisibility,UpdateSourceTrigger=PropertyChanged}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
-                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
-                <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <TextBox Grid.Column="5" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <TextBox Grid.Column="6" materialDesign:HintAssist.Hint="Уровень доступа" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
-                <Button Grid.Column="7" Content="Найти" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"/>
+                <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="OrderId" Text="{Binding Path=SearchOrderId}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="ProductName" Text="{Binding Path=SearchOrder.Product.Name}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="ProductId" Text="{Binding Path=SearchOrder.ProductId}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="UserName" Text="{Binding Path=SearchOrder.User.Name}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="4" materialDesign:HintAssist.Hint="UserId" Text="{Binding Path=SearchOrder.UserId}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <TextBox Grid.Column="5" FontSize="15" materialDesign:HintAssist.Hint="Date" Text="{Binding Path=SearchDate, StringFormat=\{0:dd.MM.yyyy\}}" VerticalAlignment="Bottom" Cursor="IBeam"/>
+                <Button Grid.Column="6" Content="Найти" Command="{Binding Path=SearchOrdersCommand}" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"/>
+                <Button Grid.Column="7" Content="Очистить" Command="{Binding Path=ClearSearchOrdersCommand}" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"/>
             </Grid>
         </StackPanel>
         <Grid DockPanel.Dock="Bottom" Background="White">
@@ -161,7 +164,6 @@
                     <ContextMenu>
                         <MenuItem Header="Удалить" Command="{Binding Path=DeleteUserCommand}"/>
                         <MenuItem Header="Изменить" Command ="{Binding Path=OpenEditUserGridVisibilityCommand}"/>
-                        <MenuItem Header="Показать заказы"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>

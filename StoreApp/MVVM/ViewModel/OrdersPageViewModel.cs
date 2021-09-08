@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
@@ -17,21 +17,30 @@ namespace StoreApp.MVVM.ViewModel
         public OrdersPageViewModel()
         {
             AddNewOrderCommand = new RelayCommand(OnAddNewOrderCommandExecute);
+            ShowAllOrdersCommand = new RelayCommand(x=>{FillOrdersAsync();});
+            SearchOrdersCommand = new RelayCommand(OnSearchOrdersCommandExecute);
             
             SelectedDate=DateTime.Now;
 
-            AddOrderGridVisibility = System.Windows.Visibility.Collapsed;
-            SearchOrderGridVisibility = System.Windows.Visibility.Collapsed;
+            AddOrderGridVisibility = Visibility.Collapsed;
+            SearchOrderGridVisibility = Visibility.Collapsed;
 
             UseCurrentDateTime = true;
 
             StoreManagement = new();
             NewOrder = new();
+            SearchOrder = new Order()
+            {
+                Product = new Product(),
+                User=new User()
+            };
 
-            FillOrders();
-            FillProducts();
-            FillUsers();
+            FillOrdersAsync();
+            FillProductsAsync();
+            FillUsersAsync();
         }
+
+ 
 
         #region Fields
 
@@ -43,8 +52,10 @@ namespace StoreApp.MVVM.ViewModel
         private System.Windows.Visibility _addOrderGridVisibility;
         private System.Windows.Visibility _searchOrderGridVisibility;
         private DateTime _selectedDate;
-        private DateTime _selectedTime;
         private bool _useCurrentDateTime;
+        private Order _searchOrder;
+        private int? _searchOrderId;
+        private string _searchDate;
 
         #endregion
 
@@ -102,6 +113,17 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
+        public Order SearchOrder
+        {
+            get => _searchOrder;
+            set
+            {
+                if (Equals(value, _searchOrder)) return;
+                _searchOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         public System.Windows.Visibility AddOrderGridVisibility
         {
             get => _addOrderGridVisibility;
@@ -145,7 +167,29 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        public Store StoreManagement { get; set; }
+        private Store StoreManagement { get; set; }
+
+        public int? SearchOrderId
+        {
+            get => _searchOrderId;
+            set
+            {
+                if (value == _searchOrderId) return;
+                _searchOrderId = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public string SearchDate
+        {
+            get => _searchDate;
+            set
+            {
+                if (value == _searchDate) return;
+                _searchDate = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -172,6 +216,21 @@ namespace StoreApp.MVVM.ViewModel
             });
         }
         public RelayCommand AddNewOrderCommand { get; set; }
+        public RelayCommand ShowAllOrdersCommand { get; set; }
+        public RelayCommand SearchOrdersCommand { get; set; }
+
+        public RelayCommand ClearSearchOrdersCommand
+        {
+            get => new (x =>
+            {
+                SearchOrder = new Order()
+                {
+                    Product = new Product(),
+                    User = new User()
+                };
+                SearchOrderId = null;
+            });
+        }
 
         #endregion
 
@@ -182,8 +241,21 @@ namespace StoreApp.MVVM.ViewModel
             NewOrder.Date = !UseCurrentDateTime ? SelectedDate : DateTime.Now;
             if (await StoreManagement.DataBaseControl.AddOrderAsync(NewOrder))
             {
-                FillOrders();
+                FillProductsAsync();
+                HasChanges = true;
             }
+        }
+
+        private void OnSearchOrdersCommandExecute(object obj)
+        {
+            Orders = new ObservableCollection<Order>(Orders.Where(x =>
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.Id, SearchOrderId) &&
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.Product.Name, SearchOrder.Product.Name) &&
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.ProductId.ToString(), SearchOrder.ProductId.ToString()) &&
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.User.Name, SearchOrder.User.Name) &&
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.UserId, SearchOrder.UserId) &&
+                StoreManagement.CanEqualsSearchQueryBeCompleted(x.Date, SearchDate)
+                ));
         }
 
         /// <summary>
@@ -205,6 +277,11 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         /// <summary>
+        /// Асинхронно заполняет список Orders
+        /// </summary>
+        private async void FillOrdersAsync() => await Task.Run(FillOrders);
+
+        /// <summary>
         /// Заполняет список Users
         /// </summary>
         private void FillUsers()
@@ -222,6 +299,10 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
         /// <summary>
+        /// Асинхронно заполняет список Orders
+        /// </summary>
+        private async void FillUsersAsync() => await Task.Run(FillUsers);
+        /// <summary>
         /// Заполняет список Products
         /// </summary>
         private void FillProducts()
@@ -237,6 +318,17 @@ namespace StoreApp.MVVM.ViewModel
             {
                 MessageBox.Show(e.Message);
             }
+        }
+        /// <summary>
+        /// Асинхронно заполняет список Orders
+        /// </summary>
+        private async void FillProductsAsync() => await Task.Run(FillProducts);
+
+        public override void Update()
+        {
+            FillUsersAsync();
+            FillOrdersAsync();
+            FillProductsAsync();
         }
 
         #endregion

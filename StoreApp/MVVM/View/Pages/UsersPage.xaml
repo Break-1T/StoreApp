@@ -14,11 +14,15 @@
         <vm:UsersPageViewModel/>
     </Page.DataContext>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top">
-            <Menu>
-                <MenuItem Header="Добавить" Height="45" Command="{Binding OpenAddUserGridVisibilityCommand}"/>
-                <MenuItem Header="Поиск" Height="45" Command="{Binding OpenSearchUserGridVisibilityCommand}"/>
-            </Menu>
+        <StackPanel DockPanel.Dock="Top" Background="White">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Width="100" Content="Добавить"
+                             Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                             Command="{Binding Path=OpenAddUserGridVisibilityCommand}"/>
+                <RadioButton Width="100" Content="Поиск"
+                             Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                             Command="{Binding OpenSearchUserGridVisibilityCommand}"/>
+            </StackPanel>
             <Grid Background="White" Visibility="{Binding Path=AddUserGridVisibility,UpdateSourceTrigger=PropertyChanged}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Infrastructure.Commands;
@@ -16,9 +17,9 @@ namespace StoreApp.MVVM.ViewModel
 
         public AccessLevelsViewModel()
         {
-            AddNewAccessLevelCommand = new RelayCommand(OnAddNewAccessLevelCommandExecute, CanAddNewAccessLevelCommandExecute);
+            AddNewAccessLevelCommand = new RelayCommand(OnAddNewAccessLevelCommandExecute);
             DeleteAcessLevelCommand =
-                new RelayCommand(OnDeleteAcessLevelCommandExecute, CanDeleteAcessLevelCommandExecute);
+                new RelayCommand(OnDeleteAcessLevelCommandExecute);
             AddAccessLevelGridVisibilityCommand = new RelayCommand((x) =>
             {
                 AddAccessLevelGridVisibility = AddAccessLevelGridVisibility == System.Windows.Visibility.Collapsed
@@ -47,7 +48,7 @@ namespace StoreApp.MVVM.ViewModel
             AddAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
             EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
 
-            FillAccessLevels();
+            Update();
         }
 
         #region Commands
@@ -137,18 +138,19 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (await _store.DataBaseControl.ChangeAccessLevelAsync(SelectedAccessLevel.Id,SelectedAccessLevel.Name))
             {
-                FillAccessLevels();
+                FillAccessLevelsAsync();
+                HasChanges = true;
             }
         }
 
-        private bool CanDeleteAcessLevelCommandExecute(object arg) => true;
         private async void OnDeleteAcessLevelCommandExecute(object obj)
         {
             try
             {
                 if (await _store.DataBaseControl.DeleteAccessLevelAsync(SelectedAccessLevel.Id))
                 {
-                    FillAccessLevels();
+                    FillAccessLevelsAsync();
+                    HasChanges = true;
                 }
             }
             catch (Exception e)
@@ -157,14 +159,14 @@ namespace StoreApp.MVVM.ViewModel
             }
         }
 
-        private bool CanAddNewAccessLevelCommandExecute(object arg) => true;
         private async void OnAddNewAccessLevelCommandExecute(object obj)
         {
             try
             {
                 if (await _store.DataBaseControl.AddAccessLevelAsync(NewAccessLevel.Name))
                 {
-                    FillAccessLevels();
+                    FillAccessLevelsAsync();
+                    HasChanges = true;
                 }
             }
             catch (Exception e)
@@ -183,6 +185,7 @@ namespace StoreApp.MVVM.ViewModel
                         .Include(t => t.Users));
             }
         }
+        private async void FillAccessLevelsAsync() => await Task.Run(FillAccessLevels);
 
         public override void Dispose()
         {
@@ -196,6 +199,10 @@ namespace StoreApp.MVVM.ViewModel
             EditAccessLevelGridVisibility = System.Windows.Visibility.Collapsed;
         }
 
+        public override void Update()
+        {
+            FillAccessLevelsAsync();
+        }
 
         #endregion
 

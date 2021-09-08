@@ -904,7 +904,7 @@ namespace StoreApp.Infrastructure.DbManagement
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -919,5 +919,7 @@ namespace StoreApp.Infrastructure.DbManagement
         {
             return await Task.Run(() => AddOrder(order));
         }
+
+
     }
 }

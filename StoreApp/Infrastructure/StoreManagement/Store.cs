@@ -87,5 +87,54 @@ namespace StoreApp.Infrastructure.StoreManagement
             empOut.PhoneNumber = eppIn.PhoneNumber;
             empOut.Surname = eppIn.Surname;
         }
+
+        /// <summary>
+        /// Метод для сравнения 2-х объектов для LINQ выражения. В случае, если 2-й объект будет IsNullOrEmpty, то возвратиться true и цикл продолжит свою работу не обращая на это внимания
+        /// </summary>
+        /// <param name="x">Параметр для сравнения</param>
+        /// <param name="y">Параметр который сравнивается</param>
+        /// <returns>bool</returns>
+        public bool CanEqualsSearchQueryBeCompleted(string x, string y)
+        {
+            if (string.IsNullOrEmpty(y))
+                return true;
+
+            return x.ToLower() == y.ToLower();
+        }
+
+        /// <summary>
+        /// Метод для сравнения 2-х объектов для LINQ выражения. В случае, если 2-й объект будет null, то возвратиться true и цикл продолжит свою работу не обращая на это внимания
+        /// </summary>
+        /// <param name="x">Параметр для сравнения</param>
+        /// <param name="y">Параметр который сравнивается</param>
+        /// <returns>bool</returns>
+        public bool CanEqualsSearchQueryBeCompleted(int? x, int? y)
+        {
+            if (y == null)
+                return true;
+
+            return x == y;
+        }
+
+        /// <summary>
+        /// Метод для сравнения 2-х объектов для LINQ выражения. В случае, если 2-й объект будет IsNullOrEmpty, то возвратиться true и цикл продолжит свою работу не обращая на это внимания
+        /// </summary>
+        /// <param name="x">Параметр для сравнения</param>
+        /// <param name="y">Параметр который сравнивается</param>
+        /// <returns>bool</returns>
+        public bool CanEqualsSearchQueryBeCompleted(DateTime x, string y)
+        {
+            DateTime date = new DateTime();
+
+            if (string.IsNullOrEmpty(y))
+                return true;
+
+            if (DateTime.TryParse(y, out date))
+            {
+                return x.Day == date.Day && x.Month == date.Month && x.Year == date.Year;
+            }
+
+            return false;
+        }
     }
 }

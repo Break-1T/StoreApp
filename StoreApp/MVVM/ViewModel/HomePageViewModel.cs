@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 using Microsoft.Win32;
 using StoreApp.Infrastructure.Commands;
 using StoreApp.Infrastructure.StoreManagement;
@@ -19,7 +20,7 @@ namespace StoreApp.MVVM.ViewModel
             SaveChangesCommand = new RelayCommand(OnAppSaveChangesCommandExecute);
             DeclineChangesCommand = new RelayCommand(OnAppDeclineChangesCommandExecute);
             UploadImageCommand = new RelayCommand(OnAppUploadImageCommandExecute);
-            ButtonsVisibility = Visibility.Hidden.ToString();
+            ButtonsVisibility = Visibility.Hidden;
 
             Employee = new Employee();
             StoreManagement = new Store();
@@ -28,7 +29,7 @@ namespace StoreApp.MVVM.ViewModel
 
         #region Fields
 
-        private string _buttonsVisibility;
+        private Visibility _buttonsVisibility;
         
         private bool _isReadOnlyField;
         private bool _isReadOnlyCaretVisible;
@@ -52,7 +53,7 @@ namespace StoreApp.MVVM.ViewModel
         }
 
         public Store StoreManagement { get; set; }
-        public string ButtonsVisibility
+        public Visibility ButtonsVisibility
         {
             get => _buttonsVisibility;
             set
@@ -98,14 +99,14 @@ namespace StoreApp.MVVM.ViewModel
         private void OnAppEditCommandExecute(object obj)
         {
             tempEmployee = GetEmployeeCopy(Employee);
-            ButtonsVisibility = Visibility.Visible.ToString();
+            ButtonsVisibility = Visibility.Visible;
             ToReadWriteFields();
         }
 
         private void OnAppDeclineChangesCommandExecute(object obj)
         {
             Employee = tempEmployee;
-            ButtonsVisibility = Visibility.Hidden.ToString();
+            ButtonsVisibility = Visibility.Hidden;
             ToReadOnlyFields();
         }
 
@@ -113,7 +114,7 @@ namespace StoreApp.MVVM.ViewModel
         {
             StoreManagement.UpdateEmployee(Employee);
             tempEmployee = null;
-            ButtonsVisibility = Visibility.Hidden.ToString();
+            ButtonsVisibility = Visibility.Hidden;
             ToReadOnlyFields();
         }
 

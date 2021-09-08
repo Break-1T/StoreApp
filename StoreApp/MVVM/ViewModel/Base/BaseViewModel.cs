@@ -8,6 +8,8 @@ namespace StoreApp.MVVM.ViewModel.Base
 {
     class BaseViewModel:INotifyPropertyChanged,IDisposable
     {
+        public bool HasChanges { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -15,6 +17,9 @@ namespace StoreApp.MVVM.ViewModel.Base
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        public virtual void Update(){}
 
         /// <summary>
         /// Освобождение ресурсов

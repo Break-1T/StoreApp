@@ -128,9 +128,13 @@ namespace StoreApp.MVVM.ViewModel
         /// <summary>
         /// Осуществляет переход с текущей страницы на заданную 
         /// </summary>
-        /// <param name="ToPage"></param>
+        /// <param name="ToPage">На какую страницу перейти</param>
         private void MovePage(Page ToPage)
         {
+            if (((BaseViewModel)CurrentPage.DataContext).HasChanges)
+            {
+                (ToPage.DataContext as BaseViewModel)?.Update();
+            }
             CurrentPage = ToPage;
         }
 

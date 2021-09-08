@@ -26,10 +26,10 @@
                     Command="{Binding Path=ChangeAccessLevelCommand}"/>
             <Button Grid.Column="2" Content="Закрыть" Padding="0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=CloseEditGridCommand}"/>
         </Grid>
-        <StackPanel DockPanel.Dock="Top">
-            <Menu>
-                <MenuItem Header="Добавить" Height="45" Command="{Binding AddAccessLevelGridVisibilityCommand}"/>
-            </Menu>
+        <StackPanel DockPanel.Dock="Top" Background="White">
+            <RadioButton Width="100" Content="Добавить"
+                         Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                         Command="{Binding Path=AddAccessLevelGridVisibilityCommand}" HorizontalAlignment="Left"/>
             <Grid Background="White" Visibility="{Binding Path=AddAccessLevelGridVisibility,UpdateSourceTrigger=PropertyChanged}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

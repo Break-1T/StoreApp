@@ -29,10 +29,14 @@
                             <ColumnDefinition />
                             <ColumnDefinition MaxWidth="75"/>
                         </Grid.ColumnDefinitions>
-                        <Menu Grid.Column="0">
-                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddProductGridCommand}"/>
-                            <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
-                        </Menu>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Width="100" Content="Добавить"
+                                     Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                                     Command="{Binding Path=OpenAddProductGridCommand}"/>
+                        <RadioButton Width="100" Content="Поиск"
+                                     Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                                     Command="{Binding OpenSearchGridCommand}"/>
+                    </StackPanel>
                         <Image Grid.Column="1" Source="{Binding Path=SelectedCategory.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" MaxHeight="45"/>
                     </Grid>
                     <Grid Height="{Binding Path=OpenAddProductGridHeight,UpdateSourceTrigger=PropertyChanged}" Background="White">

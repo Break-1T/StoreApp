@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
@@ -22,36 +23,21 @@ namespace StoreApp.MVVM.ViewModel
         {
             #region Commands
 
-            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute,
-                CanAppAddCategoryCommandExecute);
-            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute,
-                CanAppUploadCategoryPhotoCommandExecute);
-            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute,
-                CanAppSaveCategoryCommandExecute);
-            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute,
-                CanAppDeleteCategoryCommandExecute);
-            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute,
-                CanAppAddProductCommandExecute);
-            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute,
-                CanAppUploadNewProductPhotoCommandExecute);
-            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute,
-                CanAppOpenAddProductGridCommandExecute);
-            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute,
-                CanAppShowAllProductsCommandExecute);
-            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute,
-                CanAppDeleteProductCommandExecute);
-            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute,
-                CanAppOpenSearchGridCommandExecute);
-            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute,
-                CanAppSearchProductCommandExecute);
-            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute,
-                CanAppOpenChangeGridCommandExecute);
-            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute,
-                CanAppCloseChangeGridCommandExecute);
-            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute,
-                CanAppChangeProductCommandExecute);
-            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute,
-                CanAppChangeProductPhotoCommandExecute);
+            AddCategoryCommand = new RelayCommand(OnAppAddCategoryCommandExecute);
+            UploadCategoryPhotoCommand = new RelayCommand(OnAppUploadCategoryPhotoCommandExecute);
+            SaveCategoryCommand = new RelayCommand(OnAppSaveCategoryCommandExecute);
+            DeleteCategoryCommand = new RelayCommand(OnAppDeleteCategoryCommandExecute);
+            AddProductCommand = new RelayCommand(OnAppAddProductCommandExecute);
+            UploadNewProductPhotoCommand = new RelayCommand(OnAppUploadNewProductPhotoCommandExecute);
+            OpenAddProductGridCommand = new RelayCommand(OnAppOpenAddProductGridCommandExecute);
+            ShowAllProductsCommand = new RelayCommand(OnAppShowAllProductsCommandExecute);
+            DeleteProductCommand = new RelayCommand(OnAppDeleteProductCommandExecute);
+            OpenSearchGridCommand = new RelayCommand(OnAppOpenSearchGridCommandExecute);
+            SearchProductCommand = new RelayCommand(OnAppSearchProductCommandExecute);
+            OpenChangeGridCommand = new RelayCommand(OnAppOpenChangeGridCommandExecute);
+            CloseChangeGridCommand = new RelayCommand(OnAppCloseChangeGridCommandExecute);
+            ChangeProductCommand = new RelayCommand(OnAppChangeProductCommandExecute);
+            ChangeProductPhotoCommand = new RelayCommand(OnAppChangeProductPhotoCommandExecute);
 
             #endregion
 
@@ -74,9 +60,7 @@ namespace StoreApp.MVVM.ViewModel
             SelectedProducts = new ObservableCollection<Product>();
             Categories = new ObservableCollection<Category>();
 
-            FillCategories();
-            FillAllProducts();
-            SelectedProducts = AllProducts;
+            Update();
 
             #endregion
         }
@@ -280,7 +264,6 @@ namespace StoreApp.MVVM.ViewModel
 
         #region CommandMethods
 
-        private bool CanAppChangeProductPhotoCommandExecute(object arg) => true;
         private void OnAppChangeProductPhotoCommandExecute(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -289,33 +272,31 @@ namespace StoreApp.MVVM.ViewModel
                 SelectedProduct.Image = File.ReadAllBytes(dialog.FileName);
         }
 
-        private bool CanAppChangeProductCommandExecute(object arg) => true;
         private async void OnAppChangeProductCommandExecute(object obj)
         {
             if (await StoreManagement.DataBaseControl.ChangeProductAsync(SelectedProduct))
             {
                 FillCategories(SelectedCategory);
-                FillAllProducts();
+                FillAllProductsAsync();
                 FillSelectedProducts();
                 if (OpenChangeProductGridHeight == 0d)
                     OpenChangeProductGridHeight = 40d;
+                HasChanges = true;
             }
         }
 
-        private bool CanAppCloseChangeGridCommandExecute(object arg) => true;
         private void OnAppCloseChangeGridCommandExecute(object obj)
         {
             OpenChangeProductGridHeight = OpenChangeProductGridHeight == 40 ? 0d : 40d;
         }
 
-        private bool CanAppOpenChangeGridCommandExecute(object arg) => true;
         private void OnAppOpenChangeGridCommandExecute(object obj)
         {
             if (OpenChangeProductGridHeight == 0d)
                 OpenChangeProductGridHeight = 40d;
         }
 
-        private bool CanAppSearchProductCommandExecute(object arg) => true;
+        //В дальнейшем изменю этот метод так, как во вью модели Orders и Department
         private void OnAppSearchProductCommandExecute(object obj)
         {
             decimal Price;
@@ -391,29 +372,28 @@ namespace StoreApp.MVVM.ViewModel
 
         }
 
-        private bool CanAppOpenSearchGridCommandExecute(object arg) => true;
         private void OnAppOpenSearchGridCommandExecute(object obj)
         {
             OpenAddProductGridHeight = 0;
             OpenSearchProductGridHeight = OpenSearchProductGridHeight == 40 ? 0d : 40d;
         }
 
-        private bool CanAppDeleteProductCommandExecute(object arg) => true;
         private async void OnAppDeleteProductCommandExecute(object obj)
         {
-            await StoreManagement.DataBaseControl.RemoveProductAsync(SelectedProduct.Name,SelectedProduct.Id);
-            FillCategories(SelectedCategory);
-            FillAllProducts();
-            FillSelectedProducts();
+            if (await StoreManagement.DataBaseControl.RemoveProductAsync(SelectedProduct.Name, SelectedProduct.Id))
+            {
+                FillCategories(SelectedCategory);
+                FillAllProductsAsync();
+                FillSelectedProducts();
+                HasChanges = true;
+            }
         }
 
-        private bool CanAppAddCategoryCommandExecute(object arg) => true;
         private void OnAppAddCategoryCommandExecute(object obj)
         {
             ExpanderHeight = ExpanderHeight == 55d ? 0d : 55d;
         }
 
-        private bool CanAppUploadCategoryPhotoCommandExecute(object arg) => true;
         private void OnAppUploadCategoryPhotoCommandExecute(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -422,61 +402,76 @@ namespace StoreApp.MVVM.ViewModel
                 Category.Image = File.ReadAllBytes(dialog.FileName);
         }
 
-        private bool CanAppSaveCategoryCommandExecute(object arg) => true;
         private async void OnAppSaveCategoryCommandExecute(object obj)
         {
             if (Category.Image != null && Category.Image.Any())
             {
-                await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image);
-                FillCategories();
-                FillAllProducts();
-                SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
-                FillSelectedProducts();
+                if (await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name, Category.Image))
+                {
+                    FillCategoriesAsync();
+                    FillAllProductsAsync();
+                    SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
+                    FillSelectedProducts();
+                    HasChanges = true;
+                }
             }
             else
             {
-                await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name);
-                FillCategories();
-                FillAllProducts();
-                SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
-                FillSelectedProducts();
+                if (await StoreManagement.DataBaseControl.AddCategoryAsync(Category.Name))
+                {
+                    FillCategoriesAsync();
+                    FillAllProductsAsync();
+                    SelectedCategory = Categories.FirstOrDefault(x => x.Name == Category.Name);
+                    FillSelectedProducts();
+                    HasChanges = true;
+                }
             }
         }
 
-        private bool CanAppDeleteCategoryCommandExecute(object arg) => true;
         private async void OnAppDeleteCategoryCommandExecute(object obj)
         {
-            await StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name);
-            FillCategories();
-            FillAllProducts();
-            FillSelectedProducts();
-            SelectedProducts = AllProducts;
+            if (await StoreManagement.DataBaseControl.RemoveCategoryAsync(SelectedCategory.Id, SelectedCategory.Name))
+            {
+                FillCategoriesAsync();
+                FillAllProductsAsync();
+                FillSelectedProducts();
+                SelectedProducts = AllProducts;
+                HasChanges = true;
+            }
         }
 
-        private bool CanAppAddProductCommandExecute(object arg) => true;
         private async void OnAppAddProductCommandExecute(object obj)
         {
             if (NewProduct.Image.Any())
             {
-                await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, NewProduct.Image, SelectedCategory);
+                if (await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, NewProduct.Price, NewProduct.Image, SelectedCategory))
+                {
+                    FillCategories(SelectedCategory);
+                    FillAllProductsAsync();
+                    FillSelectedProducts();
+                    HasChanges = true;
+                }
+
             }
             else
             {
-                await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name,NewProduct.Price, SelectedCategory);
+                if (await StoreManagement.DataBaseControl.AddProductAsync(NewProduct.Name, NewProduct.Price, SelectedCategory))
+                {
+                    FillCategories(SelectedCategory);
+                    FillAllProductsAsync();
+                    FillSelectedProducts();
+                    HasChanges = true;
+                }
             }
-            FillCategories(SelectedCategory);
-            FillAllProducts();
-            FillSelectedProducts();
+
         }
 
-        private bool CanAppOpenAddProductGridCommandExecute(object arg) => true;
         private void OnAppOpenAddProductGridCommandExecute(object obj)
         {
             OpenSearchProductGridHeight = 0;
             OpenAddProductGridHeight = OpenAddProductGridHeight == 40 ? 0d : 40;
         }
 
-        private bool CanAppUploadNewProductPhotoCommandExecute(object arg) => true;
         private void OnAppUploadNewProductPhotoCommandExecute(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -485,7 +480,6 @@ namespace StoreApp.MVVM.ViewModel
                 NewProduct.Image = File.ReadAllBytes(dialog.FileName);
         }
 
-        private bool CanAppShowAllProductsCommandExecute(object arg) => true;
         private void OnAppShowAllProductsCommandExecute(object obj)
         {
             SelectedProducts = AllProducts;
@@ -589,6 +583,16 @@ namespace StoreApp.MVVM.ViewModel
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private async void FillCategoriesAsync() => await Task.Run(FillCategories);
+        private async void FillAllProductsAsync() => await Task.Run(FillAllProducts);
+
+        public override void Update()
+        {
+            FillCategoriesAsync();
+            FillAllProducts();
+            SelectedProducts = AllProducts;
         }
 
         public override void Dispose()

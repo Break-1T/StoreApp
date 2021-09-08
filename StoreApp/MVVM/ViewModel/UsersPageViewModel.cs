@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Media.Imaging;
@@ -33,9 +34,7 @@ namespace StoreApp.MVVM.ViewModel
             SearchUserGridVisibility = System.Windows.Visibility.Collapsed;
             EditUserGridVisibility = System.Windows.Visibility.Collapsed;
 
-            //FillOrders();
-            FillUsers();
-            FillAccessLevels();
+            Update();
         }
 
         #region Fields
@@ -250,8 +249,9 @@ namespace StoreApp.MVVM.ViewModel
         {
             if (await _store.DataBaseControl.RemoveUserAsync(SelectedUser.Id))
             {
-                FillUsers();
-                FillOrders();
+                FillUsersAsync();
+                FillOrdersAsync();
+                HasChanges = true;
             }
         }
 
@@ -263,7 +263,8 @@ namespace StoreApp.MVVM.ViewModel
                 if (await _store.DataBaseControl.AddUserAsync(NewUser.Login, NewUser.Password, NewUser.Name, NewUser.Surname,
                     NewUser.PhoneNumber, NewUser.Email, NewUser.Image, NewUser.AccessLevel))
                 {
-                    FillUsers();
+                    FillUsersAsync();
+                    HasChanges = true;
                 }
                 
             }
@@ -279,7 +280,8 @@ namespace StoreApp.MVVM.ViewModel
             {
                 if (await _store.DataBaseControl.ChangeUserAsync(SelectedUser))
                 {
-                    FillUsers();
+                    FillUsersAsync();
+                    HasChanges = true;
                 }
             }
             catch (Exception e)
@@ -364,6 +366,17 @@ namespace StoreApp.MVVM.ViewModel
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private async void FillUsersAsync() => await Task.Run(FillUsers);
+        private async void FillOrdersAsync() => await Task.Run(FillOrders);
+        private async void FillAccessLevelsAsync() => await Task.Run(FillAccessLevels);
+
+        public override void Update()
+        {
+            FillUsersAsync();
+            FillOrdersAsync();
+            FillAccessLevelsAsync();
         }
 
         public override void Dispose()

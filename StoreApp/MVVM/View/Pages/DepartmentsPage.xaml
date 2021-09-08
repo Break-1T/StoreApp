@@ -29,13 +29,17 @@
                             <ColumnDefinition />
                             <ColumnDefinition MaxWidth="75"/>
                         </Grid.ColumnDefinitions>
-                        <Menu Grid.Column="0">
-                            <MenuItem Header="Добавить" Height="45" Command="{Binding Path=OpenAddEmployeeGridCommand}"/>
-                            <MenuItem Header="Поиск" Height="45" Command="{Binding Path=OpenSearchGridCommand}"/>
-                        </Menu>
-                        <Image Grid.Column="1" Source="{Binding Path=SelectedDepartament.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="45"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Width="100" Content="Добавить"
+                                     Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                                     Command="{Binding Path=OpenAddEmployeeGridCommand}"/>
+                        <RadioButton Width="100" Content="Поиск"
+                                     Style="{StaticResource MaterialDesignTabRadioButton}" Height="45"
+                                     Command="{Binding OpenSearchGridCommand}"/>
+                    </StackPanel>
+                    <Image Grid.Column="1" Source="{Binding Path=SelectedDepartament.GetBitmapImage,UpdateSourceTrigger=PropertyChanged}" MinHeight="45" MaxHeight="45"/>
                     </Grid>
-                    <Grid Background="White"  Height="{Binding Path=OpenAddEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
+                    <Grid Background="White"  Visibility="{Binding Path=OpenAddEmployeeVisibility,UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -76,7 +80,7 @@
                         <Button Grid.Column="9" Content="Сохранить" Style="{StaticResource MaterialDesignFlatButton}" Padding="0"
                                 Command="{Binding Path=SaveNewEmployeeCommand}"/>
                     </Grid>
-                    <Grid Background="White" Height="{Binding Path=OpenSearchEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
+                    <Grid Background="White" Visibility="{Binding Path=OpenSearchEmployeeVisibility,UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.3*"/>
                             <ColumnDefinition Width="*"/>
@@ -88,7 +92,7 @@
                             <ColumnDefinition Width="0.5*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Id,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Id" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployeeId,UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Grid.Column="2" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.Surname,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
                         <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Bottom" Text="{Binding Path=SearchEmployee.PhoneNumber,UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam"/>
@@ -106,7 +110,7 @@
                                 Command="{Binding Path=SearchEmployeeCommand}"/>
                     </Grid>
                 </StackPanel>
-                <Grid DockPanel.Dock="Bottom" Background="White" Height="{Binding Path=OpenChangeEmployeeGridHeight,UpdateSourceTrigger=PropertyChanged}">
+                <Grid DockPanel.Dock="Bottom" Background="White" Visibility="{Binding Path=OpenChangeEmployeeVisibility,UpdateSourceTrigger=PropertyChanged}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -205,7 +209,7 @@
                             </Button.ContentTemplate>
                         </Button>
                     </Grid>
-                    <StackPanel Height="{Binding Path=ExpanderHeight}">
+                    <StackPanel Visibility="{Binding Path=ExpanderVisibility}">
                         <TextBox materialDesign:HintAssist.Hint="Имя отдела" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Text="{Binding Path=NewDepartament.Name,UpdateSourceTrigger=PropertyChanged}"/>
                         <DockPanel Height="20">
                             <Button DockPanel.Dock="Left" MaxHeight="20" Padding="5 0 5 0" 
